@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
+const { handleRandomMovie, handleSearch, handleMovieId, handleGenreId } = require('./handlers')
+
 
 const PORT = 4000;
 
@@ -25,6 +27,12 @@ app.use(express.urlencoded({
 }))
 app.use('/', express.static(__dirname + '/'))
 
-app.get('/bacon', (req, res) => res.status(200).json('🥓'))
+
+// ENDPOINTS 
+
+app.get("/randomMovie", handleRandomMovie);
+app.get('/search/searchResults', handleSearch)
+app.get('/genres/:genreId', handleGenreId)
+app.get('/movies/:movieId', handleMovieId)
 
 app.listen(PORT, () => console.info(`🤖LISTENING ON PORT ${PORT}`));
