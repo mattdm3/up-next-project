@@ -3,78 +3,78 @@
 export const genres = [
     {
         "id": 28,
-        "name": "Action"
+        "name": "action"
     },
     {
         "id": 12,
-        "name": "Adventure"
+        "name": "adventure"
     },
     {
         "id": 16,
-        "name": "Animation"
+        "name": "animation"
     },
     {
         "id": 35,
-        "name": "Comedy"
+        "name": "comedy"
     },
     {
         "id": 80,
-        "name": "Crime"
+        "name": "crime"
     },
     {
         "id": 99,
-        "name": "Documentary"
+        "name": "documentary"
     },
     {
         "id": 18,
-        "name": "Drama"
+        "name": "drama"
     },
     {
         "id": 10751,
-        "name": "Family"
+        "name": "family"
     },
     {
         "id": 14,
-        "name": "Fantasy"
+        "name": "fantasy"
     },
     {
         "id": 36,
-        "name": "History"
+        "name": "history"
     },
     {
         "id": 27,
-        "name": "Horror"
+        "name": "horror"
     },
     {
         "id": 10402,
-        "name": "Music"
+        "name": "music"
     },
     {
         "id": 9648,
-        "name": "Mystery"
+        "name": "mystery"
     },
     {
         "id": 10749,
-        "name": "Romance"
+        "name": "romance"
     },
     {
         "id": 878,
-        "name": "Science Fiction"
+        "name": "science fiction"
     },
     {
         "id": 10770,
-        "name": "TV Movie"
+        "name": "tv Movie"
     },
     {
         "id": 53,
-        "name": "Thriller"
+        "name": "thriller"
     },
     {
         "id": 10752,
-        "name": "War"
+        "name": "war"
     },
     {
         "id": 37,
-        "name": "Western"
+        "name": "western"
     }
 ]

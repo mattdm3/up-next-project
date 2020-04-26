@@ -52,7 +52,7 @@ function App() {
             <Route exact path='/'>
             </Route>
 
-            <Route exact path="/genres/:genreId">
+            <Route exact path="/genres/:genreName">
               <BrowseByGenre />
             </Route>
 
