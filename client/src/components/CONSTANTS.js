@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 
 export const PageContainer = styled.div`
@@ -17,5 +17,9 @@ export const StyledLink = styled(Link)`
 `
 
 export const MutedText = styled.p`
+    
+`
+
+export const StyledNavLink = styled(NavLink)`
     
 `

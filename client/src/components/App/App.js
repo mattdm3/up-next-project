@@ -10,6 +10,7 @@ import Search from '../Search/Search';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import BrowseByGenre from '../BrowseByGenre'
 import MoviesId from '../MoviesId'
+import Navbar from '../Navbar';
 
 function App() {
   const [bacon, setBacon] = useState(null);
@@ -40,13 +41,12 @@ function App() {
   return (
     <Router>
       <Switch>
-
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
           <GlobalStyles />
-
+          <Navbar theme={theme} toggleTheme={toggleTheme} />
           <PageContainer>
 
-            <DarkModeToggler theme={theme} toggleTheme={toggleTheme} />
+
             <Search />
 
             <Route exact path='/'>
