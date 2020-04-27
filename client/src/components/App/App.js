@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../theme';
 import { GlobalStyles } from '../global';
@@ -29,6 +29,7 @@ function App() {
   }
 
 
+
   // RANDOM MOVIE TEST
   const handleRandomMovie = () => {
     fetch('/randomMovie')
@@ -39,25 +40,26 @@ function App() {
   return (
     <Router>
       <Switch>
+
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
           <GlobalStyles />
+
           <PageContainer>
 
             <DarkModeToggler theme={theme} toggleTheme={toggleTheme} />
             <Search />
 
-
-
-
             <Route exact path='/'>
             </Route>
 
             <Route exact path="/genres/:genreName">
-              <BrowseByGenre />
+              <BrowseByGenre theme={theme} />
             </Route>
 
           </PageContainer>
+
         </ThemeProvider>
+
       </Switch>
     </Router>
 
