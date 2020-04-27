@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { genres } from '../../data/genres'
+import { genres } from '../../data/genres';
 import RenderMovie from './RenderMovie';
 
-const BrowseByGenre = () => {
+const BrowseByGenre = ({ theme }) => {
 
     const [genreData, setGenreData] = useState(null);
     const { genreName } = useParams();
@@ -50,16 +50,19 @@ const BrowseByGenre = () => {
                 return (
 
                     <RenderMovie
+                        key={movie.id}
+                        altText={movie.title}
                         genre={genreName}
                         releaseDate={movie.release_date.slice(0, 4)}
                         title={movie.title}
                         imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                         ratings={movie.vote_average}
+                        theme={theme}
                     />
 
                 )
             })
-            }}
+            }
         </StyledMovieContainer>
     )
 }
