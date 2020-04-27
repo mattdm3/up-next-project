@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../theme';
+import ActionBar from '../ActionBar';
 
 
 const RenderMovie = ({
@@ -20,7 +21,7 @@ const RenderMovie = ({
             <h2>{title}</h2>
             <p>{releaseDate} | {genre}</p>
             <p>⭐️{ratings}</p>
-            <p>Actions</p>
+            <ActionBar />
 
         </StyledContainer>
     )
