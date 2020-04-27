@@ -33,6 +33,9 @@ const StyledContainer = styled.div`
     margin-bottom: 2rem; 
     min-width: 20rem; 
     border: 1px solid red; 
+    cursor: pointer;
+
+
     h2 {
         max-width: 280px; 
     }
