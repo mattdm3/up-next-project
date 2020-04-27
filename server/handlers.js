@@ -60,8 +60,38 @@ const handleGenreId = async (req, res) => {
     return res.send(json);
 }
 
+//End: /movies/:movieId
 const handleMovieId = async (req, res) => {
-    // do something
+
+    const movieId = req.params.movieId.toString();
+
+    try {
+        var options = {
+            method: 'GET',
+            url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=credits`,
+            headers: {
+                authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDA5Nzc1ZGIxMGQwMzg3ZGY5YWEwNDYzNjZiNzE3MiIsInN1YiI6IjVlYTFlODY5YWY0MzI0MDAxZDllN2Q0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OxkyvbtGbap8tCc1NN3pATUNlPSNqhOGKcWk8uCvOSc'
+            }
+        };
+
+        const response = await fetch(options.url, {
+            method: options.method,
+            headers: options.headers,
+        })
+
+        const json = await response.json();
+        // console.log(json)
+        return res.send(json);
+
+
+    } catch (error) {
+        console.log("error at handleMovieId", error.message)
+
+    }
+
+
+
+
 }
 
 

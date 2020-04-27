@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { genres } from '../../data/genres';
 import RenderMovie from './RenderMovie';
+import { StyledLink } from '../CONSTANTS'
 
 const BrowseByGenre = ({ theme }) => {
 
@@ -48,22 +49,23 @@ const BrowseByGenre = ({ theme }) => {
         <StyledMovieContainer>
             {genreData && genreData.results.map(movie => {
                 return (
-
-                    <RenderMovie
-                        key={movie.id}
-                        altText={movie.title}
-                        genre={genreName}
-                        releaseDate={movie.release_date.slice(0, 4)}
-                        title={movie.title}
-                        imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                        ratings={movie.vote_average}
-                        theme={theme}
-                    />
+                    <StyledLink to={`/movies/${movie.id}`} >
+                        <RenderMovie
+                            key={movie.id}
+                            altText={movie.title}
+                            genre={genreName}
+                            releaseDate={movie.release_date.slice(0, 4)}
+                            title={movie.title}
+                            imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                            ratings={movie.vote_average}
+                            theme={theme}
+                        />
+                    </StyledLink>
 
                 )
             })
             }
-        </StyledMovieContainer>
+        </StyledMovieContainer >
     )
 }
 

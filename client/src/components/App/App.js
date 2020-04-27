@@ -9,7 +9,7 @@ import RandomGenerator from '../RandomGenerator';
 import Search from '../Search/Search';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import BrowseByGenre from '../BrowseByGenre'
-
+import MoviesId from '../MoviesId'
 
 function App() {
   const [bacon, setBacon] = useState(null);
@@ -54,6 +54,10 @@ function App() {
 
             <Route exact path="/genres/:genreName">
               <BrowseByGenre theme={theme} />
+            </Route>
+
+            <Route exact path="/movies/:movieId">
+              <MoviesId theme={theme} />
             </Route>
 
           </PageContainer>
