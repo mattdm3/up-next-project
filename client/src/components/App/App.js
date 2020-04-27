@@ -45,8 +45,6 @@ function App() {
           <GlobalStyles />
           <Navbar theme={theme} toggleTheme={toggleTheme} />
           <PageContainer>
-
-
             <Search />
 
             <Route exact path='/'>
