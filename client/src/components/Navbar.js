@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import DarkModeToggler from './DarkModeToggler'
+import { LoginContext } from './LoginContext';
+import { app } from 'firebase';
 
 const Navbar = ({ theme, toggleTheme }) => {
+
+    const { updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+
+    console.log(appUser)
+
     return (
         <StyledNav>
             <StyledUl>
@@ -18,9 +25,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                 <NavigationLink to='/genres/action'>
                     <li>Browse</li>
                 </NavigationLink>
-                <NavigationLink exact to='/'>
-                    <li>Login</li>
-                </NavigationLink>
+
                 <NavigationLink exact to='/'>
                     <li>See Recommended</li>
                 </NavigationLink>
@@ -28,11 +33,23 @@ const Navbar = ({ theme, toggleTheme }) => {
                     <li>🍿</li>
                 </NavigationLink>
 
+
+                {appUser && appUser.email ?
+                    <>
+                        <li>{appUser.displayName}</li>
+                        <button onClick={handleSignOut}>Logout</button>
+                    </>
+                    :
+                    <li style={{ cursor: "pointer" }} onClick={signInWithGoogle}>Login</li>
+                }
+
+
+
                 <DarkModeToggler theme={theme} toggleTheme={toggleTheme} />
 
             </StyledUl>
 
-        </StyledNav>
+        </StyledNav >
     )
 }
 

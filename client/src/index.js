@@ -6,14 +6,18 @@ import { Provider } from 'react-redux';
 
 // ------------ COMPONENTS ------------
 import App from './components/App';
+import LoginProvider from './components/LoginContext';
 // import GlobalStyles from '../GlobalStyles'
 //-------------------------------------
 
 const store = configureStore();
+
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-    {/* <GlobalStyles /> */}
-  </Provider>,
+  <LoginProvider>
+    <Provider store={store}>
+      <App />
+      {/* <GlobalStyles /> */}
+    </Provider>
+  </LoginProvider>,
   document.getElementById('root')
 );

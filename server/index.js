@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const { handleRandomMovie, handleSearch, handleMovieId, handleGenreId } = require('./handlers')
+const { handleLikeMovie, createUser, getUser, handleUpdateUser } = require('./firebaseHandlers');
 
+require('dotenv').config();
 
 const PORT = 4000;
 
@@ -34,5 +36,10 @@ app.get("/randomMovie", handleRandomMovie);
 app.get('/search/searchResults', handleSearch)
 app.get('/genres/:genreId', handleGenreId)
 app.get('/movies/:movieId', handleMovieId)
+
+//user EPs (firebase)
+app.post('/users', createUser)
+app.post('/updateUserData', handleUpdateUser)
+app.post('/handleLikeMovie', handleLikeMovie)
 
 app.listen(PORT, () => console.info(`🤖LISTENING ON PORT ${PORT}`));

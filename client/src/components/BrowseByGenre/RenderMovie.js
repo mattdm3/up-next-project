@@ -11,9 +11,9 @@ const RenderMovie = ({
     genre,
     ratings,
     altText,
+    movieId,
     theme }) => {
 
-    console.log(theme)
 
     return (
         <StyledContainer>
@@ -21,7 +21,7 @@ const RenderMovie = ({
             <h2>{title}</h2>
             <p>{releaseDate} | {genre}</p>
             <p>⭐️{ratings}</p>
-            <ActionBar />
+            <ActionBar movieId={movieId} />
 
         </StyledContainer>
     )
@@ -31,10 +31,12 @@ const RenderMovie = ({
 
 const StyledContainer = styled.div`
 
-    margin-bottom: 2rem; 
+    margin-bottom: 5rem; 
     min-width: 20rem; 
-    border: 1px solid red; 
+    max-width: 20rem; 
+    /* border: 1px solid red;  */
     cursor: pointer;
+
 
 
     h2 {
@@ -50,7 +52,7 @@ const StyledContainer = styled.div`
 const MoviePoster = styled.img`
     border-radius: 10px; 
     min-height: 24rem; 
-    min-width: 250px; 
+    min-width: 20rem; 
     max-width: 20rem; 
     
 `
