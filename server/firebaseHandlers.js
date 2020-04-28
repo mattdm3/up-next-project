@@ -51,16 +51,26 @@ const getUserByEmail = async (email) => {
 };
 
 const createUser = async (req, res) => {
-
-    console.log(req.body)
+    // GET UID 
+    const { uid } = req.body;
+    // CHECK IF USER EXISTS
     const returningUser = (await getUserByEmail(req.body.email));
-    console.log(returningUser);
+    // console.log(returningUser);
     if (returningUser) {
+        // get the current user data to return to FE incl. liked/disliked
+        let snapData;
+        await db.ref("appUsers/" + uid)
+            .once("value")
+            .then(function (snapshot) {
+                snapData = snapshot.val();
+            });
         res
             .status(200)
-            .json({ status: 200, data: req.body, message: 'returning user' });
+            .json({ status: 200, data: snapData, message: 'returning user' });
         return;
     } else {
+
+        //for a new user JUST return req.body sincce there won't be any like/dislike data
         const appUserRef = db.ref('appUsers').child(req.body.uid);
         appUserRef.set(req.body).then(() => {
             res.status(200).json({
@@ -72,55 +82,65 @@ const createUser = async (req, res) => {
     }
 };
 
-const handleUpdateUser = async (req, res) => {
-    const { currentUserId } = req.body;
-    const userData = (await getUserByEmail(req.body.email));
-
-    console.log(currentUserId, "user id");
-    console.log(userData, 'userdata by email');
-
-    db.ref('appUsers/' + currentUserId).update({
-        ...userData,
-        newData: "try again!!!!"
-
-    });
-}
 
 const handleLikeMovie = async (req, res) => {
     const { movieId } = req.body;
-    const { currentUserId } = req.body;
+    const { uid } = req.body;
 
     const userData = (await getUserByEmail(req.body.email));
 
-
-
-
-
-
-
-
-
-    //from documentation
-    // var newPostKey = firebase.database().ref().child('posts').push().key;
-
-
-    db.ref('appUsers/' + currentUserId)
+    // PUSH LIKED MOVIE INTO ITS ARRAY ON DB
+    await db.ref('appUsers/' + uid)
         .child('data')
         .child("likedMovies")
-        .push(movieId)
-
+        .child(movieId)
+        .set(movieId)
 
     //get liked movie array from db
-    db.ref("appUsers/" + currentUserId)
+    let snapData;
+    await db.ref("appUsers/" + uid)
         .once("value")
         .then(function (snapshot) {
-            console.log(snapshot.val())
+            snapData = snapshot.val();
         });
+    res
+        .status(200)
+        .json({ status: 200, data: snapData, message: 'returning user' });
+    return;
+}
+
+const handleDislikeMovie = async (req, res) => {
+    const { movieId } = req.body;
+    const { uid } = req.body;
+
+    const userData = (await getUserByEmail(req.body.email));
+
+    // PUSH LIKED MOVIE INTO ITS ARRAY ON DB
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("dislikedMovies")
+        .child(movieId)
+        .set(movieId)
+
+
+    //get liked movie array from db and return new data
+    let snapData;
+    await db.ref("appUsers/" + uid)
+        .once("value")
+        .then(function (snapshot) {
+            snapData = snapshot.val();
+        });
+    res
+        .status(200)
+        .json({ status: 200, data: snapData, message: 'returning user' });
+    return;
+
+
 }
 
 module.exports = {
     createUser,
     getUserByEmail,
-    handleUpdateUser,
+    handleDislikeMovie,
     handleLikeMovie
 };

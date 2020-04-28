@@ -31,14 +31,12 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     // console.log(firebaseAppAuth.getUid());
 
-    // console.log(user, "USER");
 
-    // firebaseAppAuth.currentUser && console.log(firebaseAppAuth.currentUser.uid);
-
+    //app User will get the json.data (which is holding the request body + any liked/disliked data)
     const [appUser, setAppUser] = useState({});
     const [message, setMessage] = useState('');
 
-    // firebaseAppAuth.currentUser && console.log(firebaseAppAuth.currentUser.providerData[0].uid)
+    console.log(appUser, "APP USER")
 
     const handleSignOut = () => {
         signOut();
@@ -79,23 +77,24 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
         // console.log(firebaseAppAuth.currentUser);
 
-        user && fetch(`/updateUserData`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: user.email,
-                currentUserId: firebaseAppAuth.currentUser.uid,
-            }),
-        })
-            .then((res) => res.json())
-            .then((json) => {
-                setAppUser(json.data);
-                setMessage(json.message);
-            });
+        // user && fetch(`/updateUserData`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         email: user.email,
+        //         currentUserId: firebaseAppAuth.currentUser.uid,
+        //     }),
+        // })
+        //     .then((res) => res.json())
+        //     .then((json) => {
+        //         setAppUser(json.data);
+        //         setMessage(json.message);
+        //     });
 
     }
+
     const handleMovieLike = (id) => {
 
         user && fetch(`/handleLikeMovie`, {
@@ -105,7 +104,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
             },
             body: JSON.stringify({
                 email: user.email,
-                currentUserId: firebaseAppAuth.currentUser.uid,
+                uid: firebaseAppAuth.currentUser.uid,
                 movieId: id,
             }),
         })
@@ -117,7 +116,28 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }
 
-    return <LoginContext.Provider value={{ handleMovieLike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    const handleMovieDislike = (id) => {
+
+        user && fetch(`/handleDislikeMovie`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: user.email,
+                uid: firebaseAppAuth.currentUser.uid,
+                movieId: id,
+            }),
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                setAppUser(json.data);
+                setMessage(json.message);
+            });
+
+    }
+
+    return <LoginContext.Provider value={{ handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;
