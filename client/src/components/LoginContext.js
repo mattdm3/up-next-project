@@ -35,8 +35,31 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     //app User will get the json.data (which is holding the request body + any liked/disliked data)
     const [appUser, setAppUser] = useState({});
     const [message, setMessage] = useState('');
+    const [dataObject, setDataObject] = useState({});
 
     console.log(appUser, "APP USER")
+
+    // TURN LIKED/DISLIKED/UPNEXT into ARRAYS
+    // let DATA_ARRAY = [];
+
+    useEffect(() => {
+        if (appUser.email) {
+            let likedMoviesArray = Object.values(appUser.data.likedMovies);
+            let dislikedMoviesArray = Object.values(appUser.data.dislikedMovies);
+            let upNextArray = Object.values(appUser.data.upNextList);
+
+            setDataObject({
+                disliked: dislikedMoviesArray,
+                liked: likedMoviesArray,
+                upNextList: upNextArray,
+            });
+        }
+    }, [appUser])
+
+
+
+
+    // HANDLE SIGNOUT
 
     const handleSignOut = () => {
         signOut();
@@ -165,7 +188,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }
 
-    return <LoginContext.Provider value={{ handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;
