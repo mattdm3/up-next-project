@@ -11,9 +11,6 @@ const BrowseByGenre = ({ theme }) => {
     const { genreName } = useParams();
 
     // check the id of the genre; 
-
-    console.log(genreName)
-
     let selectedGenreId = null;
 
     for (let i = 0; i < genres.length; i++) {
@@ -22,7 +19,7 @@ const BrowseByGenre = ({ theme }) => {
         }
     }
 
-    console.log(genreData);
+
 
 
 
@@ -59,6 +56,7 @@ const BrowseByGenre = ({ theme }) => {
                             imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                             ratings={movie.vote_average}
                             theme={theme}
+                            movieId={movie.id}
                         />
                     </StyledLink>
 

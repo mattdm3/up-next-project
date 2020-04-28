@@ -13,6 +13,7 @@ import MoviesId from '../MoviesId'
 import Navbar from '../Navbar';
 
 function App() {
+
   const [bacon, setBacon] = useState(null);
   const [randomMovie, setRandomMovie] = useState(null);
 
