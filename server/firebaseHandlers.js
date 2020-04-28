@@ -70,7 +70,7 @@ const createUser = async (req, res) => {
         return;
     } else {
 
-        //for a new user JUST return req.body sincce there won't be any like/dislike data
+        //for a new user JUST return req.body 
         const appUserRef = db.ref('appUsers').child(req.body.uid);
         appUserRef.set(req.body).then(() => {
             res.status(200).json({
@@ -138,9 +138,39 @@ const handleDislikeMovie = async (req, res) => {
 
 }
 
+const handleAddUpNext = async (req, res) => {
+    const { movieId } = req.body;
+    const { uid } = req.body;
+
+    const userData = (await getUserByEmail(req.body.email));
+
+    // PUSH UPNEXT MOVIE INTO ITS OBJECT ON DB
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("upNextList")
+        .child(movieId)
+        .set(movieId)
+
+
+    //get liked movie array from db and return new data
+    let snapData;
+    await db.ref("appUsers/" + uid)
+        .once("value")
+        .then(function (snapshot) {
+            snapData = snapshot.val();
+        });
+    res
+        .status(200)
+        .json({ status: 200, data: snapData, message: 'returning user' });
+    return;
+
+
+}
+
 module.exports = {
     createUser,
     getUserByEmail,
     handleDislikeMovie,
-    handleLikeMovie
+    handleLikeMovie,
+    handleAddUpNext
 };

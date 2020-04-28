@@ -43,6 +43,8 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
         setAppUser({});
     }
 
+    // CREATES NEW USER 
+
     useEffect(() => {
         if (user) {
             // console.log(user);
@@ -57,6 +59,11 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
                     email: user.email,
                     photoURL: user.photoURL,
                     uid: user.uid,
+                    data: {
+                        likedMovies: "none",
+                        dislikedMovies: "none",
+                        upNextList: "none",
+                    }
                 }),
             })
                 .then((res) => res.json())
@@ -137,7 +144,28 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }
 
-    return <LoginContext.Provider value={{ handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    const handleAddUpNext = (id) => {
+
+        user && fetch(`/handleAddUpNext`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: user.email,
+                uid: firebaseAppAuth.currentUser.uid,
+                movieId: id,
+            }),
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                setAppUser(json.data);
+                setMessage(json.message);
+            });
+
+    }
+
+    return <LoginContext.Provider value={{ handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

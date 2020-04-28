@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../theme';
 import ActionBar from '../ActionBar';
 import { LoginContext } from '../LoginContext';
-
 
 const RenderMovie = ({
     imgSrc,
@@ -22,17 +21,28 @@ const RenderMovie = ({
 
     // appUser.data && console.log(appUser.data.dislikedMovies)
 
+    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+
+    // USING THIS AS A CONDITION BEFORE LOADING USER DATA
+    React.useEffect(() => {
+
+        //checking if ALL data is loaded (liked, disliked and upNext)
+        if (appUser.email && appUser.data && (appUser.data.likedMovies && appUser.data.dislikedMovies && appUser.data.upNextList)) {
+            setIsUserDataLoaded(true);
+        } else setIsUserDataLoaded(false);
+
+
+    }, [appUser])
+
+    console.log(message);
 
 
     return (
 
-        appUser.data && appUser.data.likedMovies && appUser.data.dislikedMovies && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId]) ?
+        appUser.email && isUserDataLoaded && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
             <MainContainer>
                 <StyledContainer style={appUser.data.dislikedMovies[movieId] && {
                     opacity: ".6",
-
-
-
                 }}>
                     <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
                     <h2>{title}</h2>
@@ -41,7 +51,11 @@ const RenderMovie = ({
                     {/* <ActionBar movieId={movieId} /> */}
                 </StyledContainer>
                 <LikeStateContainer>
-                    {appUser.data.dislikedMovies[movieId] ? <h1>👎🏼</h1> : <h1>👍🏼</h1>}
+                    {appUser.data.dislikedMovies[movieId] ? <RatingResult>👎🏼</RatingResult> :
+
+                        appUser.data.upNextList[movieId] ? <RatingResult>🍿</RatingResult>
+                            :
+                            <RatingResult>👍🏼</RatingResult>}
                 </LikeStateContainer>
 
             </MainContainer>
@@ -96,10 +110,11 @@ const LikeStateContainer = styled.div`
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%);
+`
 
-    h1 {
-        font-size: 8rem;
-    }
+const RatingResult = styled.h1`
+    font-size: 8rem;
+
 `
 
 export default RenderMovie; 

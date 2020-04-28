@@ -4,21 +4,43 @@ import { LoginContext } from '../LoginContext';
 
 const ActionBar = ({ movieId }) => {
 
-    const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message, handleAddUpNext } = useContext(LoginContext);
 
 
     const handleLike = (e) => {
         e.preventDefault();
-        handleMovieLike(movieId);
 
-        console.log("LIKED")
+        if (appUser.email) {
+            handleMovieLike(movieId);
+        }
+        else {
+            alert("Please make an account or login first.")
+        }
+
+
     }
 
     const handleDislike = (e) => {
         e.preventDefault();
-        handleMovieDislike(movieId)
 
-        console.log("DISLIKED")
+        if (appUser.email) {
+            handleMovieDislike(movieId);
+        } else {
+            alert("Please make an account or login first.")
+        }
+
+
+    }
+
+    const handleUpNext = (e) => {
+        e.preventDefault();
+
+        if (appUser.email) {
+            handleAddUpNext(movieId)
+        } else {
+            alert("Please make an account or login first.")
+        }
+
     }
 
 
@@ -27,7 +49,7 @@ const ActionBar = ({ movieId }) => {
 
         <StyleActionContainer>
             <p onClick={(e) => handleLike(e)}>👍🏼</p>
-            <p>🍿</p>
+            <p onClick={(e) => handleUpNext(e)}>🍿</p>
             <p onClick={(e) => handleDislike(e)}>👎🏼</p>
         </StyleActionContainer>
     )
