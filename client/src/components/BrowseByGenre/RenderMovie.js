@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../theme';
 import ActionBar from '../ActionBar';
+import { LoginContext } from '../LoginContext';
 
 
 const RenderMovie = ({
@@ -15,19 +16,51 @@ const RenderMovie = ({
     theme }) => {
 
 
-    return (
-        <StyledContainer>
-            <MoviePoster alt={altText} src={imgSrc} />
-            <h2>{title}</h2>
-            <p>{releaseDate} | {genre}</p>
-            <p>⭐️{ratings}</p>
-            <ActionBar movieId={movieId} />
+    const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
 
-        </StyledContainer>
+    // appUser.data && console.log(appUser.data.likedMovies["38700"])
+
+    // appUser.data && console.log(appUser.data.dislikedMovies)
+
+
+
+    return (
+
+        appUser.data && appUser.data.likedMovies && appUser.data.dislikedMovies && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId]) ?
+            <MainContainer>
+                <StyledContainer style={appUser.data.dislikedMovies[movieId] && {
+                    opacity: ".6",
+
+
+
+                }}>
+                    <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
+                    <h2>{title}</h2>
+                    <p>{releaseDate} | {genre}</p>
+                    <p>⭐️{ratings}</p>
+                    {/* <ActionBar movieId={movieId} /> */}
+                </StyledContainer>
+                <LikeStateContainer>
+                    {appUser.data.dislikedMovies[movieId] ? <h1>👎🏼</h1> : <h1>👍🏼</h1>}
+                </LikeStateContainer>
+
+            </MainContainer>
+
+            :
+
+            <StyledContainer>
+                <MoviePoster alt={altText} src={imgSrc} />
+                <h2>{title}</h2>
+                <p>{releaseDate} | {genre}</p>
+                <p>⭐️{ratings}</p>
+                <ActionBar movieId={movieId} />
+            </StyledContainer>
     )
 }
 
-
+const MainContainer = styled.div`
+    position: relative; 
+`
 
 const StyledContainer = styled.div`
 
@@ -36,6 +69,7 @@ const StyledContainer = styled.div`
     max-width: 20rem; 
     /* border: 1px solid red;  */
     cursor: pointer;
+    position: relative; 
 
 
 
@@ -55,6 +89,17 @@ const MoviePoster = styled.img`
     min-width: 20rem; 
     max-width: 20rem; 
     
+`
+
+const LikeStateContainer = styled.div`
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+
+    h1 {
+        font-size: 8rem;
+    }
 `
 
 export default RenderMovie; 

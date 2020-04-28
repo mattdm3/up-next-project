@@ -9,8 +9,6 @@ const Navbar = ({ theme, toggleTheme }) => {
 
     const { updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
 
-    console.log(appUser)
-
     return (
         <StyledNav>
             <StyledUl>
