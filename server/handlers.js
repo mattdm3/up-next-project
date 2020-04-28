@@ -32,6 +32,10 @@ const handleSearch = async (req, res) => {
     //do something
 }
 
+const handleProfilePage = async (req, res) => {
+    // do something
+}
+
 const handleGenreId = async (req, res) => {
     // // do something
 
@@ -89,12 +93,9 @@ const handleMovieId = async (req, res) => {
 
     }
 
-
-
-
 }
 
 
 module.exports = {
-    handleRandomMovie, handleSearch, handleGenreId, handleMovieId
+    handleProfilePage, handleRandomMovie, handleSearch, handleGenreId, handleMovieId
 };

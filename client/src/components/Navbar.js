@@ -35,8 +35,11 @@ const Navbar = ({ theme, toggleTheme }) => {
 
                 {appUser && appUser.email ?
                     <>
-                        <li>{appUser.displayName}</li>
-                        <button onClick={handleSignOut}>Logout</button>
+                        <NavigationLink exact to={`/profile/${appUser.uid}`}>
+                            <li>{appUser.displayName}</li>
+                            <button onClick={handleSignOut}>Logout</button>
+                        </NavigationLink>
+
                     </>
                     :
                     <li style={{ cursor: "pointer" }} onClick={signInWithGoogle}>Login</li>

@@ -18,12 +18,7 @@ const BrowseByGenre = ({ theme }) => {
             selectedGenreId = genres[i].id;
         }
     }
-
-
-
-
-
-
+    console.log(genreData)
 
 
     React.useEffect(() => {
@@ -34,13 +29,7 @@ const BrowseByGenre = ({ theme }) => {
                 .then(data => setGenreData(data))
         }
 
-
-
     }, [])
-
-
-
-
 
     return (
         <StyledMovieContainer>
@@ -63,7 +52,7 @@ const BrowseByGenre = ({ theme }) => {
                 )
             })
             }
-        </StyledMovieContainer >
+        </StyledMovieContainer>
     )
 }
 

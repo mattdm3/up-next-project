@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import BrowseByGenre from '../BrowseByGenre'
 import MoviesId from '../MoviesId'
 import Navbar from '../Navbar';
+import UserProfile from '../UserProfile/UserProfile';
 
 function App() {
 
@@ -48,7 +49,8 @@ function App() {
           <PageContainer>
             <Search />
 
-            <Route exact path='/'>
+            <Route exact path='/profile/:userId'>
+              <UserProfile />
             </Route>
 
             <Route exact path="/genres/:genreName">
