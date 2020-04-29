@@ -63,7 +63,7 @@ const StyledNav = styled.nav`
     width: 90%;
     margin-left: auto;
     margin-right: auto; 
-    border: 1px solid red;  
+    /* border: 1px solid red;   */
 `
 
 const StyledUl = styled.ul`
@@ -72,7 +72,7 @@ const StyledUl = styled.ul`
     display: flex; 
     width: fit-content;
 
-    border: 1px solid green; 
+    /* border: 1px solid green;  */
 
     li {
         padding: 20px
