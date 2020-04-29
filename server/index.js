@@ -1,8 +1,12 @@
+// import fs from 'fs';
+// import csv from 'fast-csv';
+
 const express = require('express');
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const { handleRandomMovie, handleSearch, handleMovieId, handleGenreId, handleProfilePage } = require('./handlers')
 const { handleAddUpNext, handleLikeMovie, handleDislikeMovie, createUser, getUser } = require('./firebaseHandlers');
+const { handleRecommendations } = require('./src/shorterRecommend')
 
 require('dotenv').config();
 
@@ -38,6 +42,8 @@ app.get('/genres/:genreId', handleGenreId)
 app.get('/movies/:movieId', handleMovieId)
 app.get('/profile/:userId', handleProfilePage)
 
+
+app.post('/recommendations/:userId', handleRecommendations)
 
 //user EPs (firebase)
 app.post('/users', createUser)
