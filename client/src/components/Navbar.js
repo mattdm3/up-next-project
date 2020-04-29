@@ -25,8 +25,8 @@ const Navbar = ({ theme, toggleTheme }) => {
                     <li>Browse</li>
                 </NavigationLink>
 
-                <NavigationLink exact to='/'>
-                    <li>See Recommended</li>
+                <NavigationLink exact to={`/recommended/${appUser.uid}`}>
+                    <li>Recommended Movies</li>
                 </NavigationLink>
                 <NavigationLink exact to='/'>
                     <li>🍿</li>

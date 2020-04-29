@@ -12,6 +12,7 @@ import BrowseByGenre from '../BrowseByGenre'
 import MoviesId from '../MoviesId'
 import Navbar from '../Navbar';
 import UserProfile from '../UserProfile/UserProfile';
+import Recommended from '../Recommended';
 
 function App() {
 
@@ -55,6 +56,10 @@ function App() {
 
             <Route exact path="/genres/:genreName">
               <BrowseByGenre theme={theme} />
+            </Route>
+
+            <Route exact path="/recommended/:userId">
+              <Recommended />
             </Route>
 
             <Route exact path="/movies/:movieId">
