@@ -41,21 +41,21 @@ const RenderMovie = ({
 
         appUser.email && isUserDataLoaded && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
             <MainContainer>
-                <StyledContainer style={appUser.data.dislikedMovies[movieId] && {
-                    opacity: ".6",
+                <StyledContainer style={{
+                    opacity: ".3",
                 }}>
                     <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
-                    <h2>{title}</h2>
+                    <h3>{title}</h3>
                     <p>{releaseDate} | {genre}</p>
                     <p>⭐️{ratings}</p>
                     {/* <ActionBar movieId={movieId} /> */}
                 </StyledContainer>
                 <LikeStateContainer>
-                    {appUser.data.dislikedMovies[movieId] ? <RatingResult>👎🏼</RatingResult> :
+                    {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span></span> 👎🏼</RatingResult> :
 
-                        appUser.data.upNextList[movieId] ? <RatingResult>🍿</RatingResult>
+                        appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
                             :
-                            <RatingResult>👍🏼</RatingResult>}
+                            <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>}
                 </LikeStateContainer>
 
             </MainContainer>
@@ -64,7 +64,7 @@ const RenderMovie = ({
 
             <StyledContainer>
                 <MoviePoster alt={altText} src={imgSrc} />
-                <h2>{title}</h2>
+                <h3>{title}</h3>
                 <p>{releaseDate} | {genre}</p>
                 <p>⭐️{ratings}</p>
                 <ActionBar movieId={movieId} />
@@ -110,10 +110,18 @@ const LikeStateContainer = styled.div`
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%);
+    width: fit-content; 
 `
 
-const RatingResult = styled.h1`
-    font-size: 8rem;
+const RatingResult = styled.p`
+    font-size: 1.1rem;
+    margin: 0; 
+    padding: 0; 
+    font-weight: 600; 
+
+    span {
+        font-size: 2.2rem;
+    }
 
 `
 
