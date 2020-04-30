@@ -34,7 +34,7 @@ const RenderMovie = ({
 
     }, [appUser])
 
-    console.log(message);
+    // console.log(message);
 
 
     return (

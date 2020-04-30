@@ -22,7 +22,11 @@ const { prepareMovies } = require('./preparation/movies');
 // const { predictWithCfUserBased, predictWithCfItemBased } = require('./strategies/collaborativeFiltering');
 const { predictWithCfUserBased } = require('./strategies/collaborativeFiltering');
 const { getMovieIndexByTitle } = require('./strategies/common')
+const admin = require('firebase-admin');
+require('dotenv').config();
+const fetch = require('isomorphic-fetch');
 
+const db = admin.database();
 
 
 
@@ -105,10 +109,10 @@ const handleRecommendations = async (req, res) => {
     let ME_USER_ID = [req.body.uid];
     const { likedMovies, dislikedMovies } = req.body.data;
 
-    let RETURN_TO_USER;
+    let SEND_TO_DB;
 
-    console.log(likedMovies);
-    console.log(dislikedMovies, "DISLIKED CACA");
+    // console.log(likedMovies);
+    // console.log(dislikedMovies, "DISLIKED CACA");
 
     //create arrays with user movie data
     let likedMoviesArray = Object.keys(likedMovies);
@@ -214,9 +218,70 @@ const handleRecommendations = async (req, res) => {
         console.log('(2) Prediction \n');
         console.log(sliceAndDice(cfUserBasedRecommendation, MOVIES_BY_ID, 20, true));
 
-        RETURN_TO_USER = await sliceAndDice(cfUserBasedRecommendation, MOVIES_BY_ID, 20, true);
+        SEND_TO_DB = await sliceAndDice(cfUserBasedRecommendation, MOVIES_BY_ID, 20, true);
 
-        return res.send({ body: RETURN_TO_USER })
+        // MAYBE YOU SHOULD SEND THIS DIRECTLY TO DB FIRST? 
+
+        let recommendedResponse = [];
+        SEND_TO_DB.map(async (movie) => {
+
+            await db.ref('appUsers/' + ME_USER_ID)
+                .child('data')
+                .child('recommendations')
+                .child(movie.id)
+                .set(movie.id)
+
+            var options = {
+                method: 'GET',
+                url: `https://api.themoviedb.org/3/movie/${movie.id}`,
+                headers: {
+                    authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDA5Nzc1ZGIxMGQwMzg3ZGY5YWEwNDYzNjZiNzE3MiIsInN1YiI6IjVlYTFlODY5YWY0MzI0MDAxZDllN2Q0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OxkyvbtGbap8tCc1NN3pATUNlPSNqhOGKcWk8uCvOSc'
+                }
+            };
+
+            let singleResponse = await fetch(options.url, {
+                method: options.method,
+                headers: options.headers,
+            })
+
+            const json = await singleResponse.json()
+
+
+            recommendedResponse.push(json)
+
+            // console.log(singleResponse, 'SINGLE RESPONSE')
+
+            // console.log(recommendedResponse, "RECOMMENDED BACK END")
+
+
+        })
+
+        // await console.log(recommendedResponse, "RECOMMENDED RESPONSE ARRAY")
+
+        let snapData;
+        await db.ref('appUsers/' + ME_USER_ID)
+            .once('value')
+            .then(function (snapshop) {
+                snapData = snapshop.val();
+            })
+        res
+            .status(200)
+            .json({
+                status: 200,
+                data: snapData,
+                message: "recommendations updated"
+            })
+
+        return;
+
+
+
+
+
+
+
+        // return res.send({ body: RETURN_TO_USER })
+
     }
 
 
