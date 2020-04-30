@@ -36,8 +36,12 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     const [appUser, setAppUser] = useState({});
     const [message, setMessage] = useState('');
     const [dataObject, setDataObject] = useState({});
+    // const [recommendedMovies, setRecommendedMovies] = useState(null);
+    const [recommendedAPI, setRecommendedAPI] = useState([]);
+    const [movieCounter, setMovieCounter] = useState(0)
 
-    console.log(appUser, "APP USER")
+    // console.log(appUser, "APP USER")
+    // console.log(dataObject, "DATA OBJECT")
 
     // TURN LIKED/DISLIKED/UPNEXT into ARRAYS
     // let DATA_ARRAY = [];
@@ -55,10 +59,6 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
             });
         }
     }, [appUser])
-
-
-
-
 
 
     // HANDLE SIGNOUT
@@ -190,7 +190,72 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }
 
-    return <LoginContext.Provider value={{ dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    // TURN RECOMMENDATIONS INTO DATA (SEND TO API) (TRIED IN B.E. FIRST)
+
+    const handleRecomendationRequest = () => {
+        try {
+
+            //recommendation status state? 
+
+
+            fetch(`/recommendations/get`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    uid: appUser.uid,
+                    data: {
+                        likedMovies: appUser.data.likedMovies,
+                        dislikedMovies: appUser.data.dislikedMovies,
+                        upNextList: appUser.data.upNextList
+                    }
+                })
+            })
+                .then(res => res.json())
+                .then((json) => {
+                    setAppUser(json.data);
+                    setMessage(json.message);
+                    console.log(json)
+                });
+            // .then(data => console.log(data))
+
+
+        } catch (error) {
+            console.error(error)
+        }
+
+    }
+
+    // TAKE RECOMMENDATIONS FROM USER OBJECT AND GET API MOVIES (objects) and set in STATE!
+
+
+    React.useEffect(() => {
+
+        let recommendationsArray;
+        if (appUser.data != null && appUser.data.recommendations != null) {
+
+            recommendationsArray = Object.values(appUser.data.recommendations);
+        }
+
+        recommendationsArray && recommendationsArray.length > 1 && recommendationsArray.forEach((movieId) => {
+
+            setRecommendedAPI([])
+
+            fetch(`/movies/${movieId}`)
+                .then(res => res.json())
+                .then(data => {
+                    setRecommendedAPI(recommendedAPI => [
+                        ...recommendedAPI,
+                        data,
+                    ])
+                })
+
+        })
+
+    }, [appUser])
+
+    return <LoginContext.Provider value={{ movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

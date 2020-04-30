@@ -18,7 +18,6 @@ const RenderProfile = ({ theme }) => {
 
         dataObject.upNextList && dataObject.upNextList.forEach((movieId) => {
 
-
             fetch(`/movies/${movieId}`)
                 .then(res => res.json())
                 .then(data => {
@@ -30,36 +29,35 @@ const RenderProfile = ({ theme }) => {
 
         })
 
-
     }, [appUser, dataObject])
 
 
-    const getRecommendations = async () => {
+    // const getRecommendations = async () => {
 
-        try {
-            fetch(`/recommendations/123`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    uid: appUser.uid,
-                    data: {
-                        likedMovies: appUser.data.likedMovies,
-                        dislikedMovies: appUser.data.dislikedMovies,
-                        upNextList: appUser.data.upNextList
-                    }
-                })
-            })
-                .then(res => res.json())
-                .then(data => console.log(data))
+    //     try {
+    //         fetch(`/recommendations/123`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //                 uid: appUser.uid,
+    //                 data: {
+    //                     likedMovies: appUser.data.likedMovies,
+    //                     dislikedMovies: appUser.data.dislikedMovies,
+    //                     upNextList: appUser.data.upNextList
+    //                 }
+    //             })
+    //         })
+    //             .then(res => res.json())
+    //             .then(data => console.log(data))
 
-        } catch (error) {
-            console.error(error)
-        }
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
 
 
-    }
+    // }
 
     return (
         <>
@@ -67,7 +65,7 @@ const RenderProfile = ({ theme }) => {
                 <h1>Welcome, {appUser.displayName}</h1>
                 <h2>Here's what's 🍿Up Next...</h2>
 
-                <button onClick={getRecommendations}>GET RECOMMENDATIONS</button>
+                {/* <button onClick={getRecommendations}>GET RECOMMENDATIONS</button> */}
             </div>
 
             {upNextMovieData &&

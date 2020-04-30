@@ -42,12 +42,14 @@ app.get('/genres/:genreId', handleGenreId)
 app.get('/movies/:movieId', handleMovieId)
 app.get('/profile/:userId', handleProfilePage)
 
+//INITIAL RECOMMENDATION CALCULATION handled in shorterRecommend.js
+app.post('/recommendations/get', handleRecommendations)
 
-app.post('/recommendations/:userId', handleRecommendations)
 
 //user EPs (firebase)
 app.post('/users', createUser)
 app.post('/handleDislikeMovie', handleDislikeMovie)
+
 // app.post('/updateUserData', handleUpdateUser)
 app.post('/handleLikeMovie', handleLikeMovie)
 app.post('/handleAddUpNext', handleAddUpNext)
