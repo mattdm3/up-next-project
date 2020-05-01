@@ -27,6 +27,24 @@ const providers = {
     googleProvider: new firebase.auth.GoogleAuthProvider(),
 };
 
+
+const options = [
+    {
+        label: 'Popularity',
+        key: 'popularity'
+    },
+    {
+        label: 'Highest Rated',
+        key: 'vote_average'
+    },
+    {
+        label: 'Highest Grossing',
+        key: 'revenue'
+    },
+
+
+]
+
 const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     // console.log(firebaseAppAuth.getUid());
@@ -36,15 +54,11 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     const [appUser, setAppUser] = useState({});
     const [message, setMessage] = useState('');
     const [dataObject, setDataObject] = useState({});
-    // const [recommendedMovies, setRecommendedMovies] = useState(null);
     const [recommendedAPI, setRecommendedAPI] = useState([]);
     const [movieCounter, setMovieCounter] = useState(0)
-
-    // console.log(appUser, "APP USER")
-    // console.log(dataObject, "DATA OBJECT")
-
-    // TURN LIKED/DISLIKED/UPNEXT into ARRAYS
-    // let DATA_ARRAY = [];
+    const [sortOption, setSortOption] = useState('popularity')
+    const [selectedGenre, setSelectedGenre] = useState('action')
+    let [sortLabel, setSortLabel] = useState('Popularity')
 
     useEffect(() => {
         if (appUser.email) {
@@ -255,7 +269,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }, [appUser])
 
-    return <LoginContext.Provider value={{ movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;
