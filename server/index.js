@@ -37,7 +37,7 @@ app.use('/', express.static(__dirname + '/'))
 // ENDPOINTS 
 
 app.get("/randomMovie", handleRandomMovie);
-app.get('/search/searchResults', handleSearch)
+app.get('/search/:searchTerm', handleSearch)
 app.get('/genres/:genreId', handleGenreId)
 app.get('/movies/:movieId', handleMovieId)
 app.get('/profile/:userId', handleProfilePage)

@@ -14,7 +14,7 @@ const BrowseByGenre = ({ theme }) => {
 
     const { genreName } = useParams();
 
-    const { browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre } = useContext(LoginContext);
+    const { searchResults, browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre } = useContext(LoginContext);
 
     // check the id of the genre; 
     let selectedGenreId = null;
@@ -95,33 +95,60 @@ const BrowseByGenre = ({ theme }) => {
             </GenreButtons>
 
 
+            {/* SHOW SEARCH RESULTS INSTEAD (if there's a search) */}
 
-            <StyledMovieContainer>
+            {searchResults ?
+
+                <StyledMovieContainer>
+                    {searchResults.results.map(movie => {
+                        return (
+                            <StyledLink key={movie.id} to={`/movies/${movie.id}`} >
+                                <RenderMovie
+                                    altText={movie.title}
+                                    genre={genreName}
+                                    releaseDate={movie.release_date.slice(0, 4)}
+                                    title={movie.title}
+                                    imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                                    ratings={movie.vote_average}
+                                    theme={theme}
+                                    movieId={movie.id}
+                                />
+                            </StyledLink>
+
+                        )
+                    })
+                    }
+                </StyledMovieContainer> :
 
 
-                {genreData && genreData.results.map(movie => {
-                    return (
-                        <StyledLink key={movie.id} to={`/movies/${movie.id}`} >
-                            <RenderMovie
-                                altText={movie.title}
-                                genre={genreName}
-                                releaseDate={movie.release_date.slice(0, 4)}
-                                title={movie.title}
-                                imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                                ratings={movie.vote_average}
-                                theme={theme}
-                                movieId={movie.id}
-                            />
-                        </StyledLink>
+                <>
+                    <StyledMovieContainer>
+                        {genreData && genreData.results.map(movie => {
+                            return (
+                                <StyledLink key={movie.id} to={`/movies/${movie.id}`} >
+                                    <RenderMovie
+                                        altText={movie.title}
+                                        genre={genreName}
+                                        releaseDate={movie.release_date.slice(0, 4)}
+                                        title={movie.title}
+                                        imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                                        ratings={movie.vote_average}
+                                        theme={theme}
+                                        movieId={movie.id}
+                                    />
+                                </StyledLink>
 
-                    )
-                })
-                }
-            </StyledMovieContainer>
-            <div>
-                <button onClick={handlePreviousPage}>Previous</button>
-                <button onClick={handleNextPage}>Next</button>
-            </div>
+                            )
+                        })
+                        }
+                    </StyledMovieContainer>
+                    <div>
+                        <button onClick={handlePreviousPage}>Previous</button>
+                        <button onClick={handleNextPage}>Next</button>
+                    </div>
+                </>
+
+            }
 
 
         </>

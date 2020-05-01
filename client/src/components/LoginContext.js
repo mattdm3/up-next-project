@@ -60,6 +60,8 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     const [selectedGenre, setSelectedGenre] = useState('action')
     const [sortLabel, setSortLabel] = useState('Popularity')
     const [browsePage, setBrowsePage] = useState(1);
+    const [lastSearch, setLastSearch] = useState('');
+    const [searchResults, setSearchResults] = useState(null)
 
 
     useEffect(() => {
@@ -271,7 +273,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }, [appUser])
 
-    return <LoginContext.Provider value={{ browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;
