@@ -14,7 +14,7 @@ const BrowseByGenre = ({ theme }) => {
 
     const { genreName } = useParams();
 
-    const { sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre } = useContext(LoginContext);
+    const { browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre } = useContext(LoginContext);
 
     // check the id of the genre; 
     let selectedGenreId = null;
@@ -34,16 +34,40 @@ const BrowseByGenre = ({ theme }) => {
 
     }
 
+    const handlePreviousPage = () => {
+        if (browsePage > 1) {
+            setBrowsePage(browsePage - 1)
+        }
+
+
+
+    }
+    const handleNextPage = () => {
+        console.log(genreData.total_pages);
+        if (genreData.total_pages > browsePage) {
+            setBrowsePage(browsePage + 1)
+        }
+    }
+
+    const handleGenreSelection = (genre) => {
+
+        setSelectedGenre(genre);
+        if (genre != genreName) {
+            setBrowsePage(1);
+        }
+
+    }
+
 
     React.useEffect(() => {
 
         if (selectedGenreId) {
-            fetch(`/genres/${selectedGenreId}?sort=${sortOption}`)
+            fetch(`/genres/${selectedGenreId}?sort=${sortOption}&browsePage=${browsePage}`)
                 .then(res => res.json())
                 .then(data => setGenreData(data))
         }
 
-    }, [selectedGenreId, sortOption])
+    }, [selectedGenreId, sortOption, browsePage])
 
 
 
@@ -52,12 +76,17 @@ const BrowseByGenre = ({ theme }) => {
     return (
         <>
             <GenreButtons>
-                <NavigationLink onClick={() => setSelectedGenre("action")} activeStyle={activeClass} exact to="/genres/action">Action</NavigationLink>
-                <NavigationLink onClick={() => setSelectedGenre("drama")} activeStyle={activeClass} to="/genres/drama">Drama</NavigationLink>
-                <NavigationLink onClick={() => setSelectedGenre("adventure")} activeStyle={activeClass} to="/genres/adventure">Adventure</NavigationLink>
-                <NavigationLink onClick={() => setSelectedGenre("comedy")} activeStyle={activeClass} to="/genres/comedy">Comedy</NavigationLink>
-                <NavigationLink onClick={() => setSelectedGenre("crime")} activeStyle={activeClass} to="/genres/crime">Crime</NavigationLink>
-                <NavigationLink onClick={() => setSelectedGenre("documentary")} activeStyle={activeClass} to="/genres/documentary">Documentary</NavigationLink>
+                <NavigationLink onClick={() => handleGenreSelection("action")} activeStyle={activeClass} exact to="/genres/action">Action</NavigationLink>
+                <NavigationLink onClick={() => handleGenreSelection("drama")} activeStyle={activeClass} to="/genres/drama">Drama</NavigationLink>
+                <NavigationLink onClick={() => handleGenreSelection("adventure")} activeStyle={activeClass} to="/genres/adventure">Adventure</NavigationLink>
+                <NavigationLink onClick={() => handleGenreSelection("comedy")} activeStyle={activeClass} to="/genres/comedy">Comedy</NavigationLink>
+                <NavigationLink onClick={() => handleGenreSelection("crime")} activeStyle={activeClass} to="/genres/crime">Crime</NavigationLink>
+                <NavigationLink onClick={() => handleGenreSelection("documentary")} activeStyle={activeClass} to="/genres/documentary">Documentary</NavigationLink>
+
+                <div>
+                    <button onClick={handlePreviousPage}>Previous</button>
+                    <button onClick={handleNextPage}>Next</button>
+                </div>
 
                 <SortDropdown
                     handleSort={handleSort}
@@ -89,6 +118,12 @@ const BrowseByGenre = ({ theme }) => {
                 })
                 }
             </StyledMovieContainer>
+            <div>
+                <button onClick={handlePreviousPage}>Previous</button>
+                <button onClick={handleNextPage}>Next</button>
+            </div>
+
+
         </>
     )
 }

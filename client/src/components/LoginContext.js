@@ -58,7 +58,9 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     const [movieCounter, setMovieCounter] = useState(0)
     const [sortOption, setSortOption] = useState('popularity')
     const [selectedGenre, setSelectedGenre] = useState('action')
-    let [sortLabel, setSortLabel] = useState('Popularity')
+    const [sortLabel, setSortLabel] = useState('Popularity')
+    const [browsePage, setBrowsePage] = useState(1);
+
 
     useEffect(() => {
         if (appUser.email) {
@@ -269,7 +271,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }, [appUser])
 
-    return <LoginContext.Provider value={{ sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

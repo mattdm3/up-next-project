@@ -46,10 +46,11 @@ const handleGenreId = async (req, res) => {
 
     const { genreId } = req.params;
     const { sort } = req.query;
+    const { browsePage } = req.query;
 
     var options = {
         method: 'GET',
-        url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&with_genres=${genreId}&original_language=en&sort_by=${sort}.desc&vote_count.gte=10`,
+        url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&with_genres=${genreId}&original_language=en&sort_by=${sort}.desc&vote_count.gte=10&page=${browsePage}`,
         headers: {
             authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDA5Nzc1ZGIxMGQwMzg3ZGY5YWEwNDYzNjZiNzE3MiIsInN1YiI6IjVlYTFlODY5YWY0MzI0MDAxZDllN2Q0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OxkyvbtGbap8tCc1NN3pATUNlPSNqhOGKcWk8uCvOSc'
         }
