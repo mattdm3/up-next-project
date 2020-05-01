@@ -7,7 +7,8 @@ import { app } from 'firebase';
 
 const Navbar = ({ theme, toggleTheme }) => {
 
-    const { updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { updateUserData, selectedGenre, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+
 
 
     return (
@@ -21,7 +22,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                 <NavigationLink exact to='/'>
                     <li>🍿Up Next</li>
                 </NavigationLink>
-                <NavigationLink to='/genres/action'>
+                <NavigationLink to={`/genres/${selectedGenre}`}>
                     <li>Browse</li>
                 </NavigationLink>
 
