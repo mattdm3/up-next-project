@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../theme';
 import { GlobalStyles } from '../global';
-import { PageContainer } from '../CONSTANTS';
+import { PageContainer, BackgroundContainer } from '../CONSTANTS';
 import DarkModeToggler from '../DarkModeToggler';
 import styled from 'styled-components'
 import RandomGenerator from '../RandomGenerator';
@@ -13,13 +13,16 @@ import MoviesId from '../MoviesId'
 import Navbar from '../Navbar';
 import UserProfile from '../UserProfile/UserProfile';
 import Recommended from '../Recommended';
+import { LoginContext } from '../LoginContext';
 
 function App() {
 
   const [bacon, setBacon] = useState(null);
   const [randomMovie, setRandomMovie] = useState(null);
 
-  const [theme, setTheme] = useState('light');
+  // const [theme, setTheme] = useState('light')
+
+  const { theme, setTheme } = useContext(LoginContext);
 
   //dark mode togger
   const toggleTheme = () => {
@@ -46,16 +49,18 @@ function App() {
       <Switch>
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
           <GlobalStyles />
-          <Navbar theme={theme} toggleTheme={toggleTheme} />
+
+
           <PageContainer>
-            <Search />
+            <Navbar theme={theme} toggleTheme={toggleTheme} />
+            {/* <Search /> */}
 
             <Route exact path='/profile/:userId'>
               <UserProfile />
             </Route>
 
             <Route exact path="/genres/:genreName">
-              <BrowseByGenre theme={theme} />
+              <BrowseByGenre toggleTheme={toggleTheme} theme={theme} />
             </Route>
 
             <Route exact path="/recommended/:userId">
@@ -67,6 +72,7 @@ function App() {
             </Route>
 
           </PageContainer>
+
 
         </ThemeProvider>
 

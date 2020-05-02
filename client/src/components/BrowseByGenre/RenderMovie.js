@@ -45,9 +45,13 @@ const RenderMovie = ({
                     opacity: ".3",
                 }}>
                     <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
-                    <h3>{title}</h3>
-                    <p>{releaseDate} | {genre}</p>
-                    <p>⭐️{ratings}</p>
+                    <MovieText>
+
+                        <h3>{title}</h3>
+                        <p>{releaseDate} | {genre}</p>
+                        <p>⭐️{ratings}</p>
+                    </MovieText>
+
                     {/* <ActionBar movieId={movieId} /> */}
                 </StyledContainer>
                 <LikeStateContainer>
@@ -61,29 +65,48 @@ const RenderMovie = ({
             </MainContainer>
 
             :
+            <MainContainer>
+                <StyledContainer>
+                    <MoviePoster alt={altText} src={imgSrc} />
+                    <MovieText>
+                        <h3>{title}</h3>
+                        <p>{releaseDate} | {genre}</p>
+                        <p>⭐️{ratings}</p>
+                    </MovieText>
 
-            <StyledContainer>
-                <MoviePoster alt={altText} src={imgSrc} />
-                <h3>{title}</h3>
-                <p>{releaseDate} | {genre}</p>
-                <p>⭐️{ratings}</p>
-                <ActionBar movieId={movieId} />
-            </StyledContainer>
+                    <ActionBar movieId={movieId} />
+                </StyledContainer>
+            </MainContainer>
     )
 }
 
 const MainContainer = styled.div`
     position: relative; 
+    margin-bottom: 5rem;
+    flex-grow: 1; 
+    /* min-width: 23rem;
+    max-width: 70vw; */
+    flex-shrink:1;
+    flex-basis: 5rem;
+    /* flex: 1 1 auto;  */
+    
 `
 
 const StyledContainer = styled.div`
 
-    margin-bottom: 5rem; 
-    min-width: 20rem; 
-    max-width: 20rem; 
+    /* margin-bottom: 5rem;  */
+    /* min-width: 10rem; 
+    max-width: 24rem;  */
     /* border: 1px solid red;  */
     cursor: pointer;
     position: relative; 
+    /* flex-shrink:0; */
+    /* flex-grow: 1;  */
+    /* max-width: 20rem; */
+    /* min-width: 20rem; */
+    /* width: 25rem; */
+    /* margin: 1rem; */
+
 
 
 
@@ -97,12 +120,21 @@ const StyledContainer = styled.div`
 `
 
 
+
 const MoviePoster = styled.img`
     border-radius: 10px; 
-    min-height: 24rem; 
-    min-width: 20rem; 
-    max-width: 20rem; 
+    /* min-height: 24rem;  */
+    min-width: 18rem;
+    max-width: 22rem;
+    /* max-width: 100%;   */
+     @media screen and (max-width: 740px) {
+        max-width: 100%;
+    }
     
+`
+
+const MovieText = styled.div`
+width: 15rem;
 `
 
 const LikeStateContainer = styled.div`

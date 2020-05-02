@@ -63,6 +63,19 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     const [lastSearch, setLastSearch] = useState('');
     const [searchResults, setSearchResults] = useState(null)
 
+    const [theme, setTheme] = useState('light');
+
+    // //dark mode togger
+    // const toggleTheme = () => {
+    //   // if the theme is not light, then set it to dark
+    //   if (theme === 'light') {
+    //     setTheme('dark');
+    //     // otherwise, it should be light
+    //   } else {
+    //     setTheme('light');
+    //   }
+    // }
+
 
     useEffect(() => {
         if (appUser.email) {
@@ -273,7 +286,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }, [appUser])
 
-    return <LoginContext.Provider value={{ searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;
