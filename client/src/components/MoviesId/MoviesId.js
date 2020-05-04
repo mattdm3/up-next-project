@@ -10,7 +10,7 @@ const MoviesId = () => {
 
     const [selectedMovieData, setSelectedMovieData] = useState(null)
 
-    selectedMovieData && console.log(selectedMovieData)
+    selectedMovieData && console.log(selectedMovieData, "MOVIE ID PAGE")
 
     React.useEffect(() => {
 
@@ -23,17 +23,22 @@ const MoviesId = () => {
     return (
 
         selectedMovieData ?
-            <RenderMovieId
-                title={selectedMovieData.title}
-                overview={selectedMovieData.overview}
-                voteAverage={selectedMovieData.vote_average}
-                posterPath={`https://image.tmdb.org/t/p/w500/${selectedMovieData.poster_path}`}
-                releaseDate={selectedMovieData.release_date}
-                runtime={selectedMovieData.runtime}
+            <>
+                <RenderMovieId
+                    title={selectedMovieData.title}
+                    overview={selectedMovieData.overview}
+                    voteAverage={selectedMovieData.vote_average}
+                    posterPath={`https://image.tmdb.org/t/p/w500/${selectedMovieData.poster_path}`}
+                    releaseDate={selectedMovieData.release_date}
+                    runtime={selectedMovieData.runtime}
+                    youtube={selectedMovieData.videos.results[0].key}
+                    backdropPath={`https://image.tmdb.org/t/p/original/${selectedMovieData.backdrop_path}`}
 
 
 
-            />
+                />
+
+            </>
             : <p>loading</p>
     )
 }

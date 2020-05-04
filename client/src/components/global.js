@@ -86,11 +86,15 @@ table {
   }
   h2 {
     font-size: 2.3rem;
-    font-weight: 800; 
+    font-weight: 700; 
   }
   h3 {
     font-size: 1.5rem;
     font-weight: 700; 
     font-family: "Open Sans"
+  }
+
+  li {
+    list-style: none; 
   }
   `

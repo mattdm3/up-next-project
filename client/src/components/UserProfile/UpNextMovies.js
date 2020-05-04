@@ -4,7 +4,7 @@ import { lightTheme } from '../theme';
 import ActionBar from '../ActionBar';
 import { LoginContext } from '../LoginContext';
 
-const RenderMovie = ({
+const UpNextMovies = ({
     imgSrc,
     title,
     releaseDate,
@@ -41,11 +41,10 @@ const RenderMovie = ({
 
         appUser.email && isUserDataLoaded && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
             <MainContainer>
-                <StyledContainer style={{
-                    opacity: ".3",
-                }}>
+                <StyledContainer
+                >
 
-                    <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
+                    <MoviePoster alt={altText} src={imgSrc} />
 
 
                     <MovieText>
@@ -57,13 +56,13 @@ const RenderMovie = ({
 
                     {/* <ActionBar movieId={movieId} /> */}
                 </StyledContainer>
-                <LikeStateContainer>
+                {/* <LikeStateContainer>
                     {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span></span> 👎🏼</RatingResult> :
 
                         appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
                             :
                             <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>}
-                </LikeStateContainer>
+                </LikeStateContainer> */}
 
             </MainContainer>
 
@@ -127,8 +126,8 @@ const StyledContainer = styled.div`
 const MoviePoster = styled.img`
     border-radius: 10px; 
     /* max-height: 12rem;  */
-    min-width: 18rem;
-    max-width: 22rem;
+    min-width: 15rem;
+    max-width: 18rem;
     /* max-width: 100%;   */
      @media screen and (max-width: 740px) {
         max-width: 100%;
@@ -160,4 +159,4 @@ const RatingResult = styled.p`
 
 `
 
-export default RenderMovie; 
+export default UpNextMovies; 
