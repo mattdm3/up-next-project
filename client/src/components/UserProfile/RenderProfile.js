@@ -1,8 +1,11 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
-import RenderMovie from '../BrowseByGenre/RenderMovie'
+import UpNextMovies from './UpNextMovies';
 import { StyledLink } from '../CONSTANTS'
+
+
+
 const RenderProfile = ({ theme }) => {
 
     const { dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
@@ -75,7 +78,7 @@ const RenderProfile = ({ theme }) => {
                         return (
 
                             <StyledLink to={`/movies/${movie.id}`} >
-                                <RenderMovie
+                                <UpNextMovies
                                     key={movie.id}
                                     altText={movie.title}
                                     /* genre={genreName} */

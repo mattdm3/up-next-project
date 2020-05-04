@@ -94,7 +94,7 @@ const handleMovieId = async (req, res) => {
     try {
         var options = {
             method: 'GET',
-            url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=credits`,
+            url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=credits,videos`,
             headers: {
                 authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDA5Nzc1ZGIxMGQwMzg3ZGY5YWEwNDYzNjZiNzE3MiIsInN1YiI6IjVlYTFlODY5YWY0MzI0MDAxZDllN2Q0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OxkyvbtGbap8tCc1NN3pATUNlPSNqhOGKcWk8uCvOSc'
             }
