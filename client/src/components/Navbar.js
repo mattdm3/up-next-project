@@ -18,8 +18,6 @@ const Navbar = ({ theme, toggleTheme }) => {
     return (
         <>
 
-
-
             <StyledNav>
                 <NavigationLink exact to='/'>
                     <LogoLi> <Logo>🍿 Up <span>Next</span></Logo>  </LogoLi>

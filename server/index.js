@@ -4,7 +4,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
-const { handleRandomMovie, handleSearch, handleMovieId, handleGenreId, handleProfilePage } = require('./handlers')
+const { handleRandomMovie, handleSearch, handleMovieId, handleGenreId, handleProfilePage, getSimilarMovies } = require('./handlers')
 const { handleAddUpNext, handleLikeMovie, handleDislikeMovie, createUser, getUser } = require('./firebaseHandlers');
 const { handleRecommendations } = require('./src/shorterRecommend')
 
@@ -41,6 +41,7 @@ app.get('/search/:searchTerm', handleSearch)
 app.get('/genres/:genreId', handleGenreId)
 app.get('/movies/:movieId', handleMovieId)
 app.get('/profile/:userId', handleProfilePage)
+app.get('/movies/getSimilar/:movieId', getSimilarMovies)
 
 //INITIAL RECOMMENDATION CALCULATION handled in shorterRecommend.js
 app.post('/recommendations/get', handleRecommendations)

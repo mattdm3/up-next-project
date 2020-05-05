@@ -10,14 +10,14 @@ import LoginProvider from './components/LoginContext';
 // import GlobalStyles from '../GlobalStyles'
 //-------------------------------------
 
-const store = configureStore();
+// const store = configureStore();
 
 ReactDOM.render(
   <LoginProvider>
-    <Provider store={store}>
-      <App />
-      {/* <GlobalStyles /> */}
-    </Provider>
+
+    <App />
+    {/* <GlobalStyles /> */}
+
   </LoginProvider>,
   document.getElementById('root')
 );

@@ -12,7 +12,9 @@ const UserProfile = () => {
 
     return (
         appUser.email ?
-            <RenderProfile />
+
+            appUser.data.upNextList != "none" ?
+                <RenderProfile /> : <div>Add Some Movies to your UpNext List</div>
             :
             <div>Create an Account</div>
     )

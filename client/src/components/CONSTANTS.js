@@ -11,9 +11,17 @@ export const PageContainer = styled.div`
     position: relative; 
 `
 
+export const RecommendedContainer = styled.div`
+    position: relative;
+    width: 100%; 
+    height: 100vh; 
+    /* background: black; */
+`
+
 export const StyledLink = styled(Link)`
     color: inherit; 
     text-decoration: inherit;
+    position: relative; 
     
     
 `
@@ -32,4 +40,15 @@ export const BackgroundContainer = styled.div`
     background: ${({ theme }) => theme === lightTheme ? "#1F209A" : "#1F209A"};
     z-index: -100;
 
+`
+
+export const PageHeading = styled.h1`
+font-size: 3rem;
+font-weight: 800; 
+margin-top: 2rem;
+`
+
+export const SubHeading = styled.h3`
+margin: 4rem 0; 
+font-weight: 700; 
 `

@@ -61,9 +61,12 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     const [sortLabel, setSortLabel] = useState('Popularity')
     const [browsePage, setBrowsePage] = useState(1);
     const [lastSearch, setLastSearch] = useState('');
-    const [searchResults, setSearchResults] = useState(null)
-
+    const [searchResults, setSearchResults] = useState(null);
+    const [recStatus, setRecStatus] = useState("idle");
     const [theme, setTheme] = useState('light');
+
+    const [userLevel, setUserLevel] = useState(0)
+    const [recommendationCount, setRecommendationCount] = useState(0)
 
     // //dark mode togger
     // const toggleTheme = () => {
@@ -75,6 +78,34 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     //     setTheme('light');
     //   }
     // }
+
+
+    function calculateLevel(ratingAmount) {
+        let level = Math.floor(ratingAmount / 5);
+        console.log(level)
+        setUserLevel(level);
+        setRecommendationCount(level)
+
+    }
+
+    useEffect(() => {
+
+        if (dataObject.liked) {
+
+            calculateLevel(dataObject.liked.length)
+
+
+
+
+
+
+        }
+
+
+
+
+    }, [dataObject])
+
 
 
     useEffect(() => {
@@ -90,6 +121,8 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
             });
         }
     }, [appUser])
+
+
 
 
     // HANDLE SIGNOUT
@@ -119,6 +152,8 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
                         likedMovies: "none",
                         dislikedMovies: "none",
                         upNextList: "none",
+                        recommendationCount: 0,
+
                     }
                 }),
             })
@@ -224,10 +259,11 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     // TURN RECOMMENDATIONS INTO DATA (SEND TO API) (TRIED IN B.E. FIRST)
 
     const handleRecomendationRequest = () => {
+
+        setRecommendationCount(recommendationCount + 1);
+
+
         try {
-
-            //recommendation status state? 
-
 
             fetch(`/recommendations/get`, {
                 method: 'POST',
@@ -248,7 +284,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
                     setAppUser(json.data);
                     setMessage(json.message);
                     console.log(json)
-                });
+                })
             // .then(data => console.log(data))
 
 
@@ -281,12 +317,13 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
                         data,
                     ])
                 })
+                .then(setRecStatus('idle'))
 
         })
 
     }, [appUser])
 
-    return <LoginContext.Provider value={{ theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

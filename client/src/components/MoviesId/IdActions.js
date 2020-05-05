@@ -3,32 +3,13 @@ import styled, { keyframes } from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from '../theme';
 
-const ActionBar = ({ movieId }) => {
 
-    const { handleMovieLike, handleMovieDislike, appUser, handleAddUpNext } = useContext(LoginContext);
+const IdActions = ({ movieId }) => {
 
-
+    const { handleMovieLike, handleMovieDislike, appUser, signInWithGoogle, handleAddUpNext } = useContext(LoginContext);
 
     const handleLike = (e) => {
         e.preventDefault();
-
-        // console.log(resultID, 'resultID')
-        // console.log(genreData, 'GENRE DATA')
-
-        // setGenreData(genreData => [
-        //     ...genreData,
-        //     [genreData.data]: genreData.splice(resultID, 1)
-        // ]
-        // ])
-
-        // setTestArray(testArray => ([
-        //     ...testArray,
-        //     delete testArray[resultID]
-        // ]))
-
-        // setTestArray("HELLO")
-
-
 
         if (appUser.email) {
             handleMovieLike(movieId);
@@ -36,8 +17,6 @@ const ActionBar = ({ movieId }) => {
         else {
             alert("Please make an account or login first.")
         }
-
-
     }
 
     const handleDislike = (e) => {
@@ -48,7 +27,6 @@ const ActionBar = ({ movieId }) => {
         } else {
             alert("Please make an account or login first.")
         }
-
 
     }
 
@@ -64,9 +42,7 @@ const ActionBar = ({ movieId }) => {
     }
 
 
-
     return (
-
         <StyleActionContainer>
             <p onClick={(e) => handleLike(e)}>👍🏼</p>
             <p onClick={(e) => handleUpNext(e)}>🍿</p>
@@ -75,22 +51,21 @@ const ActionBar = ({ movieId }) => {
     )
 }
 
-
 const StyleActionContainer = styled.div`
     display: flex; 
     z-index: 50;
-    justify-content: space-evenly;
-    width: 100%; 
+    margin-left: 1rem;
 
 
 
     p {
-        font-size: 1.8rem;
+        font-size: 1.2rem;
         margin-right: .5rem;
-        padding: 15px; 
+        padding: 12px; 
         background:   ${({ theme }) => theme === lightTheme ? "#232476" : "#F3F4FD"};
         border-radius: 50%; 
         margin-right: 1rem;
+        cursor: pointer;
 
         &:hover {
             background: grey; 
@@ -99,21 +74,4 @@ const StyleActionContainer = styled.div`
 
 `
 
-
-const scaleUp = keyframes`
-    0 {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(2);
-    }
-    100% {
-        transform: scale(1);
-    }
-`
-
-const ScaledButton = styled.div`
-    animation: ${scaleUp} 700ms ease forwards; 
-`
-
-export default ActionBar;
+export default IdActions; 

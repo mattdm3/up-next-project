@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, Link } from 'react-router-dom';
-import { genres } from '../../data/genres';
+import { genresList } from '../../data/genres';
 import RenderMovie from './RenderMovie';
 import { StyledLink } from '../CONSTANTS'
 import { NavLink } from 'react-router-dom'
@@ -18,16 +18,20 @@ const BrowseByGenre = () => {
 
     const [genreData, setGenreData] = useState(null);
 
+    const [test, setTest] = useState(null);
+
     const { genreName } = useParams();
 
-    const { theme, setTheme, searchResults, browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre } = useContext(LoginContext);
+    const { theme, setTheme, searchResults, browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre, appUser } = useContext(LoginContext);
 
     // check the id of the genre; 
     let selectedGenreId = null;
 
-    for (let i = 0; i < genres.length; i++) {
-        if (genres[i].name === genreName) {
-            selectedGenreId = genres[i].id;
+
+    for (let i = 0; i < genresList.length; i++) {
+        if (genresList[i].name === genreName) {
+            selectedGenreId = genresList[i].id;
+
         }
     }
 
@@ -49,7 +53,7 @@ const BrowseByGenre = () => {
 
     }
     const handleNextPage = () => {
-        console.log(genreData.total_pages);
+
         if (genreData.total_pages > browsePage) {
             setBrowsePage(browsePage + 1)
         }
@@ -64,37 +68,64 @@ const BrowseByGenre = () => {
 
     }
 
+    // console.log(appUser)
+    // const filterAndShow = async (results) => {
+    //     console.log(results)
+    //     let filteredData = [];
+    //     let likedArray = await appUser.data && Object.values(appUser.data.likedMovies);
+    //     await likedArray.forEach(likedMovieId => {
+    //         results.forEach(result => {
+    //             if (likedMovieId != result.id) {
+    //                 filteredData.push(result.id)
+    //             }
+    //         })
+    //     })
+
+    //     console.log(filteredData)
+    //     results = filteredData;
+    //     await setGenreData(results);
+    // }
+
 
     React.useEffect(() => {
 
         if (selectedGenreId) {
             fetch(`/genres/${selectedGenreId}?sort=${sortOption}&browsePage=${browsePage}`)
                 .then(res => res.json())
+                // .then(data => filterAndShow(data.results))
                 .then(data => setGenreData(data))
         }
 
     }, [selectedGenreId, sortOption, browsePage])
 
+    // genreData && console.log(genreData);
 
-    console.log(theme)
+    const testButton = async () => {
+        console.log("HELLO")
 
-    const StyledPrevIcon = styled(AiFillCaretLeft)`
-        font-size: 2rem;
-        cursor: pointer; 
-    
-    `
+        // await setTest([
+        //     genreData,
+        //     [genreData.results.splice(0, 1)]
+        // ])
 
-    const StyledNextIcon = styled(AiFillCaretRight)`
-        font-size: 2rem;
-        cursor: pointer; 
-        /* color: ${theme === "light" ? "red" : "green"}; */
-    `
+        // setGenreData(
+        //     genreData,
+        //     [genreData.results.splice(0, 3)]
+        // )
+        setTest(genreData.results.splice(0, 1))
+
+        await console.log(test)
+
+
+
+    }
 
 
 
 
     return (
         <>
+            <button onClick={() => testButton()}>TEST BUTTON</button>
 
             {/* SHOW SEARCH RESULTS INSTEAD (if there's a search) */}
 
@@ -104,18 +135,20 @@ const BrowseByGenre = () => {
 
                     <StyledMovieContainer>
                         <PageHeading>Search Results</PageHeading>
-                        {searchResults.results.map(movie => {
+                        {searchResults.results.map((movie, resultID) => {
                             return (
                                 <StyledLink key={movie.id} to={`/movies/${movie.id}`} >
                                     <RenderMovie
                                         altText={movie.title}
-                                        genre={genreName}
+                                        genre={selectedGenreId}
                                         releaseDate={movie.release_date.slice(0, 4)}
                                         title={movie.title}
                                         imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                                         ratings={movie.vote_average}
                                         theme={theme}
+                                        genres={movie["genre_ids"]}
                                         movieId={movie.id}
+                                        resultID={resultID}
                                     />
                                 </StyledLink>
 
@@ -134,13 +167,7 @@ const BrowseByGenre = () => {
                                 <NavigationLink onClick={() => handleGenreSelection("adventure")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/adventure">🗺️Adventure</NavigationLink>
                                 <NavigationLink onClick={() => handleGenreSelection("fantasy")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/fantasy">✨Fantasy</NavigationLink>
                                 <NavigationLink onClick={() => handleGenreSelection("comedy")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/comedy">😂Comedy</NavigationLink>
-                                <NavigationLink onClick={() => handleGenreSelection("documentary")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/documentary">💕Romance</NavigationLink>
-
-
-
-
-
-
+                                <NavigationLink onClick={() => handleGenreSelection("romance")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/romance">💕Romance</NavigationLink>
                             </GenreButtons>
                             <SortDropdown
                                 handleSort={handleSort}
@@ -150,8 +177,7 @@ const BrowseByGenre = () => {
                         <div style={{ display: "flex", justifyContent: "flex-end" }}>
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "fit-content" }}>
                                 <PageToggle>
-                                    {/* <p onClick={handlePreviousPage}>Previous</p>
-                <p onClick={handleNextPage}>Next</p> */}
+
                                     <StyledPrevIcon onClick={handlePreviousPage} />
                                     <StyledNextIcon onClick={handleNextPage} />
 
@@ -162,20 +188,26 @@ const BrowseByGenre = () => {
 
                         <StyledMovieContainer>
 
-                            {genreData && genreData.results.map(movie => {
+                            {genreData && genreData.results.map((movie, resultID) => {
                                 return (
-                                    <StyledLink key={movie.id} to={`/movies/${movie.id}`} >
-                                        <RenderMovie
-                                            altText={movie.title}
-                                            genre={genreName}
-                                            releaseDate={movie.release_date.slice(0, 4)}
-                                            title={movie.title}
-                                            imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                                            ratings={movie.vote_average}
-                                            theme={theme}
-                                            movieId={movie.id}
-                                        />
-                                    </StyledLink>
+
+                                    <RenderMovie
+                                        altText={movie.title}
+                                        genre={genreName}
+                                        releaseDate={movie.release_date.slice(0, 4)}
+                                        title={movie.title}
+                                        imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                                        ratings={movie.vote_average}
+                                        theme={theme}
+                                        movieId={movie.id}
+                                        genres={movie["genre_ids"]}
+                                        resultID={resultID}
+                                        genreData={genreData}
+                                        setGenreData={setGenreData}
+                                        key={movie.id}
+
+                                    />
+
 
                                 )
                             })
@@ -202,6 +234,17 @@ const BrowseByGenre = () => {
         </>
     )
 }
+const StyledPrevIcon = styled(AiFillCaretLeft)`
+font-size: 2rem;
+cursor: pointer; 
+
+`
+
+const StyledNextIcon = styled(AiFillCaretRight)`
+    font-size: 2rem;
+    cursor: pointer; 
+`
+
 
 const StyledMovieContainer = styled.div`
     display: flex; 
@@ -211,6 +254,7 @@ const StyledMovieContainer = styled.div`
     position: relative;
     flex-shrink: shrink; 
     align-content: flex-start; 
+
 
     @media screen and (max-width: 740px) {
         justify-content: center; 
