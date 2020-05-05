@@ -1,8 +1,11 @@
 import React, { useContext, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { lightTheme } from '../theme';
 import ActionBar from '../ActionBar';
 import { LoginContext } from '../LoginContext';
+import MovieTextData from './MovieTextData';
+import posterplaceholder from '../poster-placeholder.png'
+import { StyledLink } from '../CONSTANTS'
 
 const RenderMovie = ({
     imgSrc,
@@ -12,6 +15,10 @@ const RenderMovie = ({
     ratings,
     altText,
     movieId,
+    genres,
+    resultID,
+    genreData,
+    setGenreData,
     theme }) => {
 
 
@@ -31,58 +38,123 @@ const RenderMovie = ({
             setIsUserDataLoaded(true);
         } else setIsUserDataLoaded(false);
 
-
     }, [appUser])
 
     // console.log(message);
 
 
+
+
     return (
 
         appUser.email && isUserDataLoaded && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
-            <MainContainer>
-                <StyledContainer style={{
-                    opacity: ".3",
-                }}>
+            //DISPLAY NONE REMOVED HERE! MAKES MOVIES DISAPPEAR ON RATING
+            <StyledLink to={`/movies/${movieId}`} >
+                <MainContainer>
+                    <StyledContainer style={{
+                        opacity: ".3"
+                    }}>
 
-                    <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
+                        {
+
+                            imgSrc != "https://image.tmdb.org/t/p/w500/null"
+                                ?
+                                <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
+                                :
+                                <div style={{ position: "relative" }}>
+                                    <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={posterplaceholder} />
+                                    <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
+                                </div>
+
+                        }
 
 
-                    <MovieText>
 
-                        <h3>{title}</h3>
-                        <p>{releaseDate} | {genre}</p>
-                        <p>⭐️{ratings}</p>
-                    </MovieText>
 
-                    {/* <ActionBar movieId={movieId} /> */}
-                </StyledContainer>
-                <LikeStateContainer>
-                    {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span></span> 👎🏼</RatingResult> :
+                        <MovieTextData
+                            title={title}
+                            releaseDate={releaseDate}
+                            ratings={ratings}
+                            genre={genre}
+                            genres={genres}
+                            genreData={genreData} />
 
-                        appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
-                            :
-                            <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>}
-                </LikeStateContainer>
 
-            </MainContainer>
+                        {/* <ActionBar movieId={movieId} /> */}
+                    </StyledContainer>
+                    <LikeStateContainer>
+                        {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span>👎🏼</span> </RatingResult> :
+
+                            appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
+                                :
+                                <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>}
+                    </LikeStateContainer>
+
+                </MainContainer>
+            </StyledLink>
 
             :
-            <MainContainer>
-                <StyledContainer>
-                    <MoviePoster alt={altText} src={imgSrc} />
-                    <MovieText>
-                        <h3>{title}</h3>
-                        <p>{releaseDate} | {genre}</p>
-                        <p>⭐️{ratings}</p>
-                    </MovieText>
+            <StyledLink to={`/movies/${movieId}`} >
+                <MainContainer>
 
-                    <ActionBar movieId={movieId} />
-                </StyledContainer>
-            </MainContainer>
+                    <PosterContainer>
+
+                        {
+                            imgSrc === "https://image.tmdb.org/t/p/w500/null"
+                                ?
+                                <div style={{ position: "relative" }}>
+                                    <MoviePoster alt={altText} src={posterplaceholder} />
+                                    <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
+                                </div>
+                                :
+                                <>
+                                    <MoviePoster alt={altText} src={imgSrc} />
+                                    <RatingStar>⭐{ratings}</RatingStar>
+                                </>
+
+
+                        }
+
+                    </PosterContainer>
+
+                    <BelowContentContainer>
+                        <ActionBar genreData={genreData} setGenreData={setGenreData} resultID={resultID} movieId={movieId} />
+
+                        <MovieTextData
+                            title={title}
+                            releaseDate={releaseDate}
+                            ratings={ratings}
+                            genre={genre}
+                            genres={genres} />
+                    </BelowContentContainer>
+
+                </MainContainer>
+            </StyledLink>
     )
 }
 
+const RatingStar = styled.h3`
+    color: #FFD93B; 
+    position: absolute; 
+    bottom: 1rem;
+    left: .5rem; 
+    -webkit-text-stroke: 1px #1F209A; 
+
+`
+
+const PosterContainer = styled.div`
+    position: relative;
+    /* border: 3px solid green;  */
+    margin-bottom: 1rem;
+`
+
+const BelowContentContainer = styled.div`
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+`
+
+//THIS CONTAINER HOLDS ENTIRE MOVIE ITEM INCL POSTER DESC & ACTIONS
 const MainContainer = styled.div`
     position: relative; 
     margin-bottom: 5rem;
@@ -92,8 +164,11 @@ const MainContainer = styled.div`
     flex-shrink:1;
     flex-basis: 5rem;
     /* flex: 1 1 auto;  */
+    /* border: 1px solid red;  */
     
 `
+
+
 
 const StyledContainer = styled.div`
 
@@ -109,6 +184,7 @@ const StyledContainer = styled.div`
     /* min-width: 20rem; */
     /* width: 25rem; */
     /* margin: 1rem; */
+    
 
 
 
@@ -126,9 +202,10 @@ const StyledContainer = styled.div`
 
 const MoviePoster = styled.img`
     border-radius: 10px; 
-    /* max-height: 12rem;  */
+    /* max-height: 31rem;  */
     min-width: 18rem;
     max-width: 22rem;
+    
     /* max-width: 100%;   */
      @media screen and (max-width: 740px) {
         max-width: 100%;
@@ -136,9 +213,22 @@ const MoviePoster = styled.img`
     
 `
 
-const MovieText = styled.div`
-width: 15rem;
+const scaleUp = keyframes`
+    0 {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+    }
 `
+
+const ScaledButton = styled.div`
+    animation: ${scaleUp} 750ms ease forwards; 
+`
+
 
 const LikeStateContainer = styled.div`
     position: absolute; 
@@ -146,6 +236,7 @@ const LikeStateContainer = styled.div`
     left: 50%; 
     transform: translate(-50%, -50%);
     width: fit-content; 
+    
 `
 
 const RatingResult = styled.p`
@@ -153,11 +244,14 @@ const RatingResult = styled.p`
     margin: 0; 
     padding: 0; 
     font-weight: 600; 
+    animation: ${scaleUp} 700ms ease forwards; 
 
     span {
         font-size: 2.2rem;
     }
 
 `
+
+
 
 export default RenderMovie; 

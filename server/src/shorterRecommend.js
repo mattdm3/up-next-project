@@ -17,7 +17,7 @@ const fs = require('file-system');
 const csv = require('fast-csv');
 const { prepareRatings } = require('./preparation/ratings');
 const { prepareMovies } = require('./preparation/movies');
-// const { predictWithLinearRegression } = require('./strategies/linearRegression');
+const { predictWithLinearRegression } = require('./strategies/linearRegression');
 // const { predictWithContentBased } = require('./strategies/contentBased');
 // const { predictWithCfUserBased, predictWithCfItemBased } = require('./strategies/collaborativeFiltering');
 const { predictWithCfUserBased } = require('./strategies/collaborativeFiltering');
@@ -111,8 +111,7 @@ const handleRecommendations = async (req, res) => {
 
     let SEND_TO_DB;
 
-    // console.log(likedMovies);
-    // console.log(dislikedMovies, "DISLIKED CACA");
+
 
     //create arrays with user movie data
     let likedMoviesArray = Object.keys(likedMovies);
@@ -156,7 +155,7 @@ const handleRecommendations = async (req, res) => {
 
             if (MOVIES_BY_ID[likedMovieId] != undefined) {
                 filteredDislikedMoviesArray.push(likedMovieId);
-                console.log(likedMovieId, "THIS WAS CACA");
+                console.log(likedMovieId, "THIS WAS GOOD DISLIKED");
             };
         })
 
@@ -204,25 +203,73 @@ const handleRecommendations = async (req, res) => {
         } = await prepareRatings([...ME_USER_RATINGS, ...ratings]);
 
 
+
+        /* ----------------------------- */
+        //  Linear Regression Prediction //
+        //        Gradient Descent       //
+        /* ----------------------------- */
+
         console.log('\n');
-        console.log('(C) Collaborative-Filtering (User-Based) Prediction ... \n');
+        console.log('(A) Linear Regression Prediction ... \n');
 
-        console.log('(1) Computing User-Based Cosine Similarity \n');
-
-        const cfUserBasedRecommendation = await predictWithCfUserBased(
-            ratingsGroupedByUser,
-            ratingsGroupedByMovie,
-            ME_USER_ID
-        );
+        console.log('(1) Training \n');
+        const meUserRatings = ratingsGroupedByUser[ME_USER_ID];
+        const linearRegressionBasedRecommendation = predictWithLinearRegression(X, MOVIES_IN_LIST, meUserRatings);
 
         console.log('(2) Prediction \n');
-        console.log(sliceAndDice(cfUserBasedRecommendation, MOVIES_BY_ID, 20, true));
+        console.log(sliceAndDice(linearRegressionBasedRecommendation, MOVIES_BY_ID, 10, true));
 
-        SEND_TO_DB = await sliceAndDice(cfUserBasedRecommendation, MOVIES_BY_ID, 20, true);
+        SEND_TO_DB = await sliceAndDice(linearRegressionBasedRecommendation, MOVIES_BY_ID, 10, true)
 
-        // MAYBE YOU SHOULD SEND THIS DIRECTLY TO DB FIRST? 
+        // -----------------_*********_-----------------_**********------
+
+        // THIS WAS MY FIRST ONE - will now move to linear regression prediction since it seems smarter. 
+
+        // console.log('\n');
+        // console.log('(C) Collaborative-Filtering (User-Based) Prediction ... \n');
+
+        // console.log('(1) Computing User-Based Cosine Similarity \n');
+
+        // const cfUserBasedRecommendation = await predictWithCfUserBased(
+        //     ratingsGroupedByUser,
+        //     ratingsGroupedByMovie,
+        //     ME_USER_ID
+        // );
+
+        // console.log('(2) Prediction \n');
+        // console.log(sliceAndDice(cfUserBasedRecommendation, MOVIES_BY_ID, 20, true));
+
+        // SEND_TO_DB = await sliceAndDice(cfUserBasedRecommendation, MOVIES_BY_ID, 20, true);
+
+        // -----------------_*********_-----------------_**********------
+
 
         let recommendedResponse = [];
+
+        //FIRST, we empty the current recomendations data. 
+        await db.ref('appUsers/' + ME_USER_ID)
+            .child('data')
+            .child('recommendations')
+            .set(null)
+
+        // SECOND: get a recommendation count 
+
+        let recAmount;
+        await db.ref('appUsers/' + ME_USER_ID)
+            .child('data')
+            .child('recommendationCount')
+            .once('value')
+            .then(function (snapshop) {
+                recAmount = snapshop.val();
+            })
+
+        // Third: set rec ammount
+
+        await db.ref('appUsers/' + ME_USER_ID)
+            .child("data")
+            .child("recommendationCount")
+            .set(recAmount + 1)
+
         SEND_TO_DB.map(async (movie) => {
 
             await db.ref('appUsers/' + ME_USER_ID)

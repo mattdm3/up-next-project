@@ -3,24 +3,24 @@
 // Exercise: Content-based - Make features weighted based on popularity or actors
 // Exercise: Collaborative Filtering - Model-based CF with SVD
 
-import fs from 'fs';
-import csv from 'fast-csv';
+// import fs from 'fs';
+// import csv from 'fast-csv';
 
-import prepareRatings from './preparation/ratings';
-import prepareMovies from './preparation/movies';
-import predictWithLinearRegression from './strategies/linearRegression';
-import predictWithContentBased from './strategies/contentBased';
-import { predictWithCfUserBased, predictWithCfItemBased } from './strategies/collaborativeFiltering';
-import { getMovieIndexByTitle } from './strategies/common';
+// import prepareRatings from './preparation/ratings';
+// import prepareMovies from './preparation/movies';
+// import predictWithLinearRegression from './strategies/linearRegression';
+// import predictWithContentBased from './strategies/contentBased';
+// import { predictWithCfUserBased, predictWithCfItemBased } from './strategies/collaborativeFiltering';
+// import { getMovieIndexByTitle } from './strategies/common';
 
-// const fs = require('fs');
-// const csv = require('fast-csv');
-// const prepareRatings = require('./preparation/ratings');
-// const prepareMovies = require('./preparation/movies');
-// const predictWithLinearRegression = require('./strategies/linearRegression');
-// const predictWithContentBased = require('./strategies/contentBased');
-// const { predictWithCfUserBased, predictWithCfItemBased } = require('./strategies/collaborativeFiltering');
-// const { getMovieIndexByTitle } = require('./strategies/common')
+const fs = require('fs');
+const csv = require('fast-csv');
+const prepareRatings = require('./preparation/ratings');
+const prepareMovies = require('./preparation/movies');
+const predictWithLinearRegression = require('./strategies/linearRegression');
+const predictWithContentBased = require('./strategies/contentBased');
+const { predictWithCfUserBased, predictWithCfItemBased } = require('./strategies/collaborativeFiltering');
+const { getMovieIndexByTitle } = require('./strategies/common')
 
 
 let MOVIES_META_DATA = {};

@@ -1,9 +1,12 @@
-import math from 'mathjs';
+// import math from 'mathjs';
+const math = require('mathjs')
 
-import { sortByScore } from './common';
+// import { sortByScore } from './common';
+
+const { sortByScore } = require('./common')
 
 const LEARNING_RATE = 0.03;
-const LEARNING_ITERATIONS = 750;
+const LEARNING_ITERATIONS = 550;
 
 function predictWithLinearRegression(X, MOVIES_IN_LIST, ratings) {
   // Add intercept term
@@ -62,7 +65,7 @@ function predictWithLinearRegression(X, MOVIES_IN_LIST, ratings) {
   return sortByScore(predictedRatings);
 }
 
-export function gradientDescent(X, y, theta, ALPHA, ITERATIONS) {
+function gradientDescent(X, y, theta, ALPHA, ITERATIONS) {
   const m = y.length;
 
   for (let i = 0; i < ITERATIONS; i++) {
@@ -84,14 +87,14 @@ export function gradientDescent(X, y, theta, ALPHA, ITERATIONS) {
   return theta;
 }
 
-export function getPredictedRatings(theta, X) {
+function getPredictedRatings(theta, X) {
   return math.eval(`X * theta`, {
     theta,
     X,
   })
 }
 
-export function computeCost(X, y, theta) {
+function computeCost(X, y, theta) {
   let m = y.length;
 
   let predictions = math.eval('X * theta', {
@@ -112,4 +115,9 @@ export function computeCost(X, y, theta) {
   return J;
 }
 
-export default predictWithLinearRegression;
+// export default predictWithLinearRegression;
+
+module.exports = {
+  computeCost, getPredictedRatings, gradientDescent, predictWithLinearRegression
+
+}

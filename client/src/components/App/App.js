@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../theme';
 import { GlobalStyles } from '../global';
-import { PageContainer, BackgroundContainer } from '../CONSTANTS';
+import { PageContainer, BackgroundContainer, RecommendedContainer } from '../CONSTANTS';
 import DarkModeToggler from '../DarkModeToggler';
 import styled from 'styled-components'
 import RandomGenerator from '../RandomGenerator';
@@ -50,28 +50,29 @@ function App() {
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
           <GlobalStyles />
 
+          <RecommendedContainer>
+            <PageContainer>
+              <Navbar theme={theme} toggleTheme={toggleTheme} />
+              {/* <Search /> */}
 
-          <PageContainer>
-            <Navbar theme={theme} toggleTheme={toggleTheme} />
-            {/* <Search /> */}
+              <Route exact path='/profile/:userId'>
+                <UserProfile />
+              </Route>
 
-            <Route exact path='/profile/:userId'>
-              <UserProfile />
-            </Route>
+              <Route exact path="/genres/:genreName">
+                <BrowseByGenre toggleTheme={toggleTheme} theme={theme} />
+              </Route>
 
-            <Route exact path="/genres/:genreName">
-              <BrowseByGenre toggleTheme={toggleTheme} theme={theme} />
-            </Route>
+              <Route exact path="/recommended/:userId">
+                <Recommended />
+              </Route>
 
-            <Route exact path="/recommended/:userId">
-              <Recommended />
-            </Route>
+              <Route exact path="/movies/:movieId">
+                <MoviesId theme={theme} />
+              </Route>
 
-            <Route exact path="/movies/:movieId">
-              <MoviesId theme={theme} />
-            </Route>
-
-          </PageContainer>
+            </PageContainer>
+          </RecommendedContainer>
 
 
         </ThemeProvider>
