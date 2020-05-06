@@ -6,6 +6,8 @@ import { genresList } from '../../data/genres';
 const MovieTextData = ({ genres, themes, title, releaseDate, genre, ratings }) => {
     let genreArray = [];
     let count = 0;
+
+
     genres.map(genreID => {
 
         for (let i = 0; i < genresList.length; i++) {
@@ -68,12 +70,6 @@ const MovieText = styled.div`
     /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
-
-
-
-    
-    
-    
 
     h3 {
         margin-bottom: .5rem;

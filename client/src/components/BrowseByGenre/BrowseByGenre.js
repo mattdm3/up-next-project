@@ -12,9 +12,9 @@ import { GrCaretNext } from 'react-icons/gr'
 import { GrCaretPrevious } from 'react-icons/gr'
 import { AiFillCaretLeft } from 'react-icons/ai'
 import { AiFillCaretRight } from 'react-icons/ai'
+import Search from '../Search/Search';
 
-
-const BrowseByGenre = () => {
+const BrowseByGenre = ({ theme }) => {
 
     const [genreData, setGenreData] = useState(null);
 
@@ -22,7 +22,7 @@ const BrowseByGenre = () => {
 
     const { genreName } = useParams();
 
-    const { theme, setTheme, searchResults, browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre, appUser } = useContext(LoginContext);
+    const { setTheme, searchResults, lastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre, appUser } = useContext(LoginContext);
 
     // check the id of the genre; 
     let selectedGenreId = null;
@@ -125,7 +125,7 @@ const BrowseByGenre = () => {
 
     return (
         <>
-            <button onClick={() => testButton()}>TEST BUTTON</button>
+            <Search theme={theme} />
 
             {/* SHOW SEARCH RESULTS INSTEAD (if there's a search) */}
 
@@ -134,23 +134,24 @@ const BrowseByGenre = () => {
 
 
                     <StyledMovieContainer>
-                        <PageHeading>Search Results</PageHeading>
+                        <PageHeading>Search Results for '{lastSearch}'</PageHeading>
                         {searchResults.results.map((movie, resultID) => {
                             return (
-                                <StyledLink key={movie.id} to={`/movies/${movie.id}`} >
-                                    <RenderMovie
-                                        altText={movie.title}
-                                        genre={selectedGenreId}
-                                        releaseDate={movie.release_date.slice(0, 4)}
-                                        title={movie.title}
-                                        imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                                        ratings={movie.vote_average}
-                                        theme={theme}
-                                        genres={movie["genre_ids"]}
-                                        movieId={movie.id}
-                                        resultID={resultID}
-                                    />
-                                </StyledLink>
+
+                                <RenderMovie
+                                    key={movie.id}
+                                    altText={movie.title}
+                                    genre={selectedGenreId}
+                                    releaseDate={movie.release_date && movie.release_date.slice(0, 4)}
+                                    title={movie.title}
+                                    imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                                    ratings={movie.vote_average}
+                                    theme={theme}
+                                    genres={movie["genre_ids"]}
+                                    movieId={movie.id}
+                                    resultID={resultID}
+                                />
+
 
                             )
                         })
