@@ -83,18 +83,25 @@ const RenderRecommendations = ({
 
             <MainContainer>
                 <StyledContainer>
-                    {
-                        imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster alt={altText} src={imgSrc} />
-                            : <MoviePoster style={{ boxShadow: "none" }} alt={altText} src="https://www.vuecinemas.nl/thumb?w=268&f=jpg&src=userfiles/file/KLER_Poster_World.jpg&alt=img/movie_placeholder.png" />
-                    }
+                    <PosterContainer>
+                        {
+                            imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster alt={altText} src={imgSrc} />
+                                : <MoviePoster style={{ boxShadow: "none" }} alt={altText} src="https://www.vuecinemas.nl/thumb?w=268&f=jpg&src=userfiles/file/KLER_Poster_World.jpg&alt=img/movie_placeholder.png" />
+                        }
+                    </PosterContainer>
 
-                    <RecommendedActions movieId={movieId} />
-                    <RecommendedMovieData
-                        title={title}
-                        releaseDate={releaseDate}
-                        ratings={ratings}
-                        genre={genre}
-                        genres={genres} />
+                    <BelowContentContainer>
+                        <RecommendedActions movieId={movieId} />
+                        <RecommendedMovieData
+                            title={title}
+                            releaseDate={releaseDate}
+                            ratings={ratings}
+                            genre={genre}
+                            genres={genres} />
+
+
+                    </BelowContentContainer>
+
 
 
                     <NextPrevButtons>
@@ -109,13 +116,25 @@ const RenderRecommendations = ({
     )
 }
 
+const BelowContentContainer = styled.div`
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+`
+
+const PosterContainer = styled.div`
+    position: relative;
+    /* border: 3px solid green;  */
+    margin-bottom: 1rem;
+`
+
 const NextPrevButtons = styled.div`
 
     position: absolute;
     /* border: 1px solid red;  */
-    width: 100%; 
+    width: 100%;
     /* height: 100%;  */
-    top: 40%; 
+    top: 40%;
 
     font-size: 2rem;
 
@@ -124,30 +143,30 @@ const NextPrevButtons = styled.div`
 
 const RightArrow = styled(FaArrowAltCircleRight)`
     position: absolute;
-    right: -4rem; 
+    right: -4rem;
 
 `
 
 const LeftArrow = styled(FaArrowAltCircleLeft)`
-    left: -4rem; 
+    left: -4rem;
     position: absolute;
-    
+
 
 `
 
 const MainContainer = styled.div`
-    position: relative; 
+    position: relative;
     width: fit-content;
-    
 
-    
+
+
 `
 
 const RatingResult = styled.p`
     font-size: 1.1rem;
-    margin: 0; 
-    padding: 0; 
-    font-weight: 600; 
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
 
     span {
         font-size: 2.2rem;
@@ -156,21 +175,21 @@ const RatingResult = styled.p`
 `
 
 const LikeStateContainer = styled.div`
-    position: absolute; 
-    top: 40%; 
-    left: 50%; 
+    position: absolute;
+    top: 40%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    width: fit-content; 
+    width: fit-content;
 `
 
 const StyledContainer = styled.div`
 
-    margin-bottom: 5rem; 
-    min-width: 20rem; 
-    max-width: 23rem; 
+    margin-bottom: 5rem;
+    min-width: 20rem;
+    max-width: 23rem;
     /* border: 1px solid red;  */
     cursor: pointer;
-    position: relative; 
+    position: relative;
 
 
 
@@ -185,11 +204,11 @@ const StyledContainer = styled.div`
 `
 
 const MoviePoster = styled.img`
-    border-radius: 10px; 
+    border-radius: 10px;
     margin-bottom: 1rem;
-    min-height: 24rem; 
-    min-width: 20rem; 
-    max-width: 23rem; 
+    min-height: 24rem;
+    min-width: 20rem;
+    max-width: 23rem;
     box-shadow: ${({ theme }) => theme === lightTheme ? "0px 0px 72px -15px rgba(35,36,118,1)" : "0px 0px 52px -15px #F3F4FD"};
     
 

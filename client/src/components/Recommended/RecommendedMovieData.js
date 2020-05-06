@@ -6,35 +6,37 @@ import { genresList } from '../../data/genres';
 const RecommendedMovieData = ({ genres, themes, title, releaseDate, genre, ratings }) => {
 
 
-    console.log(genres)
-
     return (
         <MovieText>
-            <h3>{title}</h3>
+            {/* <h3>{title}</h3> */}
 
             <ReleaseAndGenres>
 
 
-                <p style={{ fontWeight: "bold" }}>{releaseDate} </p> <p>|</p>
-                {console.log(genres)}
+                <h4 style={{ fontWeight: "bold" }}>{releaseDate} </h4> <p>|</p>
 
                 {
-                    genres.map(genreID => {
-                        return <p>{genreID.name}</p>
+                    genres.slice(0, 3).map(genreName => {
+                        return <p key={genreName}>{genreName.name}</p>
                     })
                 }
+
             </ReleaseAndGenres>
-            <Ratings>⭐️{ratings}</Ratings>
+            {/* <Ratings>⭐️{ratings}</Ratings> */}
         </MovieText>
     )
 }
 
 const MovieText = styled.div`
-    width: 15rem;
+    /* width: 15rem; */
     margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    
 
     h3 {
         margin-bottom: .5rem;
+        text-align: center;
     }
     
 `
@@ -47,8 +49,13 @@ const Ratings = styled.p`
 const ReleaseAndGenres = styled.div`
     display: flex; 
     width: fit-content;
+    overflow: hidden;
     width: 100%; 
     margin-bottom: .5rem;
+    h4 {
+        margin-right: .5rem;
+
+    }
     p {
         margin-right: .5rem;
     }

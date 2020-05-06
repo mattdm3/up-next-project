@@ -18,8 +18,7 @@ const RenderMovie = ({
     genres,
     resultID,
     genreData,
-    setGenreData,
-    theme }) => {
+    setGenreData }) => {
 
 
     const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);

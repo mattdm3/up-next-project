@@ -47,7 +47,7 @@ const handleSearch = async (req, res) => {
 
 
     const json = await response.json();
-    // console.log(json)
+    console.log(json)
     return res.send(json);
 }
 
