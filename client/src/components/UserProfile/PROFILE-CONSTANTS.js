@@ -47,6 +47,7 @@ export const Wrapper = styled.div`
     width: 100%;
     display: flex;
     overflow: hidden; 
+    
 
     a {
         text-decoration: none;

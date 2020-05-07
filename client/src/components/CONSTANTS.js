@@ -24,6 +24,10 @@ export const StyledLink = styled(Link)`
     position: relative; 
     
     
+    
+    
+    
+    
 `
 
 export const MutedText = styled.p`

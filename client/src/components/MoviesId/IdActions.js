@@ -45,14 +45,14 @@ const IdActions = ({ movieId }) => {
 
     return (
 
-        appUser.email && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
+        appUser.email && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId]) ?
 
             ""
             :
 
             <StyleActionContainer>
                 <p onClick={(e) => handleLike(e)}>👍🏼</p>
-                <p onClick={(e) => handleUpNext(e)}>🍿</p>
+                <p style={appUser.email && appUser.data.upNextList[movieId] && { display: "none" }} onClick={(e) => handleUpNext(e)}>🍿</p>
                 <p onClick={(e) => handleDislike(e)}>👎🏼</p>
             </StyleActionContainer>
     )

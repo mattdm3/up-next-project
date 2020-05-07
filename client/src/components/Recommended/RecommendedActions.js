@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
+import { lightTheme } from "../theme";
 
 const RecommendedActions = ({ movieId }) => {
 
@@ -8,33 +9,7 @@ const RecommendedActions = ({ movieId }) => {
 
     console.log(theme);
 
-    const StyleActionContainer = styled.div`
-    display: flex; 
-    z-index: 50; 
-    justify-content: space-evenly;
-    p {
-        font-size: 1.8rem;
-        padding: 15px; 
-        background: ${theme === "light" ? "#232476" : "#F3F4FD"}; 
-        border-radius: 50%; 
-        margin-right: 1rem;
-        box-shadow: ${ theme === "light" ? "0px 0px 15px -5px rgba(35,36,118,1)" : "0px 0px 15px -5px rgba(100,100,100,1)"};
-    }
-`
-    const StyleActionContainerDisabled = styled.div`
-    display: flex; 
-    z-index: 50; 
-    opacity: .3; 
-    justify-content: space-evenly;
-    p {
-        font-size: 1.8rem;
-        padding: 15px; 
-        background: ${theme === "light" ? "#232476" : "#F3F4FD"}; 
-        border-radius: 50%; 
-        margin-right: 1rem;
 
-    }
-`
 
 
     const handleLike = (e) => {
@@ -101,6 +76,51 @@ const RecommendedActions = ({ movieId }) => {
     )
 }
 
+const StyleActionContainer = styled.div`
+display: flex; 
+z-index: 50; 
+justify-content: space-around;
+
+/* p:first-of-type:hover{
+    background: #388E3C;
+}
+p:last-of-type:hover{
+    background: #C2185B;
+} */
+ 
+p {
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 15px; 
+    background: ${theme => theme === lightTheme ? "#232476" : "#F3F4FD"}; 
+    border-radius: 50%; 
+    margin-right: 1rem;
+    box-shadow: ${theme => theme === lightTheme ? "0px 0px 15px -5px rgba(35,36,118,1)" : "0px 0px 15px -5px rgba(100,100,100,1)"};
+
+    &:hover {
+        background: #C5CAE9;
+    }
+
+
+
+
+}
+
+`
+const StyleActionContainerDisabled = styled.div`
+display: flex; 
+z-index: 50; 
+opacity: .3; 
+justify-content: space-evenly;
+p {
+    font-size: 1.8rem;
+    padding: 15px; 
+    background: ${theme => theme === lightTheme ? "#232476" : "#F3F4FD"}; 
+    border-radius: 50%; 
+    margin-right: 1rem;
+
+}
+`
 
 
 export default RecommendedActions;

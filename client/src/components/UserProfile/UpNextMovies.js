@@ -5,6 +5,7 @@ import { PageHeading } from '../CONSTANTS'
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { Link, NavLink } from 'react-router-dom';
 import { StyledMovieContainer, Subheading, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
+import UpNextActions from './UpNextActions';
 
 
 const UpNextMovies = () => {
@@ -61,10 +62,15 @@ const UpNextMovies = () => {
 
                     {upNextMovieData && upNextMovieData.map((movie) => {
                         return (
+                            <>
+                                <ListContainer>
+                                    <StyledLink to={`/movies/${movie.id}`} >
+                                        <StyledPoster src={`https://image.tmdb.org/t/p/w400/${movie.poster_path}`} />
+                                    </StyledLink>
+                                    <UpNextActions movieId={movie.id} />
+                                </ListContainer>
+                            </>
 
-                            <StyledLink to={`/movies/${movie.id}`} >
-                                <StyledPoster src={`https://image.tmdb.org/t/p/w400/${movie.poster_path}`} />
-                            </StyledLink>
                         )
                     }
                     )}
@@ -80,6 +86,11 @@ const UpNextMovies = () => {
     )
 }
 
+const ListContainer = styled.div`
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+`
 
 
 

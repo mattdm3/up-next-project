@@ -51,7 +51,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     // console.log(firebaseAppAuth.getUid());
 
-    console.log(user)
+
     //app User will get the json.data (which is holding the request body + any liked/disliked data)
     const [appUser, setAppUser] = useState({});
     const [message, setMessage] = useState('');
@@ -83,7 +83,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     function calculateLevel(ratingAmount) {
         let level = Math.floor(ratingAmount / 5);
-        console.log(level)
+
         setUserLevel(level);
         setRecommendationCount(level)
 
@@ -98,7 +98,6 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     // CREATES OBJECT OF ARRAYS OF USER DATA
 
-    console.log(appUser)
 
     useEffect(() => {
         if (appUser.email) {
@@ -205,7 +204,6 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
                 setAppUser(json.data);
                 setMessage(json.message);
             });
-
     }
 
     const handleMovieDislike = (id) => {
@@ -253,7 +251,6 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
     // TURN RECOMMENDATIONS INTO DATA (SEND TO API) (TRIED IN B.E. FIRST)
 
 
-    console.log(recommendationCount)
 
     const handleRecomendationRequest = () => {
 
@@ -280,7 +277,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
                 .then((json) => {
                     setAppUser(json.data);
                     setMessage(json.message);
-                    console.log(json)
+
                 })
             // .then(data => console.log(data))
 
@@ -292,7 +289,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
     }
 
     // TAKE RECOMMENDATIONS FROM USER OBJECT AND GET API MOVIES (objects) and set in STATE!
-
+    //ONLY DO THIS WHEN THE RECOMMENDATION COUNT CHANGES (SO WHEN USER GENERATES NEW RECS)
 
     React.useEffect(() => {
 
@@ -318,9 +315,9 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
         })
 
-    }, [appUser])
+    }, [recommendationCount])
 
-    return <LoginContext.Provider value={{ loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

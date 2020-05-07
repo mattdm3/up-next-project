@@ -20,7 +20,6 @@ const RenderProfile = ({ theme }) => {
 
 
 
-    console.log(dataObject.disliked)
 
     // console.log(upNextMovieData);
     // SCROLL

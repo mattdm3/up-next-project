@@ -6,6 +6,7 @@ import { LoginContext } from './LoginContext'
 import { Link, useHistory } from 'react-router-dom'
 import BeatLoader from 'react-spinners/BeatLoader';
 import { StyledLink } from './CONSTANTS'
+import { lightTheme } from './theme';
 
 const Landing = () => {
 
@@ -77,7 +78,7 @@ const Landing = () => {
                             <StyledLink to="/genres/action">
                                 <GoogleButton style={{ fontSize: "1rem", marginBottom: "1rem" }}>Let's find movies!</GoogleButton>
                             </StyledLink>
-                            <p onClick={handleSignOut} style={{ fontSize: ".8rem", cursor: "pointer" }}>logout</p>
+                            <p onClick={handleSignOut} style={{ fontSize: ".8rem", cursor: "pointer", color: "#1F209A" }}>logout</p>
 
                         </>
                         :
@@ -169,10 +170,12 @@ const PageContainer = styled.div`
     display: flex; 
     height: 100vh; 
     align-items: stretch;
+    background: white; 
 `
 
 const HeadingContainer = styled.div`
     display: flex; 
+    background: white;
     flex-direction: column;
     padding-top: 4.8rem;
     margin-left: 4.5rem;
@@ -236,7 +239,7 @@ const Step = styled.div`
     font-size: 1.5rem;
     font-weight: 600; 
     margin-bottom: 1.8rem;
-    
+    color: #1F209A;
 `
 
 const Number = styled.p`

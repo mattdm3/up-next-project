@@ -40,7 +40,7 @@ const Recommended = () => {
         } else setRecommendButton(true)
     }, [appUser])
 
-    console.log(recommendButton)
+
 
 
     const getRecommendations = () => {
@@ -206,6 +206,7 @@ const RecommendedContainer = styled.div`
     align-items: center;
     margin-top: 10rem;
     
+    
 `
 
 
@@ -216,7 +217,7 @@ const StyledContainer = styled.div`
     min-width: 20rem; 
     max-width: 20rem; 
     /* border: 1px solid red;  */
-    cursor: pointer;
+    
     position: relative; 
 
 

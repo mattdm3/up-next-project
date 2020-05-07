@@ -96,6 +96,13 @@ const handleLikeMovie = async (req, res) => {
         .child(movieId)
         .set(movieId)
 
+    //REMOVE MOVIE IF IN UP NEXT LIST
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("upNextList")
+        .child(movieId)
+        .remove()
+
     //get liked movie array from db
     let snapData;
     await db.ref("appUsers/" + uid)
@@ -122,6 +129,13 @@ const handleDislikeMovie = async (req, res) => {
         .child(movieId)
         .set(movieId)
 
+    //REMOVE MOVIE IF IN UP NEXT LIST
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("upNextList")
+        .child(movieId)
+        .remove()
+
 
     //get liked movie array from db and return new data
     let snapData;
@@ -137,6 +151,52 @@ const handleDislikeMovie = async (req, res) => {
 
 
 }
+
+const handleUndoRating = async (req, res) => {
+    const { movieId } = req.body;
+    const { uid } = req.body;
+
+    const userData = (await getUserByEmail(req.body.email));
+
+
+    //remove from liked
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("dislikedMovies")
+        .child(movieId)
+        .remove()
+
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("likedMovies")
+        .child(movieId)
+        .remove()
+
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("upNextList")
+        .child(movieId)
+        .remove()
+
+    // Get new data returned
+
+
+    let snapData;
+    await db.ref("appUsers/" + uid)
+        .once("value")
+        .then(function (snapshot) {
+            snapData = snapshot.val();
+        });
+    res
+        .status(200)
+        .json({ status: 200, data: snapData, message: 'returning user' });
+    return;
+}
+
+
+
+
+
 
 const handleAddUpNext = async (req, res) => {
     const { movieId } = req.body;
@@ -198,5 +258,6 @@ module.exports = {
     getUserByEmail,
     handleDislikeMovie,
     handleLikeMovie,
-    handleAddUpNext
+    handleAddUpNext,
+    handleUndoRating
 };
