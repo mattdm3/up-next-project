@@ -103,7 +103,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                     <OverlayMenu>
                         <HiddenNavLink onClick={toggleNavbar} to="/"><li>Home🍿</li></HiddenNavLink>
                         <HiddenNavLink onClick={toggleNavbar} to="/genres/action"><li>Browse🔍</li></HiddenNavLink>
-                        <HiddenNavLink onClick={toggleNavbar} to={appUser.uid ? `/recommended/${appUser.uid}` : `/recommended/create-an-account`}><li>Recommended Movies🎥</li></HiddenNavLink>
+                        <HiddenNavLink onClick={toggleNavbar} to={`/recommended/${appUser.uid}`}><li>Recommended Movies🎥</li></HiddenNavLink>
 
 
                         {appUser && appUser.email ?
@@ -149,7 +149,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                         <StyledNavLink>Browse</StyledNavLink>
                     </NavigationLink>
 
-                    <NavigationLink exact to={appUser.uid ? `/recommended/${appUser.uid}` : `/recommended/create-an-account`}>
+                    <NavigationLink exact to={`/recommended/${appUser.uid}`}>
                         <StyledNavLink>Recommended Movies</StyledNavLink>
                     </NavigationLink>
                     {/* <NavigationLink exact to='/'>

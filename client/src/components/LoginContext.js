@@ -45,11 +45,13 @@ const options = [
 
 ]
 
-const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
+
+
+const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) => {
 
     // console.log(firebaseAppAuth.getUid());
 
-
+    console.log(user)
     //app User will get the json.data (which is holding the request body + any liked/disliked data)
     const [appUser, setAppUser] = useState({});
     const [message, setMessage] = useState('');
@@ -63,7 +65,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     const [lastSearch, setLastSearch] = useState('');
     const [searchResults, setSearchResults] = useState(null);
     const [recStatus, setRecStatus] = useState("idle");
-    const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState('dark');
 
     const [userLevel, setUserLevel] = useState(0)
     const [recommendationCount, setRecommendationCount] = useState(0)
@@ -79,7 +81,6 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     //   }
     // }
 
-
     function calculateLevel(ratingAmount) {
         let level = Math.floor(ratingAmount / 5);
         console.log(level)
@@ -89,30 +90,21 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
     }
 
     useEffect(() => {
-
         if (dataObject.liked) {
-
             calculateLevel(dataObject.liked.length)
-
-
-
-
-
-
         }
-
-
-
-
     }, [dataObject])
 
 
+    // CREATES OBJECT OF ARRAYS OF USER DATA
+
+    console.log(appUser)
 
     useEffect(() => {
         if (appUser.email) {
-            let likedMoviesArray = Object.values(appUser.data.likedMovies);
-            let dislikedMoviesArray = Object.values(appUser.data.dislikedMovies);
-            let upNextArray = Object.values(appUser.data.upNextList);
+            let likedMoviesArray = appUser.data.likedMovies != "none" && Object.values(appUser.data.likedMovies);
+            let dislikedMoviesArray = appUser.data.dislikedMovies != "none" && Object.values(appUser.data.dislikedMovies);
+            let upNextArray = appUser.data.upNextList != "none" && Object.values(appUser.data.upNextList);
 
             setDataObject({
                 disliked: dislikedMoviesArray,
@@ -122,7 +114,9 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
         }
     }, [appUser])
 
-
+    const handleLoading = () => {
+        loading();
+    }
 
 
     // HANDLE SIGNOUT
@@ -258,6 +252,9 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     // TURN RECOMMENDATIONS INTO DATA (SEND TO API) (TRIED IN B.E. FIRST)
 
+
+    console.log(recommendationCount)
+
     const handleRecomendationRequest = () => {
 
         setRecommendationCount(recommendationCount + 1);
@@ -323,7 +320,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut }) => {
 
     }, [appUser])
 
-    return <LoginContext.Provider value={{ recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

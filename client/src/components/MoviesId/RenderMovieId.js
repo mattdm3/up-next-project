@@ -208,8 +208,9 @@ const SpinnerContainer = styled.div`
 `
 
 const MovieDescription = styled.p`
-    font-weight: 500; 
+    font-weight: 400; 
     font-size: 1.1rem;
+    line-height: 1.4; 
 `
 
 const MovieContainer = styled.div`

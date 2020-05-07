@@ -14,6 +14,7 @@ import Navbar from '../Navbar';
 import UserProfile from '../UserProfile/UserProfile';
 import Recommended from '../Recommended';
 import { LoginContext } from '../LoginContext';
+import Landing from '../Landing';
 
 function App() {
 
@@ -47,32 +48,41 @@ function App() {
   return (
     <Router>
       <Switch>
+
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
           <GlobalStyles />
 
-          <RecommendedContainer>
-            <PageContainer>
+          <Route exact path="/">
+            <Landing />
+          </Route>
+
+
+
+          <PageContainer>
+            <Route exact path='/profile/:userId'>
               <Navbar theme={theme} toggleTheme={toggleTheme} />
-              {/* <Search /> */}
+              <UserProfile />
+            </Route>
 
-              <Route exact path='/profile/:userId'>
-                <UserProfile />
-              </Route>
+            <Route exact path="/genres/:genreName">
+              <Navbar theme={theme} toggleTheme={toggleTheme} />
+              <BrowseByGenre toggleTheme={toggleTheme} theme={theme} />
+            </Route>
 
-              <Route exact path="/genres/:genreName">
-                <BrowseByGenre toggleTheme={toggleTheme} theme={theme} />
-              </Route>
+            <Route exact path="/recommended/:userId">
+              <Navbar theme={theme} toggleTheme={toggleTheme} />
+              <Recommended />
+            </Route>
 
-              <Route exact path="/recommended/:userId">
-                <Recommended />
-              </Route>
+            <Route exact path="/movies/:movieId">
+              <Navbar theme={theme} toggleTheme={toggleTheme} />
+              <MoviesId theme={theme} />
+            </Route>
 
-              <Route exact path="/movies/:movieId">
-                <MoviesId theme={theme} />
-              </Route>
+          </PageContainer>
 
-            </PageContainer>
-          </RecommendedContainer>
+
+
 
 
         </ThemeProvider>
@@ -85,18 +95,5 @@ function App() {
   );
 }
 
-const CenteredContainer = styled.div`
-  
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  flex-direction: column; 
-  height: 100vh; 
-
-  div {
-    margin: 20px; 
-  }
-
-`
 
 export default App;
