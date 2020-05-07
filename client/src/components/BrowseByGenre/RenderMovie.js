@@ -6,6 +6,7 @@ import { LoginContext } from '../LoginContext';
 import MovieTextData from './MovieTextData';
 import posterplaceholder from '../poster-placeholder.png'
 import { StyledLink } from '../CONSTANTS'
+import UndoButton from './UndoButton';
 
 const RenderMovie = ({
     imgSrc,
@@ -42,95 +43,117 @@ const RenderMovie = ({
     // console.log(message);
 
 
+    // const handleUndoRating = (e, movieId) => {
+    //     e.preventDefault();
+    //     console.log("UNDO")
+    //     console.log(movieId)
+    // }
+
+
 
 
     return (
 
         appUser.email && isUserDataLoaded && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
-            //DISPLAY NONE REMOVED HERE! MAKES MOVIES DISAPPEAR ON RATING
-            <StyledLink to={`/movies/${movieId}`} >
-                <MainContainer>
-                    <StyledContainer style={{
-                        opacity: ".3"
-                    }}>
 
-                        {
+            <MainContainer>
+                <StyledContainer style={{
+                    opacity: ".3"
+                }}>
 
-                            imgSrc != "https://image.tmdb.org/t/p/w500/null"
-                                ?
+                    {
+
+                        imgSrc != "https://image.tmdb.org/t/p/w500/null"
+                            ?
+                            <StyledLink to={`/movies/${movieId}`} >
                                 <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
-                                :
-                                <div style={{ position: "relative" }}>
-                                    <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={posterplaceholder} />
-                                    <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
-                                </div>
+                            </StyledLink>
+                            :
+                            <StyledLink to={`/movies/${movieId}`} >
+                                <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={posterplaceholder} />
+                                <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
+                            </StyledLink>
 
-                        }
-
-
-
-
-                        <MovieTextData
-                            title={title}
-                            releaseDate={releaseDate}
-                            ratings={ratings}
-                            genre={genre}
-                            genres={genres}
-                            genreData={genreData} />
+                    }
 
 
-                        {/* <ActionBar movieId={movieId} /> */}
-                    </StyledContainer>
-                    <LikeStateContainer>
-                        {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span>👎🏼</span> </RatingResult> :
 
-                            appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
-                                :
-                                <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>}
-                    </LikeStateContainer>
 
-                </MainContainer>
-            </StyledLink>
+                    <MovieTextData
+                        title={title}
+                        releaseDate={releaseDate}
+                        ratings={ratings}
+                        genre={genre}
+                        genres={genres}
+                        genreData={genreData} />
+
+
+                    {/* <ActionBar movieId={movieId} /> */}
+                </StyledContainer>
+                <LikeStateContainer>
+                    {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span>👎🏼</span> </RatingResult> :
+
+                        appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
+                            :
+                            <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>}
+
+                    {/* <UndoButton onClick={(e) => handleUndoRating(e, movieId)} style={{ padding: "1rem" }}>Undo</UndoButton> */}
+
+                    <UndoButton movieId={movieId} />
+                </LikeStateContainer>
+
+
+            </MainContainer>
+
 
             :
-            <StyledLink to={`/movies/${movieId}`} >
-                <MainContainer>
 
-                    <PosterContainer>
+            <MainContainer>
 
-                        {
-                            imgSrc === "https://image.tmdb.org/t/p/w500/null"
-                                ?
-                                <div style={{ position: "relative" }}>
-                                    <MoviePoster alt={altText} src={posterplaceholder} />
-                                    <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
-                                </div>
-                                :
-                                <>
+                <PosterContainer>
+
+                    {
+                        imgSrc === "https://image.tmdb.org/t/p/w500/null"
+                            ?
+                            <StyledLink to={`/movies/${movieId}`}>
+                                <MoviePoster alt={altText} src={posterplaceholder} />
+                                <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
+                            </StyledLink>
+                            :
+                            <>
+                                <StyledLink to={`/movies/${movieId}`}>
                                     <MoviePoster alt={altText} src={imgSrc} />
                                     <RatingStar>⭐{ratings}</RatingStar>
-                                </>
+                                </StyledLink>
+                            </>
 
 
-                        }
+                    }
 
-                    </PosterContainer>
+                </PosterContainer>
 
-                    <BelowContentContainer>
-                        <ActionBar genreData={genreData} setGenreData={setGenreData} resultID={resultID} movieId={movieId} />
+                <BelowContentContainer>
+                    <ActionBar genreData={genreData} setGenreData={setGenreData} resultID={resultID} movieId={movieId} />
 
-                        <MovieTextData
-                            title={title}
-                            releaseDate={releaseDate}
-                            ratings={ratings}
-                            genre={genre}
-                            genres={genres} />
-                    </BelowContentContainer>
+                    <MovieTextData
+                        title={title}
+                        releaseDate={releaseDate}
+                        ratings={ratings}
+                        genre={genre}
+                        genres={genres} />
+                </BelowContentContainer>
 
-                </MainContainer>
-            </StyledLink>
+            </MainContainer>
+
     )
 }
+
+// const UndoButton = styled.p`
+
+//     &:hover {
+//         color: red;
+//     }
+// `
 
 const RatingStar = styled.h3`
     color: #FFD93B; 
@@ -157,11 +180,11 @@ const BelowContentContainer = styled.div`
 const MainContainer = styled.div`
     position: relative; 
     margin-bottom: 5rem;
-    flex-grow: 1; 
+    /* flex-grow: 1;  */
     /* min-width: 23rem;
     max-width: 70vw; */
     flex-shrink:1;
-    flex-basis: 5rem;
+    /* flex-basis: 5rem; */
     /* flex: 1 1 auto;  */
     /* border: 1px solid red;  */
     
@@ -235,6 +258,11 @@ const LikeStateContainer = styled.div`
     left: 50%; 
     transform: translate(-50%, -50%);
     width: fit-content; 
+   
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+
     
 `
 

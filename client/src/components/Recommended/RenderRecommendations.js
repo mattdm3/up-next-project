@@ -9,6 +9,7 @@ import RecommendedMovieData from './RecommendedMovieData'
 import { FaArrowAltCircleLeft } from 'react-icons/fa'
 import { FaArrowAltCircleRight } from 'react-icons/fa'
 import { StyledLink } from '../CONSTANTS';
+import UndoButton from '../BrowseByGenre/UndoButton';
 
 const RenderRecommendations = ({
     overview,
@@ -52,7 +53,7 @@ const RenderRecommendations = ({
                                 : <h4>No picture :(</h4>
                         }
                     </StyledLink>
-                    <RecommendedActions disabled movieId={movieId} />
+                    {/* <RecommendedActions disabled movieId={movieId} /> */}
                     <RecommendedMovieData
                         title={title}
                         releaseDate={releaseDate}
@@ -79,6 +80,7 @@ const RenderRecommendations = ({
                                 :
                                 ""
                     }
+                    <UndoButton movieId={movieId} />
                 </LikeStateContainer>
             </MainContainer>
 
@@ -129,7 +131,7 @@ const BelowContentContainer = styled.div`
 
 const PosterContainer = styled.div`
     position: relative;
-    /* border: 3px solid green;  */
+    
     margin-bottom: 1rem;
 `
 
@@ -149,12 +151,14 @@ const NextPrevButtons = styled.div`
 const RightArrow = styled(FaArrowAltCircleRight)`
     position: absolute;
     right: -4rem;
+    cursor: pointer;
 
 `
 
 const LeftArrow = styled(FaArrowAltCircleLeft)`
     left: -4rem;
     position: absolute;
+    cursor: pointer;
 
 
 `
@@ -162,6 +166,7 @@ const LeftArrow = styled(FaArrowAltCircleLeft)`
 const MainContainer = styled.div`
     position: relative;
     width: fit-content;
+
 
 
 
@@ -185,6 +190,9 @@ const LikeStateContainer = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     width: fit-content;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
 `
 
 const StyledContainer = styled.div`
@@ -193,7 +201,7 @@ const StyledContainer = styled.div`
     min-width: 20rem;
     max-width: 23rem;
     /* border: 1px solid red;  */
-    cursor: pointer;
+    /* cursor: pointer; */
     position: relative;
 
 

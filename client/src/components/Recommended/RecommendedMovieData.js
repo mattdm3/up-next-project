@@ -33,6 +33,7 @@ const MovieText = styled.div`
     display: flex;
     flex-direction: column;
     
+    
 
     h3 {
         margin-bottom: .5rem;

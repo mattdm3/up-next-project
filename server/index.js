@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const { handleRandomMovie, handleSearch, handleMovieId, handleGenreId, handleProfilePage, getSimilarMovies } = require('./handlers')
-const { handleAddUpNext, handleLikeMovie, handleDislikeMovie, createUser, getUser } = require('./firebaseHandlers');
+const { handleAddUpNext, handleLikeMovie, handleDislikeMovie, createUser, getUser, handleUndoRating } = require('./firebaseHandlers');
 const { handleRecommendations } = require('./src/shorterRecommend')
 
 require('dotenv').config();
@@ -51,8 +51,15 @@ app.post('/recommendations/get', handleRecommendations)
 app.post('/users', createUser)
 app.post('/handleDislikeMovie', handleDislikeMovie)
 
+
+
 // app.post('/updateUserData', handleUpdateUser)
 app.post('/handleLikeMovie', handleLikeMovie)
 app.post('/handleAddUpNext', handleAddUpNext)
+
+app.post('/handleUndoRating', handleUndoRating)
+
+
+
 
 app.listen(PORT, () => console.info(`🤖LISTENING ON PORT ${PORT}`));
