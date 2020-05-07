@@ -8,12 +8,15 @@ import { lightTheme } from '../theme';
 import { useHistory } from 'react-router-dom'
 import ClipLoader from "react-spinners/ClipLoader";
 import BeatLoader from 'react-spinners/BeatLoader';
+import { FaGoogle } from 'react-icons/fa'
 
 
 
 const Recommended = () => {
 
-    const { recommendationCount, userLevel, recStatus, setRecStatus, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, recommendedMovies, setRecommendedMovies, dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message, theme } = useContext(LoginContext);
+    const { loading, recommendationCount, userLevel, recStatus, setRecStatus, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, recommendedMovies, setRecommendedMovies, dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message, theme } = useContext(LoginContext);
+
+    let history = useHistory()
 
     const [loadingText, setLoadingText] = useState("🎬Generating Recommendations");
 
@@ -24,7 +27,7 @@ const Recommended = () => {
     appUser.data && console.log(appUser.data.recommendationCount, "rec count")
     console.log(userLevel, "userLevel")
 
-    let history = useHistory()
+
 
     // console.log(appUser.data.recommendationCount)
 
@@ -52,32 +55,21 @@ const Recommended = () => {
             alert("please rate more movies first")
             history.push("/genres/action")
         } else {
-
-
-
             if (appUser.data.recommendationCount >= userLevel) {
 
                 alert("rate more movies first")
             } else {
-
-
                 handleRecomendationRequest();
 
-                const recText = ["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍🏿good movie selections by the way)", "⌚okay almost there", "⏳man this AI stuff is slow"];
+                const recText = ["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "⏳man this AI stuff is slow", "almost there...."];
                 setRecStatus("getting");
                 let index = 0;
                 setInterval(() => {
                     setLoadingText(recText[index]);
                     index++;
-                }, 1800)
+                }, 1900)
 
             }
-
-
-
-
-
-
 
         }
 
@@ -86,7 +78,7 @@ const Recommended = () => {
     // recommendedAPI && console.log(recommendedAPI[0])
     // console.log(recommendedMovies)
 
-
+    console.log(loading)
 
     const triggerNextMovie = () => {
 
@@ -113,19 +105,21 @@ const Recommended = () => {
 
     }
 
+    const handleSignIn = () => {
+        signInWithGoogle();
+
+    }
+
     // console.log(recommendedAPI[movieCounter]);
 
     // console.log(movieCounter)
 
-
+    console.log(recommendedAPI)
 
     return (
 
         appUser.email ?
             <RecommendedContainer>
-
-
-
                 {recStatus === "getting" ?
 
                     <GetBtn disabled onClick={getRecommendations}><BeatLoader /></GetBtn>
@@ -136,7 +130,6 @@ const Recommended = () => {
                     recStatus === "idle" ?
                         <div>
                             <FullViewContainer>
-
                                 {
                                     recommendedAPI.length > 0 && recommendedAPI[movieCounter] && <RenderRecommendations
                                         title={recommendedAPI[movieCounter].title}
@@ -148,12 +141,8 @@ const Recommended = () => {
                                         triggerPreviousMovie={triggerPreviousMovie}
                                         genres={recommendedAPI[movieCounter]["genres"]}
                                         releaseDate={recommendedAPI[movieCounter].release_date.slice(0, 4)}
-
                                     />
-
-
                                 }
-
                             </FullViewContainer>
                         </div>
                         :
@@ -161,17 +150,33 @@ const Recommended = () => {
                             <ClipLoader />
                             <h3>{loadingText}</h3>
                         </div>
-
-
-
                 }
-
-
-
-
-            </RecommendedContainer >
+            </RecommendedContainer>
             :
-            <div>Create an account</div>
+            <>
+                <RecommendedContainer>
+                    <LoginContainer>
+                        <Line>
+                            <hr />
+                            <p>sign up or login with</p>
+                            <hr />
+                        </Line>
+
+                    </LoginContainer>
+                    <GoogleButton onClick={handleSignIn}>
+
+                        {
+                            loading ?
+                                <BeatLoader />
+                                :
+                                <FaGoogle />
+                        }
+
+
+                    </GoogleButton>
+                </RecommendedContainer>
+
+            </>
 
 
     )
@@ -240,6 +245,47 @@ const MoviePoster = styled.img`
     min-width: 20rem; 
     max-width: 20rem; 
     
+`
+
+const GoogleButton = styled.div`
+    width: 14rem; 
+    height: 2.7rem;
+    margin-top: 1.5rem;
+    border-radius: 10px; 
+    background: #F65F2D; 
+    color: white; 
+    text-align: center; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+`
+
+const LoginContainer = styled.div`
+    display: flex; 
+    flex-direction: column; 
+`
+
+const Line = styled.div`
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    color: #8D89C8; 
+    p {
+        margin: 0;
+        padding: 0; 
+    }
+    hr {
+        color: #8D89C8; 
+        width: 7rem; 
+        margin: 0 .5rem; 
+        padding: 0;
+        height: 1px;  
+        border-style: solid;
+        border-width: 1px; 
+    }
 `
 
 export default Recommended; 

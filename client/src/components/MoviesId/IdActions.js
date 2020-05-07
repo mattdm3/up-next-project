@@ -6,7 +6,7 @@ import { lightTheme } from '../theme';
 
 const IdActions = ({ movieId }) => {
 
-    const { handleMovieLike, handleMovieDislike, appUser, signInWithGoogle, handleAddUpNext } = useContext(LoginContext);
+    const { handleMovieLike, isUserDataLoaded, handleMovieDislike, appUser, signInWithGoogle, handleAddUpNext } = useContext(LoginContext);
 
     const handleLike = (e) => {
         e.preventDefault();
@@ -41,13 +41,20 @@ const IdActions = ({ movieId }) => {
 
     }
 
+    console.log(isUserDataLoaded)
 
     return (
-        <StyleActionContainer>
-            <p onClick={(e) => handleLike(e)}>👍🏼</p>
-            <p onClick={(e) => handleUpNext(e)}>🍿</p>
-            <p onClick={(e) => handleDislike(e)}>👎🏼</p>
-        </StyleActionContainer>
+
+        appUser.email && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
+
+            ""
+            :
+
+            <StyleActionContainer>
+                <p onClick={(e) => handleLike(e)}>👍🏼</p>
+                <p onClick={(e) => handleUpNext(e)}>🍿</p>
+                <p onClick={(e) => handleDislike(e)}>👎🏼</p>
+            </StyleActionContainer>
     )
 }
 

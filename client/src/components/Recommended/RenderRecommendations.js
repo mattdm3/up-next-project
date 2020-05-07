@@ -8,6 +8,7 @@ import RecommendedMovieData from './RecommendedMovieData'
 
 import { FaArrowAltCircleLeft } from 'react-icons/fa'
 import { FaArrowAltCircleRight } from 'react-icons/fa'
+import { StyledLink } from '../CONSTANTS';
 
 const RenderRecommendations = ({
     overview,
@@ -42,13 +43,15 @@ const RenderRecommendations = ({
         appUser.email && (appUser.data.dislikedMovies[movieId] === movieId || appUser.data.likedMovies[movieId] === movieId || appUser.data.upNextList[movieId] === movieId) ?
             <MainContainer>
                 <StyledContainer>
+                    <StyledLink to={`/movies/${movieId}`}>
 
-                    {
-                        imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster style={{
-                            opacity: ".1"
-                        }} alt={altText} src={imgSrc} />
-                            : <h4>No picture :(</h4>
-                    }
+                        {
+                            imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster style={{
+                                opacity: ".1"
+                            }} alt={altText} src={imgSrc} />
+                                : <h4>No picture :(</h4>
+                        }
+                    </StyledLink>
                     <RecommendedActions disabled movieId={movieId} />
                     <RecommendedMovieData
                         title={title}
@@ -83,12 +86,14 @@ const RenderRecommendations = ({
 
             <MainContainer>
                 <StyledContainer>
-                    <PosterContainer>
-                        {
-                            imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster alt={altText} src={imgSrc} />
-                                : <MoviePoster style={{ boxShadow: "none" }} alt={altText} src="https://www.vuecinemas.nl/thumb?w=268&f=jpg&src=userfiles/file/KLER_Poster_World.jpg&alt=img/movie_placeholder.png" />
-                        }
-                    </PosterContainer>
+                    <StyledLink to={`/movies/${movieId}`}>
+                        <PosterContainer>
+                            {
+                                imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster alt={altText} src={imgSrc} />
+                                    : <MoviePoster style={{ boxShadow: "none" }} alt={altText} src="https://www.vuecinemas.nl/thumb?w=268&f=jpg&src=userfiles/file/KLER_Poster_World.jpg&alt=img/movie_placeholder.png" />
+                            }
+                        </PosterContainer>
+                    </StyledLink>
 
                     <BelowContentContainer>
                         <RecommendedActions movieId={movieId} />

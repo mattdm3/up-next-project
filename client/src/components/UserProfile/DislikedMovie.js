@@ -3,16 +3,18 @@ import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import UpNextMovies from './UpNextMovies';
 import { PageHeading } from '../CONSTANTS'
+import LikedMovie from './LikedMovie';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { Link, NavLink } from 'react-router-dom';
 import { StyledMovieContainer, Subheading, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
 
 
-const LikedMovie = () => {
+const DislikedMovie = () => {
 
     const { dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
 
-    const [likedMovieData, setLikedMovieData] = useState([])
+    const [dislikedMovieData, setDislikedMovieData] = useState([])
+
     // SCROLL
     const scrollRef = React.useRef();
 
@@ -30,12 +32,12 @@ const LikedMovie = () => {
 
 
     React.useEffect(() => {
-        dataObject.liked && dataObject.liked.forEach((movieId) => {
+        dataObject.disliked && dataObject.disliked.forEach((movieId) => {
             fetch(`/movies/${movieId}`)
                 .then(res => res.json())
                 .then(data => {
-                    setLikedMovieData(likedMovieData => [
-                        ...likedMovieData,
+                    setDislikedMovieData(dislikedMovieData => [
+                        ...dislikedMovieData,
                         data
                     ])
                 })
@@ -46,7 +48,7 @@ const LikedMovie = () => {
 
     return (
 
-        likedMovieData.length > 0 ?
+        dislikedMovieData.length > 0 ?
 
             <Container>
                 <StyledScrollLeft onClick={executeScrollLeft}>
@@ -57,7 +59,7 @@ const LikedMovie = () => {
                 </StyledScrollRight>
                 <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
 
-                    {likedMovieData && likedMovieData.map((movie) => {
+                    {dislikedMovieData && dislikedMovieData.map((movie) => {
                         return (
 
                             <StyledLink to={`/movies/${movie.id}`} >
@@ -80,4 +82,4 @@ const LikedMovie = () => {
 
 
 
-export default LikedMovie; 
+export default DislikedMovie; 
