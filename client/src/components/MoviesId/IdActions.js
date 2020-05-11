@@ -2,11 +2,15 @@ import React, { useContext, useState } from "react";
 import styled, { keyframes } from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from '../theme';
+import UndoButton from "../BrowseByGenre/UndoButton";
 
 
 const IdActions = ({ movieId }) => {
 
-    const { handleMovieLike, isUserDataLoaded, handleMovieDislike, appUser, signInWithGoogle, handleAddUpNext } = useContext(LoginContext);
+    const { dataObject, handleMovieLike, isUserDataLoaded, handleMovieDislike, appUser, signInWithGoogle, handleAddUpNext } = useContext(LoginContext);
+
+    const [movieIsLiked, setMovieIsLiked] = useState(false)
+    const [movieIsDisliked, setMovieIsDisliked] = useState(false)
 
     const handleLike = (e) => {
         e.preventDefault();
@@ -41,13 +45,31 @@ const IdActions = ({ movieId }) => {
 
     }
 
+    React.useEffect(() => {
+
+        if (appUser.email) {
+            if (appUser.data.likedMovies[movieId]) {
+                setMovieIsLiked(true)
+            }
+            else if (appUser.data.dislikedMovies[movieId]) {
+                setMovieIsDisliked(true)
+            }
+        }
+
+
+
+    }, [appUser, dataObject])
+
     console.log(isUserDataLoaded)
 
     return (
 
         appUser.email && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId]) ?
 
-            ""
+            <MovieLikeStatus>
+                <p>You {movieIsLiked ? "like" : "dislike"} this movie {movieIsLiked ? "👍🏼" : "👎🏼"} </p>
+                <UndoButton movieId={movieId} />
+            </MovieLikeStatus>
             :
 
             <StyleActionContainer>
@@ -57,6 +79,20 @@ const IdActions = ({ movieId }) => {
             </StyleActionContainer>
     )
 }
+
+const MovieLikeStatus = styled.div`
+    margin-left: 1rem;
+    display: flex; 
+    align-items: center; 
+
+    p:first-of-type {
+        font-weight: 700; 
+    }
+    p:last-of-type {
+        font-weight: 400; 
+    }
+    
+`
 
 const StyleActionContainer = styled.div`
     display: flex; 

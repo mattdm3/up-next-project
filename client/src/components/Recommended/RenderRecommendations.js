@@ -10,6 +10,8 @@ import { FaArrowAltCircleLeft } from 'react-icons/fa'
 import { FaArrowAltCircleRight } from 'react-icons/fa'
 import { StyledLink } from '../CONSTANTS';
 import UndoButton from '../BrowseByGenre/UndoButton';
+import posterplaceholder from '../poster-placeholder.png'
+
 
 const RenderRecommendations = ({
     overview,
@@ -36,31 +38,40 @@ const RenderRecommendations = ({
 
     const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
 
+    // appUser && appUser.data && console.log(appUser.data.dislikedMovies)
+    // console.log(typeof movieId)
+
 
     return (
 
 
         // If the movie is liked/disliked/upnext; 
-        appUser.email && (appUser.data.dislikedMovies[movieId] === movieId || appUser.data.likedMovies[movieId] === movieId || appUser.data.upNextList[movieId] === movieId) ?
+        appUser.email && appUser.data && appUser.data.dislikedMovies && appUser.data.likedMovies && appUser.data.upNextList && (appUser.data.dislikedMovies[movieId.toString()] === movieId.toString() || appUser.data.likedMovies[movieId.toString()] === movieId.toString() || appUser.data.upNextList[movieId.toString()] === movieId.toString()) ?
             <MainContainer>
                 <StyledContainer>
                     <StyledLink to={`/movies/${movieId}`}>
-
-                        {
-                            imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster style={{
-                                opacity: ".1"
-                            }} alt={altText} src={imgSrc} />
-                                : <h4>No picture :(</h4>
-                        }
+                        <PosterContainer>
+                            {
+                                imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster style={{ opacity: ".2 " }} alt={altText} src={imgSrc} />
+                                    :
+                                    <>
+                                        <MoviePoster style={{ boxShadow: "none" }} alt={altText} src={posterplaceholder} />
+                                        <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
+                                    </>
+                            }
+                        </PosterContainer>
                     </StyledLink>
-                    {/* <RecommendedActions disabled movieId={movieId} /> */}
-                    <RecommendedMovieData
-                        title={title}
-                        releaseDate={releaseDate}
-                        ratings={ratings}
-                        genre={genre}
-                        genres={genres} />
+                    <BelowContentContainer>
+                        <RecommendedActions disabled={true} movieId={movieId} />
+                        <RecommendedMovieData
+                            title={title}
+                            releaseDate={releaseDate}
+                            ratings={ratings}
+                            genre={genre}
+                            genres={genres} />
 
+
+                    </BelowContentContainer>
 
                     <NextPrevButtons>
                         <LeftArrow onClick={triggerPreviousMovie} />
@@ -69,12 +80,12 @@ const RenderRecommendations = ({
                 </StyledContainer>
 
                 <LikeStateContainer>
-                    {appUser.data.dislikedMovies[movieId] === movieId ? <RatingResult>You rated this movie a <span>👎🏼</span> </RatingResult> :
+                    {appUser.data.dislikedMovies[movieId.toString()] === movieId.toString() ? <RatingResult>You rated this movie a <span>👎🏼</span> </RatingResult> :
 
-                        appUser.data.upNextList[movieId] === movieId ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
+                        appUser.data.upNextList[movieId.toString()] === movieId.toString() ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
                             :
 
-                            appUser.data.likedMovies[movieId] === movieId ?
+                            appUser.data.likedMovies[movieId.toString()] === movieId.toString() ?
                                 <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>
 
                                 :
@@ -92,7 +103,10 @@ const RenderRecommendations = ({
                         <PosterContainer>
                             {
                                 imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster alt={altText} src={imgSrc} />
-                                    : <MoviePoster style={{ boxShadow: "none" }} alt={altText} src="https://www.vuecinemas.nl/thumb?w=268&f=jpg&src=userfiles/file/KLER_Poster_World.jpg&alt=img/movie_placeholder.png" />
+                                    : <>
+                                        <MoviePoster style={{ boxShadow: "none" }} alt={altText} src={posterplaceholder} />
+                                        <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
+                                    </>
                             }
                         </PosterContainer>
                     </StyledLink>
@@ -166,6 +180,7 @@ const LeftArrow = styled(FaArrowAltCircleLeft)`
 const MainContainer = styled.div`
     position: relative;
     width: fit-content;
+    
 
 
 
@@ -186,7 +201,7 @@ const RatingResult = styled.p`
 
 const LikeStateContainer = styled.div`
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: fit-content;
@@ -200,7 +215,7 @@ const StyledContainer = styled.div`
     margin-bottom: 5rem;
     min-width: 20rem;
     max-width: 23rem;
-    /* border: 1px solid red;  */
+ 
     /* cursor: pointer; */
     position: relative;
 

@@ -2,15 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../theme';
 import { GlobalStyles } from '../global';
-import { PageContainer, BackgroundContainer, RecommendedContainer } from '../CONSTANTS';
+import { PageContainer } from '../CONSTANTS';
 import DarkModeToggler from '../DarkModeToggler';
-import styled from 'styled-components'
-import RandomGenerator from '../RandomGenerator';
-import Search from '../Search/Search';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import BrowseByGenre from '../BrowseByGenre'
 import MoviesId from '../MoviesId'
 import Navbar from '../Navbar';
+import Footer from '../Footer'
 import UserProfile from '../UserProfile/UserProfile';
 import Recommended from '../Recommended';
 import { LoginContext } from '../LoginContext';
@@ -58,28 +56,40 @@ function App() {
 
 
 
-          <PageContainer>
-            <Route exact path='/profile/:userId'>
+
+          <Route exact path='/profile/:userId'>
+            <PageContainer>
               <Navbar theme={theme} toggleTheme={toggleTheme} />
               <UserProfile />
-            </Route>
+            </PageContainer>
+            <Footer />
+          </Route>
 
-            <Route exact path="/genres/:genreName">
+          <Route exact path="/genres/:genreName">
+            <PageContainer>
               <Navbar theme={theme} toggleTheme={toggleTheme} />
               <BrowseByGenre toggleTheme={toggleTheme} theme={theme} />
-            </Route>
+            </PageContainer>
+            <Footer />
+          </Route>
 
-            <Route exact path="/recommended/:userId">
+          <Route exact path="/recommended/:userId">
+            <PageContainer>
               <Navbar theme={theme} toggleTheme={toggleTheme} />
               <Recommended />
-            </Route>
+            </PageContainer>
 
-            <Route exact path="/movies/:movieId">
+          </Route>
+
+          <Route exact path="/movies/:movieId">
+            <PageContainer>
               <Navbar theme={theme} toggleTheme={toggleTheme} />
               <MoviesId theme={theme} />
-            </Route>
+            </PageContainer>
+            <Footer />
+          </Route>
 
-          </PageContainer>
+
 
 
 

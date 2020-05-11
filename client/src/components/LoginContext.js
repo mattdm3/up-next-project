@@ -68,18 +68,10 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
     const [theme, setTheme] = useState('dark');
 
     const [userLevel, setUserLevel] = useState(0)
+    const [recommendAllowed, setRecommendAllowed] = useState(false)
     const [recommendationCount, setRecommendationCount] = useState(0)
 
-    // //dark mode togger
-    // const toggleTheme = () => {
-    //   // if the theme is not light, then set it to dark
-    //   if (theme === 'light') {
-    //     setTheme('dark');
-    //     // otherwise, it should be light
-    //   } else {
-    //     setTheme('light');
-    //   }
-    // }
+
 
     function calculateLevel(ratingAmount) {
         let level = Math.floor(ratingAmount / 5);
@@ -93,7 +85,52 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
         if (dataObject.liked) {
             calculateLevel(dataObject.liked.length)
         }
-    }, [dataObject])
+
+    }, [recommendedAPI, dataObject, appUser])
+
+
+    // If this is true, we'll signal the navbar. 
+
+    React.useEffect(() => {
+
+        if (appUser.data && appUser.data.recommendationCount >= userLevel) {
+            setRecommendAllowed(false);
+            console.log("user can't get new movies")
+        } else setRecommendAllowed(true)
+
+        console.log("user CAN get new movies")
+
+
+    }, [appUser, recommendedAPI])
+
+    // IF USER DELETES ALL MOVIES OBJECT ARRAY, DO THIS/ (THIS FIXED IT TEMPORARILY ) TRYING IN BACK END
+
+    // appUser.email && console.log(appUser.data)
+
+    // useEffect(() => {
+
+    //     if (appUser.data) {
+
+    //         if (appUser.data.likedMovies === undefined) {
+    //             appUser.data.likedMovies = 0
+    //         };
+
+    //         if (!appUser.data.upNextList) {
+    //             appUser.data.upNextList = 0
+    //         }
+
+    //         if (appUser.data.dislikedMovies === undefined) {
+    //             appUser.data.dislikedMovies = 0
+    //         }
+
+    //     }
+
+
+
+
+    // }, [appUser])
+
+
 
 
     // CREATES OBJECT OF ARRAYS OF USER DATA
@@ -142,9 +179,9 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
                     photoURL: user.photoURL,
                     uid: user.uid,
                     data: {
-                        likedMovies: "none",
-                        dislikedMovies: "none",
-                        upNextList: "none",
+                        likedMovies: { "none": "none" },
+                        dislikedMovies: { "none": "none" },
+                        upNextList: { "none": "none" },
                         recommendationCount: 0,
 
                     }
@@ -196,7 +233,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
             body: JSON.stringify({
                 email: user.email,
                 uid: firebaseAppAuth.currentUser.uid,
-                movieId: id,
+                movieId: id.toString(),
             }),
         })
             .then((res) => res.json())
@@ -216,7 +253,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
             body: JSON.stringify({
                 email: user.email,
                 uid: firebaseAppAuth.currentUser.uid,
-                movieId: id,
+                movieId: id.toString(),
             }),
         })
             .then((res) => res.json())
@@ -237,7 +274,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
             body: JSON.stringify({
                 email: user.email,
                 uid: firebaseAppAuth.currentUser.uid,
-                movieId: id,
+                movieId: id.toString(),
             }),
         })
             .then((res) => res.json())
@@ -255,7 +292,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
     const handleRecomendationRequest = () => {
 
         setRecommendationCount(recommendationCount + 1);
-
+        setRecStatus("getting")
 
         try {
 
@@ -288,8 +325,16 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     }
 
+    // REC STEP 2: CALL API WITH RESULTS! 
+
     // TAKE RECOMMENDATIONS FROM USER OBJECT AND GET API MOVIES (objects) and set in STATE!
     //ONLY DO THIS WHEN THE RECOMMENDATION COUNT CHANGES (SO WHEN USER GENERATES NEW RECS)
+
+    // const checkRec = () => {
+    //     if (recommendedAPI.length === 10) {
+    //         setRecStatus('idle')
+    //     }
+    // }
 
     React.useEffect(() => {
 
@@ -299,9 +344,11 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
             recommendationsArray = Object.values(appUser.data.recommendations);
         }
 
+
+        setRecommendedAPI([])
+
         recommendationsArray && recommendationsArray.length > 1 && recommendationsArray.forEach((movieId) => {
 
-            setRecommendedAPI([])
 
             fetch(`/movies/${movieId}`)
                 .then(res => res.json())
@@ -311,13 +358,41 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
                         data,
                     ])
                 })
-                .then(setRecStatus('idle'))
-
+            // .then(setRecStatus('idle'))
+            // .then(checkRec())
         })
+
+
 
     }, [recommendationCount])
 
-    return <LoginContext.Provider value={{ loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+
+    // CREATE AN UP NEXT ARRAY AND FETCH EACH ONE. 
+
+    // const [upNextMovieData, setUpNextMovieData] = useState([])
+
+
+    // console.log(upNextMovieData)
+
+    // React.useEffect(() => {
+
+    //     dataObject.upNextList && dataObject.upNextList.forEach((movieId) => {
+
+    //         fetch(`/movies/${movieId}`)
+    //             .then(res => res.json())
+    //             // .then(data => {
+    //             //     setUpNextMovieData(upNextMovieData => [
+    //             //         ...upNextMovieData,
+    //             //         data
+    //             //     ])
+    //             // })
+    //             .then(data => setUpNextMovieData())
+
+    //     })
+
+    // }, [dataObject, appUser])
+
+    return <LoginContext.Provider value={{ setRecommendAllowed, recommendAllowed, loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

@@ -7,13 +7,18 @@ import LikedMovie from './LikedMovie';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { Link, NavLink } from 'react-router-dom';
 import { StyledMovieContainer, Subheading, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
+import UndoButton from '../BrowseByGenre/UndoButton'
+import { lightTheme } from '../theme'
+import RingLoader from 'react-spinners/RingLoader'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 
 const DislikedMovie = () => {
 
-    const { dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message, theme } = useContext(LoginContext);
 
     const [dislikedMovieData, setDislikedMovieData] = useState([])
+    const [loading, setLoading] = useState(false)
 
     // SCROLL
     const scrollRef = React.useRef();
@@ -29,57 +34,99 @@ const DislikedMovie = () => {
     const executeScrollRight = () => scrollRight(scrollRef);
     // 
 
-
+    dataObject.disliked && console.log(dataObject.disliked[0])
 
     React.useEffect(() => {
-        dataObject.disliked && dataObject.disliked.forEach((movieId) => {
+
+        setDislikedMovieData([]);
+        setLoading(true);
+
+
+
+
+        appUser.data && dataObject.disliked && dataObject.disliked.forEach((movieId) => {
+
+
             fetch(`/movies/${movieId}`)
                 .then(res => res.json())
                 .then(data => {
-                    setDislikedMovieData(dislikedMovieData => [
-                        ...dislikedMovieData,
-                        data
-                    ])
+                    if (data) {
+                        setDislikedMovieData(dislikedMovieData => [
+                            ...dislikedMovieData,
+                            data
+                        ]);
+                        setLoading(false)
+                    }
+
                 })
 
         })
-    }, [appUser, dataObject])
+    }, [dataObject])
 
 
     return (
 
-        dislikedMovieData.length > 0 ?
+        dislikedMovieData.length > 0 && dislikedMovieData[0].status_code != 34 ?
 
-            <Container>
-                <StyledScrollLeft onClick={executeScrollLeft}>
-                    <FaCaretLeft />
-                </StyledScrollLeft>
-                <StyledScrollRight onClick={executeScrollRight}>
-                    <FaCaretRight />
-                </StyledScrollRight>
-                <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
 
-                    {dislikedMovieData && dislikedMovieData.map((movie) => {
-                        return (
+            (
+                loading ?
+                    <RingLoaderContainer>
+                        <ClipLoader size={45} />
+                    </RingLoaderContainer>
+                    :
+                    <Container>
+                        <StyledScrollLeft onClick={executeScrollLeft}>
+                            <FaCaretLeft />
+                        </StyledScrollLeft>
+                        <StyledScrollRight onClick={executeScrollRight}>
+                            <FaCaretRight />
+                        </StyledScrollRight>
+                        <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
 
-                            <StyledLink to={`/movies/${movie.id}`} >
-                                <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
-                            </StyledLink>
-                        )
-                    }
-                    )}
-                </Wrapper>
-            </Container>
+                            {dislikedMovieData && dislikedMovieData.map((movie) => {
+                                return (
+                                    <>
+
+                                        <StyledLink key={"disliked:" + movie.id} to={`/movies/${movie.id}`} >
+                                            <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+
+                                            <div style={{ fontSize: ".8rem", width: "fit-content" }}>
+                                                <UndoButton movieId={movie.id} />
+                                            </div>
+
+                                        </StyledLink>
+
+                                    </>
+                                )
+                            }
+                            )}
+                        </Wrapper>
+                    </Container>
+            )
 
             :
-            <StyledMovieContainer>
-                <p>Nothing here yet.</p>
-            </StyledMovieContainer>
-
-
+            (
+                loading ?
+                    <RingLoaderContainer>
+                        <ClipLoader size={45} />
+                    </RingLoaderContainer>
+                    :
+                    <StyledMovieContainer>
+                        <p>Nothing here yet.</p>
+                    </StyledMovieContainer>
+            )
     )
 }
 
+
+const RingLoaderContainer = styled.div`
+    width: 25rem;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+
+`
 
 
 export default DislikedMovie; 

@@ -3,21 +3,27 @@ import styled, { keyframes } from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from '../theme';
 
-const UpNextActions = ({ movieId }) => {
+const UpNextActions = ({ movieId, upNextMovieData, loading, setUpNextMovieData, setLoading }) => {
 
     const { handleMovieLike, handleMovieDislike, appUser, handleAddUpNext } = useContext(LoginContext);
 
+
+
+
     const handleLike = (e) => {
         e.preventDefault();
+        // setUpNextMovieData([])
+        // setLoading(true);
+        handleMovieLike(movieId);
+        // setLoading(false)
 
 
 
-        if (appUser.email) {
-            handleMovieLike(movieId);
-        }
-        else {
-            alert("Please make an account or login first.")
-        }
+
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 1000)
+
 
 
     }
@@ -25,11 +31,8 @@ const UpNextActions = ({ movieId }) => {
     const handleDislike = (e) => {
         e.preventDefault();
 
-        if (appUser.email) {
-            handleMovieDislike(movieId);
-        } else {
-            alert("Please make an account or login first.")
-        }
+
+        handleMovieDislike(movieId);
 
 
     }

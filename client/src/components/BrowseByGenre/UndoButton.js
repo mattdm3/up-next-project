@@ -1,18 +1,19 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { LoginContext } from '../LoginContext';
 
 
 const UndoButton = ({ movieId }) => {
 
-    const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message, setAppUser } = useContext(LoginContext);
+    const { appUser, setAppUser } = useContext(LoginContext);
 
     // console.log(appUser)
 
     const handleUndoRating = (e, movieId) => {
         e.preventDefault();
-        console.log("UNDO")
-        console.log(movieId)
+
+        console.log(typeof movieId)
+
 
         fetch(`/handleUndoRating`, {
             method: 'POST',
@@ -22,7 +23,7 @@ const UndoButton = ({ movieId }) => {
             body: JSON.stringify({
                 email: appUser.email,
                 uid: appUser.uid,
-                movieId: movieId,
+                movieId: movieId.toString(),
             }),
         })
             .then((res) => res.json())

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { FaMoon } from 'react-icons/fa'
@@ -7,11 +7,11 @@ import { FiSun } from 'react-icons/fi'
 
 const DarkModeToggler = ({ toggleTheme, theme }) => {
 
-    const isLight = theme === 'light';
+    // const isLight = theme === 'light';
 
     return (
         <>
-            <StyledButton onClick={toggleTheme}>{theme == "light" ? <StyledMoon /> : <StyledSun />}</StyledButton>
+            <StyledButton onClick={toggleTheme}>{theme === "light" ? <StyledMoon /> : <StyledSun />}</StyledButton>
         </>
     )
 
@@ -22,7 +22,6 @@ const StyledButton = styled.button`
     background: none; 
     font-size: 1rem; 
     cursor: pointer; 
-     
 `
 
 const StyledMoon = styled(FaMoon)`

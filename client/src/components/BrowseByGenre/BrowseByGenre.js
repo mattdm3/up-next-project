@@ -133,30 +133,32 @@ const BrowseByGenre = ({ theme }) => {
                 searchResults ?
 
 
-                    <StyledMovieContainer>
+                    <>
                         <PageHeading>Search Results for '{lastSearch}'</PageHeading>
-                        {searchResults.results.map((movie, resultID) => {
-                            return (
+                        <StyledMovieContainer>
+                            {searchResults.results.map((movie, resultID) => {
+                                return (
 
-                                <RenderMovie
-                                    key={movie.id}
-                                    altText={movie.title}
-                                    genre={selectedGenreId}
-                                    releaseDate={movie.release_date && movie.release_date.slice(0, 4)}
-                                    title={movie.title}
-                                    imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                                    ratings={movie.vote_average}
-                                    theme={theme}
-                                    genres={movie["genre_ids"]}
-                                    movieId={movie.id}
-                                    resultID={resultID}
-                                />
+                                    <RenderMovie
+                                        key={movie.id}
+                                        altText={movie.title}
+                                        genre={selectedGenreId}
+                                        releaseDate={movie.release_date && movie.release_date.slice(0, 4)}
+                                        title={movie.title}
+                                        imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                                        ratings={movie.vote_average}
+                                        theme={theme}
+                                        genres={movie["genre_ids"]}
+                                        movieId={movie.id}
+                                        resultID={resultID}
+                                    />
 
 
-                            )
-                        })
-                        }
-                    </StyledMovieContainer> :
+                                )
+                            })
+                            }
+                        </StyledMovieContainer>
+                    </> :
 
 
                     <>
@@ -253,13 +255,15 @@ const StyledMovieContainer = styled.div`
     justify-content: space-between; 
     margin-top: 2rem;
     position: relative;
-    flex-shrink: shrink; 
     align-content: flex-start; 
 
 
-    @media screen and (max-width: 740px) {
+    @media screen and (max-width: 924px) {
         justify-content: center; 
     }
+    
+   
+
 
 `
 

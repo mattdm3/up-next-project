@@ -103,7 +103,36 @@ const handleLikeMovie = async (req, res) => {
         .child(movieId)
         .remove()
 
-    //get liked movie array from db
+    // if UP NEXT gets empyt put "none"
+    let upNextData;
+    var refUpNext = db.ref('appUsers/' + uid + "/data/upNextList");
+
+    await refUpNext.on("value", function (snapshot) {
+        upNextData = snapshot.val();
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    // IF it's empty, put "none" so that Front End doesn't break :) 
+    if (!upNextData) {
+        await db.ref('appUsers/' + uid)
+            .child('data')
+            .child("upNextList")
+            .child("none")
+            .set("none")
+    }
+
+
+    // Remove "None" from list
+
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("likedMovies")
+        .child("none")
+        .remove()
+
+    //get all movie array from db
     let snapData;
     await db.ref("appUsers/" + uid)
         .once("value")
@@ -122,7 +151,7 @@ const handleDislikeMovie = async (req, res) => {
 
     const userData = (await getUserByEmail(req.body.email));
 
-    // PUSH LIKED MOVIE INTO ITS ARRAY ON DB
+    // PUSH disLIKED MOVIE INTO ITS ARRAY ON DB
     await db.ref('appUsers/' + uid)
         .child('data')
         .child("dislikedMovies")
@@ -136,17 +165,54 @@ const handleDislikeMovie = async (req, res) => {
         .child(movieId)
         .remove()
 
+    // if UP NEXT gets empyt put "none"
+    let upNextData;
+    var refUpNext = db.ref('appUsers/' + uid + "/data/upNextList");
 
-    //get liked movie array from db and return new data
+    await refUpNext.on("value", function (snapshot) {
+        upNextData = snapshot.val();
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    // IF it's empty, put "none" so that Front End doesn't break :) 
+    if (!upNextData) {
+        await db.ref('appUsers/' + uid)
+            .child('data')
+            .child("upNextList")
+            .child("none")
+            .set("none")
+    }
+
+    // Remove "None" from list
+
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("dislikedMovies")
+        .child("none")
+        .remove()
+
+
+    //get all movie data from db and return new data
     let snapData;
     await db.ref("appUsers/" + uid)
         .once("value")
         .then(function (snapshot) {
             snapData = snapshot.val();
         });
+    // // CHECK if it's empty and if it is, put something in it! 
+    // if (!snapData.data.dislikedMovies) {
+    //     await db.ref('appUsers/' + uid)
+    //         .child('data')
+    //         .child("dislikedMovies")
+    //         .child("none")
+    //         .set("none")
+    // };
+
     res
         .status(200)
-        .json({ status: 200, data: snapData, message: 'returning user' });
+        .json({ status: 200, data: snapData, message: 'movie disliked' });
     return;
 
 
@@ -177,6 +243,76 @@ const handleUndoRating = async (req, res) => {
         .child("upNextList")
         .child(movieId)
         .remove()
+
+
+    //make sure it's not empty! 
+
+    // LIKED ************
+    let likedData;
+    var refLiked = db.ref('appUsers/' + uid + "/data/likedMovies");
+
+    await refLiked.on("value", function (snapshot) {
+        likedData = snapshot.val();
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    // IF it's empty, put "none" so that Front End doesn't break :) 
+
+
+    if (!likedData) {
+        await db.ref('appUsers/' + uid)
+            .child('data')
+            .child("likedMovies")
+            .child("none")
+            .set("none")
+    }
+
+    // DISLIKED************
+
+    let dislikedData;
+    var refDisliked = db.ref('appUsers/' + uid + "/data/dislikedMovies");
+
+    await refDisliked.on("value", function (snapshot) {
+        dislikedData = snapshot.val();
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    // IF it's empty, put "none" so that Front End doesn't break :) 
+    if (!dislikedData) {
+        await db.ref('appUsers/' + uid)
+            .child('data')
+            .child("dislikedMovies")
+            .child("none")
+            .set("none")
+    }
+
+
+    // UP NEXT *******************\  
+    let upNextData;
+    var refUpNext = db.ref('appUsers/' + uid + "/data/upNextList");
+
+    await refUpNext.on("value", function (snapshot) {
+        upNextData = snapshot.val();
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    // IF it's empty, put "none" so that Front End doesn't break :) 
+    if (!upNextData) {
+        await db.ref('appUsers/' + uid)
+            .child('data')
+            .child("upNextList")
+            .child("none")
+            .set("none")
+    }
+
+
+
 
     // Get new data returned
 
@@ -210,6 +346,15 @@ const handleAddUpNext = async (req, res) => {
         .child("upNextList")
         .child(movieId)
         .set(movieId)
+
+
+    // Remove "None" from list
+
+    await db.ref('appUsers/' + uid)
+        .child('data')
+        .child("upNextList")
+        .child("none")
+        .remove()
 
 
     //get liked movie array from db and return new data

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { genresList } from '../../data/genres';
+import { StyledLink, GenreP } from '../CONSTANTS'
 
 
 const RecommendedMovieData = ({ genres, themes, title, releaseDate, genre, ratings }) => {
@@ -17,7 +18,9 @@ const RecommendedMovieData = ({ genres, themes, title, releaseDate, genre, ratin
 
                 {
                     genres.slice(0, 3).map(genreName => {
-                        return <p key={genreName}>{genreName.name}</p>
+                        return <StyledLink to={`/genres/${genreName.name.toLowerCase()}`}>
+                            <GenreP key={genreName}>{genreName.name.toLowerCase()}</GenreP>
+                        </StyledLink>
                     })
                 }
 

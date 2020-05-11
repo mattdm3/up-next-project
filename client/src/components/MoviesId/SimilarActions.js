@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from '../theme';
 
-const ActionBar = ({ movieId, disabled }) => {
+const SimilarActions = ({ movieId, disabled }) => {
 
     const { handleMovieLike, handleMovieDislike, appUser, handleAddUpNext } = useContext(LoginContext);
 
@@ -163,4 +163,4 @@ const ScaledButton = styled.div`
     animation: ${scaleUp} 700ms ease forwards; 
 `
 
-export default ActionBar;
+export default SimilarActions;

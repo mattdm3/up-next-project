@@ -49,15 +49,15 @@ const RenderMovie = ({
     //     console.log(movieId)
     // }
 
-
+    // appUser.data && console.log(appUser.data.upNextList)
 
 
     return (
 
-        appUser.email && isUserDataLoaded && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
+        appUser.email && isUserDataLoaded && appUser.data && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
 
             <MainContainer>
-                <StyledContainer style={{
+                <PosterContainer style={{
                     opacity: ".3"
                 }}>
 
@@ -75,21 +75,20 @@ const RenderMovie = ({
                             </StyledLink>
 
                     }
+                </PosterContainer>
 
 
-
+                <BelowContentContainer>
+                    <ActionBar disabled={true} genreData={genreData} setGenreData={setGenreData} resultID={resultID} movieId={movieId} />
 
                     <MovieTextData
                         title={title}
                         releaseDate={releaseDate}
                         ratings={ratings}
                         genre={genre}
-                        genres={genres}
-                        genreData={genreData} />
+                        genres={genres} />
+                </BelowContentContainer>
 
-
-                    {/* <ActionBar movieId={movieId} /> */}
-                </StyledContainer>
                 <LikeStateContainer>
                     {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span>👎🏼</span> </RatingResult> :
 
@@ -97,7 +96,6 @@ const RenderMovie = ({
                             :
                             <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>}
 
-                    {/* <UndoButton onClick={(e) => handleUndoRating(e, movieId)} style={{ padding: "1rem" }}>Undo</UndoButton> */}
 
                     <UndoButton movieId={movieId} />
                 </LikeStateContainer>
@@ -105,7 +103,7 @@ const RenderMovie = ({
 
             </MainContainer>
 
-
+            // NOT RATED VERSION:
             :
 
             <MainContainer>
@@ -117,7 +115,7 @@ const RenderMovie = ({
                             ?
                             <StyledLink to={`/movies/${movieId}`}>
                                 <MoviePoster alt={altText} src={posterplaceholder} />
-                                <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
+                                <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", bottom: "50%", left: "50%" }}>{title}</h4>
                             </StyledLink>
                             :
                             <>
@@ -183,7 +181,7 @@ const MainContainer = styled.div`
     /* flex-grow: 1;  */
     /* min-width: 23rem;
     max-width: 70vw; */
-    flex-shrink:1;
+    /* flex-shrink:1; */
     /* flex-basis: 5rem; */
     /* flex: 1 1 auto;  */
     /* border: 1px solid red;  */
@@ -225,31 +223,52 @@ const StyledContainer = styled.div`
 const MoviePoster = styled.img`
     border-radius: 10px; 
     /* max-height: 31rem;  */
-    min-width: 18rem;
-    max-width: 22rem;
+    min-width: 14rem;
+    max-width: 21rem;
     
     /* max-width: 100%;   */
-     @media screen and (max-width: 740px) {
+    
+
+    @media screen and (max-width: 1520px) {
+        max-width: 28rem;
+    }
+
+    @media screen and (min-width: 925px) {
+        max-width: 26rem;
+    }
+
+    @media screen and (max-width: 924px) {
         max-width: 100%;
+    }
+
+    
+`
+
+// const scaleUp = keyframes`
+//     0 {
+//         transform: scale(1);
+//     }
+//     50% {
+//         transform: scale(1.1);
+//     }
+//     100% {
+//         transform: scale(1);
+//     }
+// `
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
     
 `
 
-const scaleUp = keyframes`
-    0 {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.3);
-    }
-    100% {
-        transform: scale(1);
-    }
-`
-
-const ScaledButton = styled.div`
-    animation: ${scaleUp} 750ms ease forwards; 
-`
+// const ScaledButton = styled.div`
+//     animation: ${scaleUp} 750ms ease forwards; 
+// `
 
 
 const LikeStateContainer = styled.div`
@@ -271,7 +290,7 @@ const RatingResult = styled.p`
     margin: 0; 
     padding: 0; 
     font-weight: 600; 
-    animation: ${scaleUp} 700ms ease forwards; 
+    animation: ${fadeIn} 900ms ease; 
 
     span {
         font-size: 2.2rem;

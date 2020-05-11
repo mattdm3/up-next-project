@@ -177,7 +177,7 @@ const HeadingContainer = styled.div`
     display: flex; 
     background: white;
     flex-direction: column;
-    padding-top: 4.8rem;
+    padding-top: 6.8rem;
     margin-left: 4.5rem;
     margin-right: 4.5rem;
     flex-shrink: 1; 
