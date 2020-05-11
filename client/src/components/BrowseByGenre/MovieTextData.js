@@ -13,7 +13,7 @@ const MovieTextData = ({ genres, themes, title, releaseDate, genre, ratings }) =
         for (let i = 0; i < genresList.length; i++) {
             if (genreID === genresList[i].id) {
                 count = count + 1;
-                // console.log(count)
+
                 if (count < 4) {
                     genreArray.push(genresList[i].name)
                 }

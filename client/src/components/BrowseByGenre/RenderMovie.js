@@ -24,9 +24,7 @@ const RenderMovie = ({
 
     const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
 
-    // appUser.data && console.log(appUser.data.likedMovies["38700"])
 
-    // appUser.data && console.log(appUser.data.dislikedMovies)
 
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
@@ -40,16 +38,7 @@ const RenderMovie = ({
 
     }, [appUser])
 
-    // console.log(message);
 
-
-    // const handleUndoRating = (e, movieId) => {
-    //     e.preventDefault();
-    //     console.log("UNDO")
-    //     console.log(movieId)
-    // }
-
-    // appUser.data && console.log(appUser.data.upNextList)
 
 
     return (

@@ -25,15 +25,6 @@ const RenderMovieId = ({
 
     const [youtubeLoaded, setyoutubeLoaded] = React.useState(false);
 
-
-
-
-
-
-
-
-    console.log(posterPath)
-    console.log(youtube)
     return (
         <MovieContainer>
             <TitleAndGenre>

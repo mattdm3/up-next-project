@@ -55,7 +55,7 @@ const createUser = async (req, res) => {
     const { uid } = req.body;
     // CHECK IF USER EXISTS
     const returningUser = (await getUserByEmail(req.body.email));
-    // console.log(returningUser);
+    // (returningUser);
     if (returningUser) {
         // get the current user data to return to FE incl. liked/disliked
         let snapData;

@@ -21,7 +21,7 @@ const handleRandomMovie = async (req, res) => {
 
 
     const json = await response.json();
-    // console.log(json)
+
     return res.send(json);
 
 }
@@ -30,7 +30,7 @@ const handleRandomMovie = async (req, res) => {
 
 const handleSearch = async (req, res) => {
     const { searchTerm } = req.params;
-    console.log(req.params)
+
 
     var options = {
         method: 'GET',
@@ -47,7 +47,7 @@ const handleSearch = async (req, res) => {
 
 
     const json = await response.json();
-    console.log(json)
+
     return res.send(json);
 }
 
@@ -60,8 +60,6 @@ const handleGenreId = async (req, res) => {
 
     //get query for sort. 
 
-    console.log(req.params)
-    console.log(req.query)
 
     const { genreId } = req.params;
     const { sort } = req.query;
@@ -82,7 +80,7 @@ const handleGenreId = async (req, res) => {
 
 
     const json = await response.json();
-    // console.log(json)
+
     return res.send(json);
 }
 
@@ -106,7 +104,7 @@ const handleMovieId = async (req, res) => {
         })
 
         const json = await response.json();
-        // console.log(json)
+
         return res.send(json);
 
 
@@ -136,7 +134,7 @@ const getSimilarMovies = async (req, res) => {
         })
 
         const json = await response.json();
-        console.log(json)
+
         return res.send(json);
 
 

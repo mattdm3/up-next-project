@@ -27,7 +27,6 @@ const SimilarMovies = ({ movieId, theme }) => {
     // 
 
 
-    console.log(movieId, "MOVIE ID")
 
     React.useEffect(() => {
 

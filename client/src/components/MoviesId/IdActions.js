@@ -60,7 +60,7 @@ const IdActions = ({ movieId }) => {
 
     }, [appUser, dataObject])
 
-    console.log(isUserDataLoaded)
+    // console.log(isUserDataLoaded)
 
     return (
 

@@ -23,14 +23,6 @@ function getMovieIndexByTitle(MOVIES_IN_LIST, query) {
 
   const index = MOVIES_IN_LIST.map(movie => movie.id).indexOf(query);
 
-
-
-  // console.log(index, "INDEX!!!!!")
-
-  // ORIGINAL: 
-  // if (!index) {
-  //   throw new Error('Movie not found');
-  // }
   // ORIGINAL
   const { title, id } = MOVIES_IN_LIST[index];
   console.log(title);

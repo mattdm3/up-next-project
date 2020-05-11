@@ -12,7 +12,7 @@ const UndoButton = ({ movieId }) => {
     const handleUndoRating = (e, movieId) => {
         e.preventDefault();
 
-        console.log(typeof movieId)
+
 
 
         fetch(`/handleUndoRating`, {

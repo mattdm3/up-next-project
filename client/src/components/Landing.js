@@ -171,6 +171,11 @@ const PageContainer = styled.div`
     height: 100vh; 
     align-items: stretch;
     background: white; 
+
+    @media screen and (max-width: 1000px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `
 
 const HeadingContainer = styled.div`
@@ -181,6 +186,7 @@ const HeadingContainer = styled.div`
     margin-left: 4.5rem;
     margin-right: 4.5rem;
     flex-shrink: 1; 
+    margin-bottom: 2rem;
     /* width: 55%;     */
 
     h1 {
@@ -207,6 +213,7 @@ const MainInstructionsContainer = styled.div`
     /* margin: 0 auto;  */
     flex-shrink: 1; 
     align-items: center;
+    padding-bottom: 2rem;
 
 
     

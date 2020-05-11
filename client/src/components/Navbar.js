@@ -56,7 +56,7 @@ const Navbar = ({ theme, toggleTheme }) => {
 
     }
 
-    console.log(navbar)
+
 
 
     // const handleKeypress = (e) => {

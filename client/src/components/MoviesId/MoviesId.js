@@ -11,7 +11,6 @@ const MoviesId = () => {
 
     const [selectedMovieData, setSelectedMovieData] = useState(null)
 
-    selectedMovieData && console.log(selectedMovieData, "MOVIE ID PAGE")
 
     React.useEffect(() => {
 
@@ -20,7 +19,6 @@ const MoviesId = () => {
             .then(data => setSelectedMovieData(data))
 
     }, [movieId])
-    console.log(selectedMovieData)
 
     return (
 

@@ -39,7 +39,7 @@ const BrowseByGenre = ({ theme }) => {
     // THIS IS going to refetch based on the sort choice
     const handleSort = (option) => {
 
-        console.log(option.key)
+
         setSortOption(option.key)
 
     }
@@ -100,25 +100,7 @@ const BrowseByGenre = ({ theme }) => {
 
     // genreData && console.log(genreData);
 
-    const testButton = async () => {
-        console.log("HELLO")
 
-        // await setTest([
-        //     genreData,
-        //     [genreData.results.splice(0, 1)]
-        // ])
-
-        // setGenreData(
-        //     genreData,
-        //     [genreData.results.splice(0, 3)]
-        // )
-        setTest(genreData.results.splice(0, 1))
-
-        await console.log(test)
-
-
-
-    }
 
 
 

@@ -22,14 +22,8 @@ const Recommended = () => {
 
 
     const [recommendButton, setRecommendButton] = useState(true);
-    // const [recText, setRecText] = useState(["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "⏳man this AI stuff is slow", "almost there...."]);
-
-    // appUser.data && console.log(recommendationCount, "rec count")
-    // console.log(userLevel, "userLevel")
 
 
-
-    // console.log(appUser.data.recommendationCount)
 
 
 
@@ -87,12 +81,6 @@ const Recommended = () => {
 
     }
 
-    // console.log(loadingText)
-    // console.log(recStatus, "REC STATUS")
-    // recommendedAPI && console.log(recommendedAPI[0])
-    // console.log(recommendedMovies)
-
-    // console.log(loading)
 
     const triggerNextMovie = () => {
 
@@ -100,9 +88,7 @@ const Recommended = () => {
 
         if (movieCounter < maximumCount) {
             setMovieCounter(movieCounter + 1);
-            console.log(movieCounter, "MOVIE COUNTER");
-            console.log(recommendedAPI[movieCounter]);
-            console.log(recommendedAPI[movieCounter].id)
+
         }
 
     }
@@ -113,7 +99,6 @@ const Recommended = () => {
 
         if (movieCounter >= 1) {
             setMovieCounter(movieCounter - 1);
-            console.log(movieCounter, "MOVIE COUNTER");
 
         }
 
@@ -123,12 +108,6 @@ const Recommended = () => {
         signInWithGoogle();
 
     }
-
-    // console.log(recommendedAPI[movieCounter]);
-
-    // console.log(movieCounter)
-
-    // console.log(recommendedAPI)
 
     return (
 

@@ -49,7 +49,6 @@ const options = [
 
 const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) => {
 
-    // console.log(firebaseAppAuth.getUid());
 
 
     //app User will get the json.data (which is holding the request body + any liked/disliked data)
@@ -95,17 +94,14 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
         if (appUser.data && appUser.data.recommendationCount >= userLevel) {
             setRecommendAllowed(false);
-            console.log("user can't get new movies")
         } else setRecommendAllowed(true)
 
-        console.log("user CAN get new movies")
 
 
     }, [appUser, recommendedAPI])
 
     // IF USER DELETES ALL MOVIES OBJECT ARRAY, DO THIS/ (THIS FIXED IT TEMPORARILY ) TRYING IN BACK END
 
-    // appUser.email && console.log(appUser.data)
 
     // useEffect(() => {
 
@@ -166,7 +162,6 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     useEffect(() => {
         if (user) {
-            // console.log(user);
 
             fetch(`/users`, {
                 method: 'post',

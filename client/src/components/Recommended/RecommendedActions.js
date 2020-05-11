@@ -7,7 +7,6 @@ const RecommendedActions = ({ movieId, disabled }) => {
 
     const { movieCounter, setMovieCounter, handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message, handleAddUpNext, recommendedAPI, theme } = useContext(LoginContext);
 
-    // console.log(theme);
 
 
 
@@ -15,8 +14,6 @@ const RecommendedActions = ({ movieId, disabled }) => {
     const handleLike = (e) => {
         e.preventDefault();
 
-        console.log(movieId);
-        console.log(appUser.email)
         if (appUser.email) {
             handleMovieLike(movieId);
             // setMovieCounter(movieCounter + 1)
@@ -31,9 +28,6 @@ const RecommendedActions = ({ movieId, disabled }) => {
 
     const handleDislike = (e) => {
         e.preventDefault();
-        console.log(movieId)
-        console.log(recommendedAPI)
-        console.log(appUser.data.recommendations);
 
         if (appUser.email) {
             handleMovieDislike(movieId);

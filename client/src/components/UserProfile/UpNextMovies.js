@@ -31,8 +31,6 @@ const UpNextMovies = () => {
     const executeScrollRight = () => scrollRight(scrollRef);
     // 
 
-    // console.log(appUser.data)
-    // console.log(upNextMovieData)
 
 
     React.useEffect(() => {

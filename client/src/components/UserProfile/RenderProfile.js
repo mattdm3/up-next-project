@@ -19,9 +19,6 @@ const RenderProfile = ({ theme }) => {
     const [upNextMovieData, setUpNextMovieData] = useState([])
 
 
-
-
-    // console.log(upNextMovieData);
     // SCROLL
     const scrollRef = React.useRef();
 
