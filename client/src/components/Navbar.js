@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { NavLink, useHistory, Link } from 'react-router-dom';
 import DarkModeToggler from './DarkModeToggler'
 import { LoginContext } from './LoginContext';
@@ -8,10 +8,12 @@ import { lightTheme } from './theme';
 import { FiUser } from 'react-icons/fi'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { FiSearch, FiX } from 'react-icons/fi'
+import { FaCheckSquare } from 'react-icons/fa'
+import { IoIosExit } from 'react-icons/io'
 
 const Navbar = ({ theme, toggleTheme }) => {
 
-    const { updateUserData, selectedGenre, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { recommendAllowed, dataObject, updateUserData, selectedGenre, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
 
 
     const [navbar, setNavbar] = useState(false);
@@ -50,13 +52,11 @@ const Navbar = ({ theme, toggleTheme }) => {
     const handleWindowResize = () => {
         if (window.innerWidth > 768) {
             setNavbar(false)
-
-
         }
 
     }
 
-
+    console.log(navbar)
 
 
     // const handleKeypress = (e) => {
@@ -88,7 +88,6 @@ const Navbar = ({ theme, toggleTheme }) => {
     // }, [])
 
 
-
     return (
         <>
 
@@ -100,19 +99,21 @@ const Navbar = ({ theme, toggleTheme }) => {
                     <ExitNavigation onClick={toggleNavbar}>
                         <FiX />
                     </ExitNavigation>
+
                     <OverlayMenu>
-                        <HiddenNavLink onClick={toggleNavbar} to="/"><li>Home🍿</li></HiddenNavLink>
-                        <HiddenNavLink onClick={toggleNavbar} to="/genres/action"><li>Browse🔍</li></HiddenNavLink>
-                        <HiddenNavLink onClick={toggleNavbar} to={`/recommended/${appUser.uid}`}><li>Recommended Movies🎥</li></HiddenNavLink>
+                        <UserName>Hello, {appUser.displayName} </UserName>
+                        {/* <HiddenNavLink onClick={toggleNavbar} to="/"><li>Home 🍿</li></HiddenNavLink> */}
+                        <HiddenNavLink onClick={toggleNavbar} to="/genres/action"><li>Browse 🔍</li></HiddenNavLink>
+                        <HiddenNavLink onClick={toggleNavbar} to={`/recommended/${appUser.uid}`}><li>Recommended Movies 🎥</li></HiddenNavLink>
 
 
                         {appUser && appUser.email ?
                             <>
                                 <HiddenNavLink onClick={toggleNavbar} to={`/profile/${appUser.uid}`}>
-                                    <StyledNavLink>{appUser.displayName}</StyledNavLink>
+                                    <StyledNavLink>My Movies 🍿</StyledNavLink>
                                 </HiddenNavLink>
                                 <HiddenNavLink to="/" onClick={toggleNavbar}>
-                                    <StyledNavLink style={{ color: "grey" }} onClick={handleSignOut}>Logout</StyledNavLink>
+                                    <StyledNavLink style={{ color: "grey" }} onClick={handleSignOut}>Logout 🚪</StyledNavLink>
                                 </HiddenNavLink>
 
 
@@ -147,10 +148,15 @@ const Navbar = ({ theme, toggleTheme }) => {
                 <StyledUl>
                     <NavigationLink to={`/genres/${selectedGenre}`}>
                         <StyledNavLink>Browse</StyledNavLink>
+
                     </NavigationLink>
 
                     <NavigationLink exact to={`/recommended/${appUser.uid}`}>
                         <StyledNavLink>Recommended Movies</StyledNavLink>
+                        {appUser.email && recommendAllowed && navbar === false &&
+                            <RecContainer>
+                                <FaCheckSquare />
+                            </RecContainer>}
                     </NavigationLink>
                     {/* <NavigationLink exact to='/'>
                         <li>🍿</li>
@@ -160,7 +166,11 @@ const Navbar = ({ theme, toggleTheme }) => {
                     {appUser && appUser.email ?
                         <>
                             <NavigationLink exact to={`/profile/${appUser.uid}`}>
-                                <StyledNavLink>{appUser.displayName}</StyledNavLink>
+                                <StyledNavLink>My Movies 🍿</StyledNavLink>
+                                {dataObject && dataObject.upNextList && dataObject.upNextList.length && navbar === false &&
+                                    <UpNextAmount>
+                                        {dataObject && dataObject.upNextList && (dataObject.upNextList[0] === "none" ? "0" : dataObject.upNextList.length)}
+                                    </UpNextAmount>}
                             </NavigationLink>
                             <NavigationLink exact to="/">
                                 <StyledNavLink style={{ color: "grey" }} onClick={handleSignOut}>Logout</StyledNavLink>
@@ -187,6 +197,59 @@ const Navbar = ({ theme, toggleTheme }) => {
     )
 }
 
+
+const scaleUp = keyframes`
+    0 {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+`
+
+const UpNextAmount = styled.p`
+    position: absolute; 
+    right: -2px;
+    top: -2px; 
+    font-weight: 400; 
+    padding: 4px;
+    font-size: .6rem; 
+    border-radius: 50%; 
+    width: 18px;
+    height: 18px; 
+    text-align: center; 
+    background: #F65F2D; 
+    border: none; 
+
+    @media screen and (max-width: 768px) {
+            display: none;
+    }
+
+`
+
+const RecContainer = styled.p`
+    position: absolute; 
+    right: -2px;
+    top: -2px; 
+    font-weight: 400; 
+    padding: 4px;
+    font-size: .6rem; 
+    border-radius: 50%; 
+    width: 18px;
+    text-align: center; 
+    background: green; 
+    animation: ${scaleUp} 900ms ease; 
+
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+
+
+`
+
 const HiddenNavigation = styled.div`
     position: fixed; 
     right:0; 
@@ -197,7 +260,11 @@ const HiddenNavigation = styled.div`
     z-index: 5000; 
     /* background: white; */
     /* background-color: #333333; */
-    background: ${({ theme }) => theme === lightTheme ? "#232476" : "#F3F4FD"}
+    
+    border-top-left-radius: 10px; 
+    border-bottom-left-radius: 10px; 
+
+    background: ${({ theme }) => theme === lightTheme ? "#050553" : "#F3F4FD"}
 
 `
 
@@ -225,6 +292,7 @@ const OverlayMenu = styled.ul`
     display: flex; 
     /* align-items: center; */
     flex-direction: column;
+    align-items: flex-end; 
     /* position: fixed; */
     top: 0; 
     /* background-color: inherit; */
@@ -236,22 +304,23 @@ const OverlayMenu = styled.ul`
     margin: 7rem 0;
     width: 100%;
     text-align: right;
-    border-bottom: 1px solid #454545; 
+    /* border-bottom: 1px solid #454545;  */
     /* height: 100vh;  */
     z-index: 100; 
     font-size: 1.1rem;
     /* opacity: .9; */
+   
 
 
     li {
         list-style: none;
         font-weight: 500;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         /* text-transform: uppercase;  */
-        color: ${({ theme }) => theme === lightTheme ? "#F3F4FD" : "#050553"};
+        color: ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#050553"};
 
         /* margin: 5px 0;  */
-        padding: 1.2rem 0; 
+        padding: 1.5rem 0; 
         cursor: pointer;
         /* color: #FFFFFF;  */
         /* border-bottom: 2px solid #164C81; */
@@ -263,8 +332,25 @@ const OverlayMenu = styled.ul`
         /* background: #EEEEEE; */
         color: #8E8E8E; 
         }
+
+       
     }
 
+`
+
+const UserName = styled.p`
+        list-style: none;
+        font-weight: 600;
+        font-size: 1.4rem;
+        /* text-transform: uppercase;  */
+        color: ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#050553"};
+
+        /* margin: 5px 0;  */
+        padding: 1.8rem 0; 
+        /* color: #FFFFFF;  */
+        /* border-bottom: 2px solid #164C81; */
+        width: 100%; 
+        transition-duration: 300ms;
 `
 
 
@@ -318,7 +404,8 @@ const StyledUl = styled.ul`
 
 const StyledNavLink = styled.li`
     padding: .5rem;
-    font-weight: 500; 
+    font-weight: 400; 
+
     /* text-transform:uppercase; */
 `
 
@@ -357,6 +444,7 @@ const NavigationLink = styled(NavLink)`
     color: inherit;
     font-weight: 600; 
     transition-duration: 400ms; 
+    position: relative;
 
 `
 

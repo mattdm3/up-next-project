@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { LoginContext } from '../LoginContext';
@@ -77,6 +77,8 @@ const DropdownContent = styled.div`
     font-size: .9rem;
     font-weight: 500; 
     color: #1F209A; 
+    border-radius: 5px; 
+    
 `;
 
 const Dropdown = styled.div`
@@ -88,7 +90,7 @@ const Dropdown = styled.div`
     /* font-weight: 700;  */
     /* margin: 1rem; */
     
-
+    
 
     &:hover ${DropdownContent} {
         display: block;
@@ -100,11 +102,12 @@ const SortOption = styled.div`
 
       padding: 13px 18px; 
       min-width: 200px; 
+      /* border: 1px solid green;  */
    
 
     &:hover  {
         cursor: pointer;
-        /* background-color: #e3e1e1; */
+        background-color: #F3F4FD;
       }
     `;
 

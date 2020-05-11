@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from "../theme";
 
-const RecommendedActions = ({ movieId }) => {
+const RecommendedActions = ({ movieId, disabled }) => {
 
     const { movieCounter, setMovieCounter, handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message, handleAddUpNext, recommendedAPI, theme } = useContext(LoginContext);
 
-    console.log(theme);
+    // console.log(theme);
 
 
 
@@ -61,7 +61,7 @@ const RecommendedActions = ({ movieId }) => {
 
     return (
 
-        (appUser.data.dislikedMovies[movieId] === movieId || appUser.data.likedMovies[movieId] === movieId || appUser.data.upNextList[movieId] === movieId) ?
+        disabled ?
             <StyleActionContainerDisabled>
                 <p>👍🏼</p>
                 <p>🍿</p>
@@ -79,7 +79,9 @@ const RecommendedActions = ({ movieId }) => {
 const StyleActionContainer = styled.div`
 display: flex; 
 z-index: 50; 
-justify-content: space-around;
+justify-content: space-evenly;
+width: 100%; 
+align-items: center;
 
 /* p:first-of-type:hover{
     background: #388E3C;

@@ -7,10 +7,12 @@ import { lightTheme } from '../theme';
 const Search = () => {
 
 
-    const { lastSearch, setLastSearch, setSearchResults } = useContext(LoginContext);
+    const { setLastSearch, setSearchResults } = useContext(LoginContext);
 
     const [inputValue, setInputValue] = useState("")
+
     // const [searchResults, setSearchResults] = useState(null);
+
     const [triggerSearchBar, setTriggerSearchBar] = useState(false);
 
 

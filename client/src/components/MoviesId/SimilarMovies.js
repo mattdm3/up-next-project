@@ -3,8 +3,11 @@ import styled from 'styled-components';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { Link, NavLink } from 'react-router-dom';
 import { SubHeading } from '../CONSTANTS'
+import posterplaceholder from '../poster-placeholder.png'
+import { lightTheme } from '../theme'
+import SimilarActions from './SimilarActions';
 
-const SimilarMovies = ({ movieId }) => {
+const SimilarMovies = ({ movieId, theme }) => {
 
     const [similarMoviesArray, setSimilarMoviesArray] = useState(null)
 
@@ -34,8 +37,7 @@ const SimilarMovies = ({ movieId }) => {
                 .then(data => setSimilarMoviesArray(data.results))
         }
 
-    }, [])
-
+    }, [movieId])
 
 
     return (
@@ -47,13 +49,29 @@ const SimilarMovies = ({ movieId }) => {
             <StyledScrollRight onClick={executeScrollRight}>
                 <FaCaretRight />
             </StyledScrollRight>
-            <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef} >
+            <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
                 {similarMoviesArray && similarMoviesArray.map(movie => {
                     return (
                         <>
-                            <StyledLink to={`/movies/${movie.id}`}>
-                                <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
-                            </StyledLink>
+                            <div>
+                                <StyledLink to={`/movies/${movie.id}`}>
+
+                                    {
+                                        movie.poster_path != null ?
+                                            <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+                                            :
+                                            <>
+                                                <StyledPoster src={posterplaceholder} />
+                                                <p style={{ position: "absolute", bottom: "15%", left: "50%", transform: "translate(-50%, -50%)", color: "white" }}>{movie.title}</p>
+                                            </>
+                                    }
+
+
+
+
+                                </StyledLink>
+                                {/* <SimilarActions movieId={movie.id} /> */}
+                            </div>
                         </>
                     )
                 })}
@@ -70,6 +88,7 @@ const StyledLink = styled(Link)`
 
 const StyledPoster = styled.img`
     border-radius: 10px; 
+    max-width: 200px; 
 `
 
 const Container = styled.div`

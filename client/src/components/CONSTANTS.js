@@ -22,6 +22,7 @@ export const StyledLink = styled(Link)`
     color: inherit; 
     text-decoration: inherit;
     position: relative; 
+   
     
     
     
@@ -55,4 +56,15 @@ margin-top: 2rem;
 export const SubHeading = styled.h3`
 margin: 4rem 0; 
 font-weight: 700; 
+`
+
+export const GenreP = styled.p`
+    margin-right: .5rem;
+    
+    &:hover {
+        color: #F65F2D
+    }
+
+       
+    
 `

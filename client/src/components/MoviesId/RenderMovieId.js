@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import RenderMovie from '../BrowseByGenre/RenderMovie';
 import ClipLoader from "react-spinners/ClipLoader";
 import IdActions from './IdActions';
+import { StyledLink, GenreP } from '../CONSTANTS'
 
 
 const RenderMovieId = ({
@@ -40,7 +41,9 @@ const RenderMovieId = ({
                 <Genres>
                     {
                         genres.map(genre => {
-                            return <p>{genre.name}</p>
+                            return <StyledLink to={`/genres/${genre.name}`}>
+                                <GenreP>{genre.name}</GenreP>
+                            </StyledLink>
                         })
                     }
                 </Genres>
@@ -55,7 +58,7 @@ const RenderMovieId = ({
                     <IdActions movieId={movieId} />
                 </RatingInfo>
                 <DateRuntime>
-                    <p style={{ fontWeight: "bold", marginRight: ".5rem" }}>{releaseDate}</p>
+                    <p style={{ fontWeight: "bold", marginRight: ".5rem" }}>{releaseDate.slice(0, 4)}</p>
                     <p>{runtime} min</p>
                 </DateRuntime>
 

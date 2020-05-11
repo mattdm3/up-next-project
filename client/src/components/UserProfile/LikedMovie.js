@@ -6,13 +6,18 @@ import { PageHeading } from '../CONSTANTS'
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { Link, NavLink } from 'react-router-dom';
 import { StyledMovieContainer, Subheading, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
+import ClipLoader from 'react-spinners/ClipLoader'
+import UndoButton from '../BrowseByGenre/UndoButton'
 
 
 const LikedMovie = () => {
 
     const { dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
 
+
     const [likedMovieData, setLikedMovieData] = useState([])
+    const [loading, setLoading] = useState(false)
+
     // SCROLL
     const scrollRef = React.useRef();
 
@@ -30,54 +35,88 @@ const LikedMovie = () => {
 
 
     React.useEffect(() => {
-        dataObject.liked && dataObject.liked.forEach((movieId) => {
+
+        setLoading(true);
+
+        setLikedMovieData([]);
+
+        appUser.data && dataObject.liked && dataObject.liked.forEach((movieId) => {
             fetch(`/movies/${movieId}`)
                 .then(res => res.json())
                 .then(data => {
-                    setLikedMovieData(likedMovieData => [
-                        ...likedMovieData,
-                        data
-                    ])
+                    if (data) {
+                        setLikedMovieData(likedMovieData => [
+                            ...likedMovieData,
+                            data
+                        ]);
+                        setLoading(false)
+                    }
+
                 })
 
         })
-    }, [appUser, dataObject])
+    }, [dataObject])
 
 
     return (
 
-        likedMovieData.length > 0 ?
+        likedMovieData.length > 0 && likedMovieData[0].status_code != 34 ?
+            (
 
-            <Container>
-                <StyledScrollLeft onClick={executeScrollLeft}>
-                    <FaCaretLeft />
-                </StyledScrollLeft>
-                <StyledScrollRight onClick={executeScrollRight}>
-                    <FaCaretRight />
-                </StyledScrollRight>
-                <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
+                loading ?
+                    <RingLoaderContainer>
+                        <ClipLoader size={45} />
+                    </RingLoaderContainer>
+                    :
+                    <Container>
+                        <StyledScrollLeft onClick={executeScrollLeft}>
+                            <FaCaretLeft />
+                        </StyledScrollLeft>
+                        <StyledScrollRight onClick={executeScrollRight}>
+                            <FaCaretRight />
+                        </StyledScrollRight>
+                        <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
 
-                    {likedMovieData && likedMovieData.map((movie) => {
-                        return (
+                            {likedMovieData && likedMovieData.map((movie) => {
+                                return (
 
-                            <StyledLink to={`/movies/${movie.id}`} >
-                                <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
-                            </StyledLink>
-                        )
-                    }
-                    )}
-                </Wrapper>
-            </Container>
+                                    <StyledLink key={"liked:" + movie.id} to={`/movies/${movie.id}`} >
+                                        <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+
+                                        <div style={{ fontSize: ".8rem", width: "fit-content" }}>
+                                            <UndoButton movieId={movie.id} />
+                                        </div>
+                                    </StyledLink>
+                                )
+                            }
+                            )}
+                        </Wrapper>
+                    </Container>)
 
             :
-            <StyledMovieContainer>
-                <p>Nothing here yet.</p>
-            </StyledMovieContainer>
+            (
+                loading ?
+                    <RingLoaderContainer>
+                        <ClipLoader size={45} />
+                    </RingLoaderContainer>
+                    :
+
+                    <StyledMovieContainer>
+                        <p>Nothing here yet.</p>
+                    </StyledMovieContainer>)
 
 
     )
 }
 
+
+const RingLoaderContainer = styled.div`
+    width: 25rem;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+
+`
 
 
 export default LikedMovie; 

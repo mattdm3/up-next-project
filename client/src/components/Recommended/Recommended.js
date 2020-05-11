@@ -22,23 +22,34 @@ const Recommended = () => {
 
 
     const [recommendButton, setRecommendButton] = useState(true);
+    // const [recText, setRecText] = useState(["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "⏳man this AI stuff is slow", "almost there...."]);
 
-
-    appUser.data && console.log(appUser.data.recommendationCount, "rec count")
-    console.log(userLevel, "userLevel")
+    // appUser.data && console.log(recommendationCount, "rec count")
+    // console.log(userLevel, "userLevel")
 
 
 
     // console.log(appUser.data.recommendationCount)
 
-    // RAW RECOMMENDATIONS FROM BACK END 
+
 
     React.useEffect(() => {
 
         if (appUser.data && appUser.data.recommendationCount >= userLevel) {
             setRecommendButton(false)
         } else setRecommendButton(true)
-    }, [appUser])
+    }, [appUser, recommendedAPI])
+
+
+    // check if the recommendations have fully loaded. 
+
+    React.useEffect(() => {
+
+        if (recommendedAPI.length >= 10) {
+            setRecStatus('idle')
+        }
+
+    }, [recommendedAPI])
 
 
 
@@ -59,10 +70,11 @@ const Recommended = () => {
 
                 alert("rate more movies first")
             } else {
+                // setRecStatus("getting");
                 handleRecomendationRequest();
 
-                const recText = ["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "⏳man this AI stuff is slow", "almost there...."];
-                setRecStatus("getting");
+                const recText = ["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫 calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "...getting the 🍿...", "almost....", "....there...."];
+
                 let index = 0;
                 setInterval(() => {
                     setLoadingText(recText[index]);
@@ -75,10 +87,12 @@ const Recommended = () => {
 
     }
 
+    // console.log(loadingText)
+    // console.log(recStatus, "REC STATUS")
     // recommendedAPI && console.log(recommendedAPI[0])
     // console.log(recommendedMovies)
 
-    console.log(loading)
+    // console.log(loading)
 
     const triggerNextMovie = () => {
 
@@ -114,7 +128,7 @@ const Recommended = () => {
 
     // console.log(movieCounter)
 
-    console.log(recommendedAPI)
+    // console.log(recommendedAPI)
 
     return (
 
@@ -124,10 +138,15 @@ const Recommended = () => {
 
                     <GetBtn disabled onClick={getRecommendations}><BeatLoader /></GetBtn>
                     :
-                    <GetBtn style={recommendButton ? { opacity: "1" } : { opacity: ".5", boxShadow: "none" }} onClick={getRecommendations}>Generate Recommendations</GetBtn>}
+                    <GetBtn style={recommendButton ? { opacity: "1" } : { opacity: ".5", boxShadow: "none" }} onClick={getRecommendations}>{recommendButton ? "Generate Recommendations" : "Rate More Movies To Enable"}</GetBtn>}
 
                 {
-                    recStatus === "idle" ?
+                    recStatus === "getting" ?
+                        <div style={{ marginTop: "5rem", textAlign: "center" }}>
+                            {/* <ClipLoader /> */}
+                            <p style={{ fontSize: "1.2rem" }}>{loadingText}</p>
+                        </div>
+                        :
                         <div>
                             <FullViewContainer>
                                 {
@@ -144,11 +163,6 @@ const Recommended = () => {
                                     />
                                 }
                             </FullViewContainer>
-                        </div>
-                        :
-                        <div style={{ marginTop: "5rem", textAlign: "center" }}>
-                            <ClipLoader />
-                            <h3>{loadingText}</h3>
                         </div>
                 }
             </RecommendedContainer>

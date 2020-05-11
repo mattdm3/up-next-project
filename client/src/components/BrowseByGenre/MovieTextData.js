@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { genresList } from '../../data/genres';
-
+import { StyledLink, GenreP } from '../CONSTANTS'
 
 const MovieTextData = ({ genres, themes, title, releaseDate, genre, ratings }) => {
     let genreArray = [];
     let count = 0;
 
 
-    genres.map(genreID => {
 
+    genres.forEach(genreID => {
         for (let i = 0; i < genresList.length; i++) {
             if (genreID === genresList[i].id) {
                 count = count + 1;
@@ -17,12 +17,13 @@ const MovieTextData = ({ genres, themes, title, releaseDate, genre, ratings }) =
                 if (count < 4) {
                     genreArray.push(genresList[i].name)
                 }
-
-
             }
-
         }
     })
+
+
+
+
 
 
 
@@ -37,7 +38,9 @@ const MovieTextData = ({ genres, themes, title, releaseDate, genre, ratings }) =
 
                 {
                     genreArray.map(genreName => {
-                        return <p key={genreName}>{genreName}</p>
+                        return <StyledLink key={genreName} to={`/genres/${genreName}`}>
+                            <GenreP key={genreName}>{genreName}</GenreP>
+                        </StyledLink>
                     })
                 }
 
@@ -98,6 +101,7 @@ const ReleaseAndGenres = styled.div`
     p {
         margin-right: .5rem;
     }
+   
 `
 
 

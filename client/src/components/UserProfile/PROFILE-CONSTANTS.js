@@ -6,6 +6,8 @@ import { Link, NavLink } from 'react-router-dom';
 export const StyledLink = styled(Link)`
     margin: 0 2.3rem; 
     position: relative; 
+    color: inherit;
+
 `
 
 export const StyledPoster = styled.img`
@@ -69,7 +71,7 @@ export const SubHeading = styled.h3`
 export const StyledMovieContainer = styled.div`
     display: flex; 
     /* flex-wrap: wrap;  */
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
     justify-content: space-between; 
 
 `

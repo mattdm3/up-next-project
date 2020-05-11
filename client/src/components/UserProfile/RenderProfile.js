@@ -32,59 +32,6 @@ const RenderProfile = ({ theme }) => {
         scrollRef.current.scrollBy(300, 0)
     }
 
-    const executeScrollLeft = () => scrollLeft(scrollRef);
-    const executeScrollRight = () => scrollRight(scrollRef);
-    // 
-
-
-
-    // React.useEffect(() => {
-
-    //     dataObject.upNextList && dataObject.upNextList.forEach((movieId) => {
-
-    //         fetch(`/movies/${movieId}`)
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 setUpNextMovieData(upNextMovieData => [
-    //                     ...upNextMovieData,
-    //                     data
-    //                 ])
-    //             })
-
-    //     })
-
-    // }, [appUser, dataObject])
-
-
-    // React.useEffect(() => {
-    //     dataObject.liked && dataObject.liked.forEach((movieId) => {
-    //         fetch(`/movies/${movieId}`)
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 setLikedMovieData(likedMovieData => [
-    //                     ...likedMovieData,
-    //                     data
-    //                 ])
-    //             })
-
-    //     })
-    // }, [appUser, dataObject])
-
-
-    // React.useEffect(() => {
-    //     dataObject.disliked && dataObject.disliked.forEach((movieId) => {
-    //         fetch(`/movies/${movieId}`)
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 setDislikedMovieData(dislikedMovieData => [
-    //                     ...dislikedMovieData,
-    //                     data
-    //                 ])
-    //             })
-
-    //     })
-    // }, [appUser, dataObject])
-
 
 
     return (
