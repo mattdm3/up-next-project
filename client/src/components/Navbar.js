@@ -266,6 +266,8 @@ const HiddenNavigation = styled.div`
 
     background: ${({ theme }) => theme === lightTheme ? "#050553" : "#F3F4FD"}
 
+    
+
 `
 
 const HiddenNavLink = styled(Link)`
@@ -309,6 +311,8 @@ const OverlayMenu = styled.ul`
     z-index: 100; 
     font-size: 1.1rem;
     /* opacity: .9; */
+
+    
    
 
 
@@ -333,6 +337,10 @@ const OverlayMenu = styled.ul`
         color: #8E8E8E; 
         }
 
+        @media screen and (max-width: 500px) {
+        font-size: 11px; 
+    }
+
        
     }
 
@@ -351,6 +359,10 @@ const UserName = styled.p`
         /* border-bottom: 2px solid #164C81; */
         width: 100%; 
         transition-duration: 300ms;
+
+        @media screen and (max-width: 500px) {
+        font-size: 13px; 
+    }
 `
 
 

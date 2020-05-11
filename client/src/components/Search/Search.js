@@ -7,7 +7,7 @@ import { lightTheme } from '../theme';
 const Search = () => {
 
 
-    const { setLastSearch, setSearchResults } = useContext(LoginContext);
+    const { setLastSearch, setSearchResults, searchResults } = useContext(LoginContext);
 
     const [inputValue, setInputValue] = useState("")
 
@@ -19,7 +19,11 @@ const Search = () => {
     let inputRef = React.useRef();
 
 
-
+    const handleClearSearch = () => {
+        setSearchResults(null);
+        setInputValue('')
+        toggleSearchTrigger();
+    }
     // This is a toggler to open/close search bar. 
 
     const toggleSearchTrigger = () => {
@@ -90,7 +94,7 @@ const Search = () => {
             <SearchIconContainer>
                 <FiSearch onClick={toggleSearchTrigger} />
             </SearchIconContainer>
-            <div>
+            <div style={{ position: "relative" }}>
                 <SearchInput ref={inputRef} style={(triggerSearchBar) ?
                     {
                         opacity: "1",
@@ -107,12 +111,20 @@ const Search = () => {
                     }
                 } placeholder="search a movie title" type="text" value={inputValue} onChange={(e) => handleInputValue(e)} />
                 {/* <button onClick={handleSearch}>Go</button> */}
-                {/* <button onClick={handleClearSearch}>Clear</button> */}
+                <StyledClearButton style={inputValue ? { display: "block" } : { display: "none" }} onClick={handleClearSearch}>Clear</StyledClearButton>
             </div>
 
         </StyledSearchContainer>
     )
 }
+
+const StyledClearButton = styled.p`
+    position: absolute;
+    right: .5rem;
+    top: 28%; 
+    cursor:pointer; 
+`
+
 
 const SearchIconContainer = styled.div`
     font-size: 2rem;
