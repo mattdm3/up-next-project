@@ -1,21 +1,18 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
-import UpNextMovies from './UpNextMovies';
-import { PageHeading } from '../CONSTANTS'
-import LikedMovie from './LikedMovie';
+
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
-import { Link, NavLink } from 'react-router-dom';
-import { StyledMovieContainer, Subheading, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
+
+import { StyledMovieContainer, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
 import UndoButton from '../BrowseByGenre/UndoButton'
-import { lightTheme } from '../theme'
-import RingLoader from 'react-spinners/RingLoader'
+
 import ClipLoader from 'react-spinners/ClipLoader'
 
 
 const DislikedMovie = () => {
 
-    const { dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message, theme } = useContext(LoginContext);
+    const { dataObject, appUser } = useContext(LoginContext);
 
     const [dislikedMovieData, setDislikedMovieData] = useState([])
     const [loading, setLoading] = useState(false)
@@ -34,7 +31,7 @@ const DislikedMovie = () => {
     const executeScrollRight = () => scrollRight(scrollRef);
     // 
 
-    dataObject.disliked && console.log(dataObject.disliked[0])
+    // dataObject.disliked && console.log(dataObject.disliked[0])
 
     React.useEffect(() => {
 

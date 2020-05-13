@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import withFirebaseAuth from 'react-with-firebase-auth';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 // import admin from 'firebase-admin';
 
@@ -70,7 +70,12 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
     const [recommendAllowed, setRecommendAllowed] = useState(false)
     const [recommendationCount, setRecommendationCount] = useState(0)
 
+    //debugging/
 
+    console.log(user)
+
+
+    ///
 
     function calculateLevel(ratingAmount) {
         let level = Math.floor(ratingAmount / 5);

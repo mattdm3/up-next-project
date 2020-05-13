@@ -1,17 +1,14 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
-import { PageHeading } from '../CONSTANTS'
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
-import { Link, NavLink } from 'react-router-dom';
-import { StyledMovieContainer, Subheading, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
+import { StyledMovieContainer, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
 import UpNextActions from './UpNextActions';
-import RingLoader from 'react-spinners/RingLoader'
 import ClipLoader from 'react-spinners/ClipLoader'
 
 const UpNextMovies = () => {
 
-    const { handleMovieLike, handleMovieDislike, dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { dataObject, appUser } = useContext(LoginContext);
 
     const [upNextMovieData, setUpNextMovieData] = useState([])
     const [loading, setLoading] = useState(false)

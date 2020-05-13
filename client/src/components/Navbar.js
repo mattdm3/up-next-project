@@ -3,21 +3,19 @@ import styled, { keyframes } from 'styled-components';
 import { NavLink, useHistory, Link } from 'react-router-dom';
 import DarkModeToggler from './DarkModeToggler'
 import { LoginContext } from './LoginContext';
-import { app } from 'firebase';
 import { lightTheme } from './theme';
 import { FiUser } from 'react-icons/fi'
 import { GiHamburgerMenu } from 'react-icons/gi'
-import { FiSearch, FiX } from 'react-icons/fi'
+import { FiX } from 'react-icons/fi'
 import { FaCheckSquare } from 'react-icons/fa'
-import { IoIosExit } from 'react-icons/io'
 
 const Navbar = ({ theme, toggleTheme }) => {
 
-    const { recommendAllowed, dataObject, updateUserData, selectedGenre, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { recommendAllowed, dataObject, selectedGenre, appUser, signInWithGoogle, handleSignOut } = useContext(LoginContext);
 
 
     const [navbar, setNavbar] = useState(false);
-    const [scroll, setScroll] = useState(false);
+
 
     const [triggerSearchBar, setTriggerSearchBar] = useState(false);
 

@@ -1,18 +1,15 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
-import UpNextMovies from './UpNextMovies';
-import { PageHeading } from '../CONSTANTS'
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
-import { Link, NavLink } from 'react-router-dom';
-import { StyledMovieContainer, Subheading, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
+import { StyledMovieContainer, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
 import ClipLoader from 'react-spinners/ClipLoader'
 import UndoButton from '../BrowseByGenre/UndoButton'
 
 
 const LikedMovie = () => {
 
-    const { dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { dataObject, appUser } = useContext(LoginContext);
 
 
     const [likedMovieData, setLikedMovieData] = useState([])

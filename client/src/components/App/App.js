@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../theme';
 import { GlobalStyles } from '../global';
 import { PageContainer } from '../CONSTANTS';
-import DarkModeToggler from '../DarkModeToggler';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BrowseByGenre from '../BrowseByGenre'
 import MoviesId from '../MoviesId'
 import Navbar from '../Navbar';
