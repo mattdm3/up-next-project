@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "12.14.x"
+  },
   "scripts": {
     "start": "node index.js",
     "special": "nodemon src/shorterRecommend.js --exec babel-node --presets es2015,stage-2"
