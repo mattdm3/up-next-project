@@ -5,6 +5,7 @@ import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { StyledMovieContainer, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
 import UpNextActions from './UpNextActions';
 import ClipLoader from 'react-spinners/ClipLoader'
+import posterplaceholder from '../poster-placeholder.png'
 
 const UpNextMovies = () => {
 
@@ -81,7 +82,13 @@ const UpNextMovies = () => {
 
                                     <ListContainer key={"upNext:" + movie.id}>
                                         <StyledLink to={`/movies/${movie.id}`} >
+
+
                                             <StyledPoster src={`https://image.tmdb.org/t/p/w400/${movie.poster_path}`} />
+
+
+
+
                                         </StyledLink>
                                         <UpNextActions setUpNextMovieData={setUpNextMovieData} loading={loading} setLoading={setLoading} movieId={movie.id} />
                                     </ListContainer>
