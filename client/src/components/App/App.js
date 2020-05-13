@@ -35,12 +35,6 @@ function App() {
 
 
 
-  // RANDOM MOVIE TEST
-  const handleRandomMovie = () => {
-    fetch('/randomMovie')
-      .then(res => res.json())
-      .then(data => setRandomMovie(data))
-  }
 
   return (
     <Router>

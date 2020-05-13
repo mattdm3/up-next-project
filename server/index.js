@@ -10,10 +10,18 @@ const { handleRecommendations } = require('./src/shorterRecommend')
 
 require('dotenv').config();
 
+
+
 const PORT = process.env.PORT || 4000;
 
 
 var app = express()
+
+const cors = require('cors');
+app.use(cors());
+
+
+
 app.use(function (req, res, next) {
     res.header(
         'Access-Control-Allow-Methods',

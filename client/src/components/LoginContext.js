@@ -7,7 +7,7 @@ import 'firebase/auth';
 
 
 export const LoginContext = createContext(null);
-
+export const serverUrl = "https://backend-upnext.herokuapp.com"
 
 const firebaseConfig = {
     apiKey: "AIzaSyBf0PRvItpZll7tKJBC-DS4DwYRZRmb_u0",
@@ -72,7 +72,6 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     //debugging/
 
-    console.log(user)
 
 
     ///
@@ -168,7 +167,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
     useEffect(() => {
         if (user) {
 
-            fetch(`/users`, {
+            fetch(`${serverUrl}/users`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -198,34 +197,9 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
 
 
-
-
-    const updateUserData = () => {
-        // console.log(user, "current user trigger")
-
-        // console.log(firebaseAppAuth.currentUser);
-
-        // user && fetch(`/updateUserData`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         email: user.email,
-        //         currentUserId: firebaseAppAuth.currentUser.uid,
-        //     }),
-        // })
-        //     .then((res) => res.json())
-        //     .then((json) => {
-        //         setAppUser(json.data);
-        //         setMessage(json.message);
-        //     });
-
-    }
-
     const handleMovieLike = (id) => {
 
-        user && fetch(`/handleLikeMovie`, {
+        user && fetch(`${serverUrl}/handleLikeMovie`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -245,7 +219,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     const handleMovieDislike = (id) => {
 
-        user && fetch(`/handleDislikeMovie`, {
+        user && fetch(`${serverUrl}/handleDislikeMovie`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -266,7 +240,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     const handleAddUpNext = (id) => {
 
-        user && fetch(`/handleAddUpNext`, {
+        user && fetch(`${serverUrl}/handleAddUpNext`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -296,7 +270,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
         try {
 
-            fetch(`/recommendations/get`, {
+            fetch(`${serverUrl}/recommendations/get`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -350,7 +324,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
         recommendationsArray && recommendationsArray.length > 1 && recommendationsArray.forEach((movieId) => {
 
 
-            fetch(`/movies/${movieId}`)
+            fetch(`${serverUrl}/movies/${movieId}`)
                 .then(res => res.json())
                 .then(data => {
                     setRecommendedAPI(recommendedAPI => [
@@ -367,32 +341,8 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
     }, [recommendationCount])
 
 
-    // CREATE AN UP NEXT ARRAY AND FETCH EACH ONE. 
 
-    // const [upNextMovieData, setUpNextMovieData] = useState([])
-
-
-    // console.log(upNextMovieData)
-
-    // React.useEffect(() => {
-
-    //     dataObject.upNextList && dataObject.upNextList.forEach((movieId) => {
-
-    //         fetch(`/movies/${movieId}`)
-    //             .then(res => res.json())
-    //             // .then(data => {
-    //             //     setUpNextMovieData(upNextMovieData => [
-    //             //         ...upNextMovieData,
-    //             //         data
-    //             //     ])
-    //             // })
-    //             .then(data => setUpNextMovieData())
-
-    //     })
-
-    // }, [dataObject, appUser])
-
-    return <LoginContext.Provider value={{ setRecommendAllowed, recommendAllowed, loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message, updateUserData }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ setRecommendAllowed, recommendAllowed, loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

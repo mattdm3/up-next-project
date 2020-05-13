@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import styled from 'styled-components';
-import { LoginContext } from '../LoginContext';
+import { serverUrl, LoginContext } from '../LoginContext';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { StyledMovieContainer, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
 import UpNextActions from './UpNextActions';
@@ -37,7 +37,7 @@ const UpNextMovies = () => {
 
         appUser.data && dataObject.upNextList && dataObject.upNextList.forEach((movieId) => {
 
-            fetch(`/movies/${movieId}`)
+            fetch(`${serverUrl}/movies/${movieId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
@@ -56,8 +56,6 @@ const UpNextMovies = () => {
 
 
 
-    console.log(upNextMovieData, "UP NEXT MOVIE DATA")
-    console.log(loading, "LOADING")
 
     return (
 

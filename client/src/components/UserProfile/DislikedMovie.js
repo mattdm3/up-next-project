@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import styled from 'styled-components';
-import { LoginContext } from '../LoginContext';
+import { serverUrl, LoginContext } from '../LoginContext';
 
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 
@@ -44,7 +44,7 @@ const DislikedMovie = () => {
         appUser.data && dataObject.disliked && dataObject.disliked.forEach((movieId) => {
 
 
-            fetch(`/movies/${movieId}`)
+            fetch(`${serverUrl}/movies/${movieId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data) {

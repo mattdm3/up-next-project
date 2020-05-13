@@ -17,6 +17,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "compute-cosine-similarity": "^1.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fast-csv": "^2.4.1",
@@ -25,7 +26,7 @@
     "isomorphic-fetch": "^2.2.1",
     "mathjs": "^3.18.0",
     "morgan": "^1.10.0",
-    "natural": "^0.5.4",
+    "natural": "^2.1.5",
     "nodemon": "^2.0.3"
   },
   "devDependencies": {

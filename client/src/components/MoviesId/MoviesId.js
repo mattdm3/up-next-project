@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import RenderMovieId from './RenderMovieId'
 import SimilarMovies from './SimilarMovies';
+import { serverUrl } from '../LoginContext'
 
 
 const MoviesId = () => {
@@ -14,7 +15,7 @@ const MoviesId = () => {
 
     React.useEffect(() => {
 
-        fetch(`/movies/${movieId}`)
+        fetch(`${serverUrl}/movies/${movieId}`)
             .then(res => res.json())
             .then(data => setSelectedMovieData(data))
 

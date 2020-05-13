@@ -6,6 +6,7 @@ import { SubHeading } from '../CONSTANTS'
 import posterplaceholder from '../poster-placeholder.png'
 import { lightTheme } from '../theme'
 import SimilarActions from './SimilarActions';
+import { serverUrl } from '../LoginContext'
 
 const SimilarMovies = ({ movieId, theme }) => {
 
@@ -31,7 +32,7 @@ const SimilarMovies = ({ movieId, theme }) => {
     React.useEffect(() => {
 
         if (movieId) {
-            fetch(`/movies/getSimilar/${movieId}`)
+            fetch(`${serverUrl}/movies/getSimilar/${movieId}`)
                 .then(res => res.json())
                 .then(data => setSimilarMoviesArray(data.results))
         }

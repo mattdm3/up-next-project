@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { LoginContext } from '../LoginContext';
+import { LoginContext, serverUrl } from '../LoginContext';
 import { FiSearch } from 'react-icons/fi'
 import { lightTheme } from '../theme';
 
@@ -40,7 +40,7 @@ const Search = () => {
         setInputValue("");
         toggleSearchTrigger();
 
-        fetch(`/search/${inputValue}`)
+        fetch(`${serverUrl}/search/${inputValue}`)
             .then(res => res.json())
             .then(data => setSearchResults(data))
 
@@ -49,7 +49,7 @@ const Search = () => {
 
     const handleInputValue = (e) => {
         setInputValue(e.target.value);
-        console.log(inputValue)
+
     }
 
 

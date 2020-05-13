@@ -14,6 +14,8 @@ import { AiFillCaretLeft } from 'react-icons/ai'
 import { AiFillCaretRight } from 'react-icons/ai'
 import Search from '../Search/Search';
 
+import { serverUrl } from '../LoginContext'
+
 const BrowseByGenre = ({ theme }) => {
 
     const [genreData, setGenreData] = useState(null);
@@ -90,7 +92,7 @@ const BrowseByGenre = ({ theme }) => {
     React.useEffect(() => {
 
         if (selectedGenreId) {
-            fetch(`/genres/${selectedGenreId}?sort=${sortOption}&browsePage=${browsePage}`)
+            fetch(`${serverUrl}/genres/${selectedGenreId}?sort=${sortOption}&browsePage=${browsePage}`)
                 .then(res => res.json())
                 // .then(data => filterAndShow(data.results))
                 .then(data => setGenreData(data))
