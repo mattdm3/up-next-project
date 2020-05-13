@@ -254,8 +254,11 @@ const Number = styled.p`
     background: #FFD93B;
     padding: .8rem; 
     border-radius: 50%; 
-    height: 100%; 
-    width: 50px; 
+    width: 40px; 
+    height: 40px; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
     text-align: center; 
 
 `

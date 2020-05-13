@@ -73,7 +73,7 @@ const RenderMovieId = ({
                     {youtube ?
                         <>
                             <iframe style={youtubeLoaded ? { display: "block" } : { display: "none" }} onLoad={() => setyoutubeLoaded(true)} id="player" type="text/html" //width="500" height="300"
-                                src={`http://www.youtube.com/embed/${youtube}?enablejsapi=1`}
+                                src={`https://www.youtube.com/embed/${youtube}?enablejsapi=1`}
                                 frameborder="0"></iframe>
 
                             <SpinnerContainer style={youtubeLoaded ? { display: "none" } : { display: "block" }}>
