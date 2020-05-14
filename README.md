@@ -9,7 +9,7 @@ A movie-rating app that allows users to find movies, rate movies, and get recomm
 * NodeJs
 
 ## Notes 
-Due to server limitations on Heroku, the live version does not include the ability to get recommendations yet.
+Due to server limitations on Heroku, the live version does not include the ability to get recommendations yet, though it is possible to achieve locally. 
 
 ## Acknowledgments
 
