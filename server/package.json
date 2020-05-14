@@ -8,7 +8,7 @@
     "yarn": "1.22.x"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "special": "nodemon src/shorterRecommend.js --exec babel-node --presets es2015,stage-2"
   },
   "keywords": [],
