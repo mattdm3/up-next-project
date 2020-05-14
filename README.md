@@ -2,13 +2,14 @@
 
 A movie-rating app that allows users to find movies, rate movies, and get recommendations. Users can also create an "up next" list as they browse. 
 
-
 ## Built With
 
 * ReactJS
 * Firebase
 * NodeJs
 
+## Notes 
+Due to server limitations on Heroku, the live version does not include the ability to get recommendations yet.
 
 ## Acknowledgments
 
