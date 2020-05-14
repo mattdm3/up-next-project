@@ -102,7 +102,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                         <UserName>Hello, {appUser.displayName} </UserName>
                         {/* <HiddenNavLink onClick={toggleNavbar} to="/"><li>Home 🍿</li></HiddenNavLink> */}
                         <HiddenNavLink onClick={toggleNavbar} to="/genres/action"><li>Browse 🔍</li></HiddenNavLink>
-                        <HiddenNavLink onClick={toggleNavbar} to={`/recommended/${appUser.uid}`}><li>Recommended Movies 🎥</li></HiddenNavLink>
+                        {/* <HiddenNavLink onClick={toggleNavbar} to={`/recommended/${appUser.uid}`}><li>Recommended Movies 🎥</li></HiddenNavLink> */}
 
 
                         {appUser && appUser.email ?
@@ -149,13 +149,13 @@ const Navbar = ({ theme, toggleTheme }) => {
 
                     </NavigationLink>
 
-                    <NavigationLink exact to={`/recommended/${appUser.uid}`}>
+                    {/* <NavigationLink exact to={`/recommended/${appUser.uid}`}>
                         <StyledNavLink>Recommended Movies</StyledNavLink>
                         {appUser.email && recommendAllowed && navbar === false &&
                             <RecContainer>
                                 <FaCheckSquare />
                             </RecContainer>}
-                    </NavigationLink>
+                    </NavigationLink> */}
                     {/* <NavigationLink exact to='/'>
                         <li>🍿</li>
                     </NavigationLink> */}

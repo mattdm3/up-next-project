@@ -34,12 +34,14 @@ let MOVIES_META_DATA = {};
 let MOVIES_KEYWORDS = {};
 let RATINGS = [];
 
+
 let moviesMetaDataPromise = new Promise((resolve) =>
     fs
         .createReadStream('./src/data/movies_metadata.csv')
         .pipe(csv({ headers: true }))
         .on('data', fromMetaDataFile)
-        .on('end', () => resolve(MOVIES_META_DATA)));
+        .on('end', () => resolve(MOVIES_META_DATA)))
+
 
 let moviesKeywordsPromise = new Promise((resolve) =>
     fs
@@ -97,6 +99,72 @@ function softEval(string, escape) {
     }
 }
 
+// NOW ALL HAPPENING ON LOAD INSTEAD OF WHEN USER MAKES REQUEST  - had to remove bcz heroku
+// let MOVIES_BY_ID;
+// let MOVIES_IN_LIST;
+// let X;
+
+const backgroundPrep = async () => {
+
+    const preparedMovies = await prepareMovies(MOVIES_META_DATA, MOVIES_KEYWORDS);
+    MOVIES_BY_ID = preparedMovies.MOVIES_BY_ID;
+    MOVIES_IN_LIST = preparedMovies.MOVIES_IN_LIST;
+    X = preparedMovies.X;
+}
+
+// const runPromise = () => {
+//     Promise.all([
+//         moviesMetaDataPromise,
+//         moviesKeywordsPromise,
+//         ratingsPromise,
+//     ]).then(backgroundPrep);
+// }
+
+
+// HAD TO REMOVE FROM HERE SINCE SERVER ONN HEROKU WAS CRASHING
+
+// Promise.all([
+//     moviesMetaDataPromise,
+//     moviesKeywordsPromise,
+//     ratingsPromise,
+// ]).then(backgroundPrep);
+
+
+// // REDIS BULL TESTING /////
+
+// const redis = require('redis')
+// const Bull = require("bull")
+
+// const REDIS_PORT = process.env.PORT || 6379;
+
+// const myFirstQueue = new Bull('my-first-queue');
+
+// //producer
+
+
+
+// const asyncJob = async () => {
+//     const job = await myFirstQueue.add(Promise.all([
+//         moviesMetaDataPromise,
+//         moviesKeywordsPromise,
+//         ratingsPromise,
+//     ]));
+
+//     const response = await myFirstQueue.process(async (job) => {
+//         console.log(job)
+//     });
+
+// }
+
+// asyncJob()
+
+// //consumer
+// myFirstQueue.process(async (job) => {
+//     console.log(job)
+// });
+
+// // REDIS BULL TESTING - END/////
+
 
 
 
@@ -104,6 +172,7 @@ function softEval(string, escape) {
 
 
 const handleRecommendations = async (req, res) => {
+
 
 
     let ME_USER_ID = [req.body.uid];
@@ -126,16 +195,22 @@ const handleRecommendations = async (req, res) => {
     ]).then(init)
 
 
+    // HAD TO REMOVE DUE TO HEROKU LOSING MEM
+    // init([MOVIES_META_DATA, MOVIES_KEYWORDS, RATINGS])
+
+
     async function init([moviesMetaData, moviesKeywords, ratings]) {
         /* ------------ */
         //  Preparation //
         /* -------------*/
 
-        const {
-            MOVIES_BY_ID,
-            MOVIES_IN_LIST,
-            X,
-        } = await prepareMovies(moviesMetaData, moviesKeywords);
+
+
+        // const {
+        //     MOVIES_BY_ID,
+        //     MOVIES_IN_LIST,
+        //     X,
+        // } = await prepareMovies(moviesMetaData, moviesKeywords);
 
 
         // USER FILTERED LIKES and DISLIKES
@@ -147,7 +222,7 @@ const handleRecommendations = async (req, res) => {
 
             if (MOVIES_BY_ID[likedMovieId] != undefined) {
                 filteredLikedMoviesArray.push(likedMovieId);
-                console.log(likedMovieId, "THIS WAS GOOD");
+                console.log(likedMovieId, "TESTING");
             };
         })
 
@@ -364,6 +439,28 @@ const handleRecommendations = async (req, res) => {
 
 
 }
+
+
+
+// // REDIS BULL TESTING /////
+
+// const redis = require('redis')
+// const Bull = require("bull")
+
+// const REDIS_PORT = process.env.PORT || 6379;
+
+// const myFirstQueue = new Bull('my-first-queue');
+
+// //producer
+// const job = myFirstQueue.add(prepareMovies(moviesMetaData, moviesKeywords));
+
+// //consumer
+// myFirstQueue.process(async (job) => {
+//     console.log(job)
+// });
+
+// // REDIS BULL TESTING - END/////
+
 
 
 module.exports = {

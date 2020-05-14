@@ -17,13 +17,13 @@ function prepareMovies(moviesMetaData, moviesKeywords) {
   let MOVIES_IN_LIST = zip(moviesMetaData, moviesKeywords);
 
 
+
+
   MOVIES_IN_LIST = withTokenizedAndStemmed(MOVIES_IN_LIST, 'overview');
   MOVIES_IN_LIST = fromArrayToMap(MOVIES_IN_LIST, 'overview');
 
   // Keep a map of movies for later reference
   let MOVIES_BY_ID = MOVIES_IN_LIST.reduce(byId, {});
-
-
 
 
   console.log('(2) Creating Dictionaries');
@@ -315,6 +315,27 @@ function zip(movies, keywords) {
     ...keywords[mId],
   }));
 }
+
+
+// REDIS BULL TESTING /////
+
+const redis = require('redis')
+const Bull = require("bull")
+
+const REDIS_PORT = process.env.PORT || 6379;
+
+const myFirstQueue = new Bull('my-first-queue');
+
+//producer
+// const job = myFirstQueue.add(zip(moviesMetaData, moviesKeywords));
+
+//consumer
+myFirstQueue.process(async (job) => {
+  console.log(job)
+});
+
+// REDIS BULL TESTING - END/////
+
 
 module.exports = {
   byId, prepareDictionaries, scaleFeatures, synthesizeFeatures, getCoefficients, toFeaturizedMovies, toFeaturizedRelease, toFeaturizedAdult, toFeaturizedHomepage, toFeaturizedLanguage, toFeaturizedFromDictionary, toFeaturizedNumber, fromArrayToMap, withTokenizedAndStemmed, filterByThreshold, toDictionary, zip,

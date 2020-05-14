@@ -261,7 +261,7 @@ const handleUndoRating = async (req, res) => {
     // IF it's empty, put "none" so that Front End doesn't break :) 
 
 
-    if (!likedData) {
+    if (likedData === null) {
         await db.ref('appUsers/' + uid)
             .child('data')
             .child("likedMovies")
@@ -282,7 +282,7 @@ const handleUndoRating = async (req, res) => {
     });
 
     // IF it's empty, put "none" so that Front End doesn't break :) 
-    if (!dislikedData) {
+    if (dislikedData === null) {
         await db.ref('appUsers/' + uid)
             .child('data')
             .child("dislikedMovies")
@@ -303,7 +303,7 @@ const handleUndoRating = async (req, res) => {
     });
 
     // IF it's empty, put "none" so that Front End doesn't break :) 
-    if (!upNextData) {
+    if (upNextData === null) {
         await db.ref('appUsers/' + uid)
             .child('data')
             .child("upNextList")

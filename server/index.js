@@ -11,6 +11,27 @@ const { handleRecommendations } = require('./src/shorterRecommend')
 require('dotenv').config();
 
 
+// REDIS BULL TESTING /////
+
+// const redis = require('redis')
+// const Bull = require("bull")
+
+// const REDIS_PORT = process.env.PORT || 6379;
+
+// const myFirstQueue = new Bull('my-first-queue');
+
+//producer
+// const job = myFirstQueue.add({
+//     foo: "bar"
+// });
+
+//consumer
+// myFirstQueue.process(async (job) => {
+//     console.log(job.data)
+// });
+
+// REDIS BULL TESTING - END/////
+
 
 const PORT = process.env.PORT || 4000;
 
