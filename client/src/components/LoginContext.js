@@ -7,8 +7,8 @@ import 'firebase/auth';
 
 
 export const LoginContext = createContext(null);
-export const serverUrl = "https://backend-upnext.herokuapp.com"
-// export const serverUrl = ""
+// export const serverUrl = "https://backend-upnext.herokuapp.com"
+export const serverUrl = ""
 
 const firebaseConfig = {
     apiKey: "AIzaSyBf0PRvItpZll7tKJBC-DS4DwYRZRmb_u0",

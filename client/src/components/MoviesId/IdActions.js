@@ -102,13 +102,19 @@ const StyleActionContainer = styled.div`
 
 
     p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        width: 2.8rem;
+        height: 2.8rem;
         margin-right: .5rem;
-        padding: 12px; 
+        padding: 1rem; 
         background:   ${({ theme }) => theme === lightTheme ? "#232476" : "#F3F4FD"};
         border-radius: 50%; 
         margin-right: 1rem;
         cursor: pointer;
+        text-align: center;
+        display: flex; 
+        justify-content: center;
+        align-items: center;
 
         &:hover {
             background: grey; 

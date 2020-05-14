@@ -99,7 +99,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                     </ExitNavigation>
 
                     <OverlayMenu>
-                        <UserName>Hello, {appUser.displayName} </UserName>
+                        {appUser.displayName && <UserName>Hello, {appUser.displayName} </UserName>}
                         {/* <HiddenNavLink onClick={toggleNavbar} to="/"><li>Home 🍿</li></HiddenNavLink> */}
                         <HiddenNavLink onClick={toggleNavbar} to="/genres/action"><li>Browse 🔍</li></HiddenNavLink>
                         {/* <HiddenNavLink onClick={toggleNavbar} to={`/recommended/${appUser.uid}`}><li>Recommended Movies 🎥</li></HiddenNavLink> */}
@@ -117,8 +117,14 @@ const Navbar = ({ theme, toggleTheme }) => {
 
                             </>
                             :
-                            <StyledNavLink style={{ cursor: "pointer" }} onClick={signInWithGoogle}><UserIcon /></StyledNavLink>
+                            <>
+                                <StyledNavLink style={{ cursor: "pointer", display: 'flex', justifyContent: "flex-end", alignItems: "center" }} onClick={signInWithGoogle}> <p style={{ paddingRight: ".5rem" }}>Login</p> <UserIcon /></StyledNavLink>
+
+                                <LearnMoreButton onClick={() => history.push("/")}>How it works</LearnMoreButton>
+                            </>
                         }
+
+
 
 
 
@@ -276,7 +282,7 @@ const ExitNavigation = styled.div`
     /* color: white;  */
     color: ${({ theme }) => theme === lightTheme ? "#F3F4FD" : "#050553"};
     position: absolute; 
-    right: 20px;
+    right:  3rem;
     top: 4.5rem; 
     font-size: 1.7rem; 
     transition-duration: 400ms;
@@ -299,7 +305,7 @@ const OverlayMenu = styled.ul`
     /* color: white;  */
 
     margin: 0; 
-    padding-right: 4rem;
+    padding-right: 3rem;
     padding-bottom: 20px; 
     margin: 7rem 0;
     width: 100%;
@@ -457,5 +463,21 @@ const NavigationLink = styled(NavLink)`
     position: relative;
 
 `
+
+const LearnMoreButton = styled.div`
+    width: 10rem; 
+    height: 2.3rem;
+    margin-top: 1.5rem;
+    border-radius: 10px; 
+    background: #F65F2D; 
+    color: white; 
+    text-align: center; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
+`
+
 
 export default Navbar; 

@@ -17,7 +17,7 @@ const Footer = () => {
 const StyledFooter = styled.footer`
     height: 150px; 
     font-size: .9rem;
-    padding: 60px 100px; 
+    padding: 3.7rem 6.2rem; 
     margin-top: 100px; 
     /* border-top: 1px solid #D4D5D9; */
     display: flex;
@@ -26,6 +26,9 @@ const StyledFooter = styled.footer`
 
     background:  ${({ theme }) => theme === lightTheme ? "#999BFB" : "#03033D"};
   
+    @media screen and (max-width: 500px) {
+        padding: 1rem 3rem;
+    }
 
 `
 
@@ -47,7 +50,7 @@ const Logo = styled.p`
     padding:0; 
     margin: 0; 
     margin-right: 1rem;
-    font-size: 1.8rem; 
+    font-size: 1.6rem; 
     font-weight: 400; 
     font-family: "Raleway";
     color: #999BFB;
@@ -56,6 +59,11 @@ const Logo = styled.p`
     span {
         font-weight: 700; 
         color:  ${({ theme }) => theme === lightTheme ? "#1E209A" : "white"};
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: 1rem;
+        width: fit-content;
     }
 
 `

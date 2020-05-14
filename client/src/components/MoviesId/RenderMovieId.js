@@ -121,6 +121,11 @@ const MovieHeader = styled.div`
 
     margin-bottom: 2.5rem;
 
+    @media screen and (max-width: 650px) {
+        display:block; 
+       height: fit-content;
+    }
+
 
 `
 
@@ -139,6 +144,11 @@ const MoviePoster = styled.div`
     img {
     border-radius: 10px; 
     width: 100%; 
+
+    }
+
+    @media screen and (max-width: 650px) {
+        display: none;
     }
 `
 
@@ -154,6 +164,7 @@ const TrailerContainer = styled.div`
     /* width: 40rem; */
     width: 100%; 
     height: 100%; 
+    min-height: 266px; 
     }
 `
 
@@ -215,6 +226,7 @@ const MovieInfoTop = styled.div`
     display: flex; 
     justify-content: space-between;
     margin-bottom: 2rem;
+    align-items: center;
 `
 
 const RatingInfo = styled.div`
