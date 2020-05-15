@@ -2,11 +2,12 @@ import React from "react"
 import styled from 'styled-components'
 import { genresList } from '../../data/genres'
 import Select from 'react-select'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 const GenreDropDown = () => {
 
     const { genreName } = useParams();
+    let history = useHistory();
 
     const selectOptions = []
 
@@ -16,7 +17,7 @@ const GenreDropDown = () => {
 
     const handleSelect = (e) => {
         const target = e.value;
-        window.location = `/genres/${target}`
+        history.push(`/genres/${target}`)
     }
 
 
