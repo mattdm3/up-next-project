@@ -36,6 +36,8 @@ const RenderRecommendations = ({
 
 }) => {
 
+    console.log(movieId)
+
     const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
 
     // appUser && appUser.data && console.log(appUser.data.dislikedMovies)

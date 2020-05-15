@@ -34,7 +34,7 @@ const MoviesId = () => {
                     releaseDate={selectedMovieData.release_date}
                     runtime={selectedMovieData.runtime}
 
-                    youtube={selectedMovieData.videos.results[0] ? selectedMovieData.videos.results[0].key : null}
+                    youtube={selectedMovieData.videos && selectedMovieData.videos.results[0] ? selectedMovieData.videos.results[0].key : null}
 
                     backdropPath={`https://image.tmdb.org/t/p/original/${selectedMovieData.backdrop_path}`}
                     movieId={movieId}

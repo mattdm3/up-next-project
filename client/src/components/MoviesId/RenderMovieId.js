@@ -31,7 +31,7 @@ const RenderMovieId = ({
                 <h2>{title}</h2>
                 <Genres>
                     {
-                        genres.map(genre => {
+                        genres && genres.map(genre => {
                             return <StyledLink to={`/genres/${genre.name}`}>
                                 <GenreP>{genre.name}</GenreP>
                             </StyledLink>

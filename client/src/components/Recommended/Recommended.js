@@ -138,7 +138,7 @@ const Recommended = () => {
                                         triggerNextMovie={triggerNextMovie}
                                         triggerPreviousMovie={triggerPreviousMovie}
                                         genres={recommendedAPI[movieCounter]["genres"]}
-                                        releaseDate={recommendedAPI[movieCounter].release_date.slice(0, 4)}
+                                        releaseDate={recommendedAPI[movieCounter].release_date && recommendedAPI[movieCounter].release_date.slice(0, 4)}
                                     />
                                 }
                             </FullViewContainer>
