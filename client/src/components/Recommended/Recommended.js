@@ -25,39 +25,38 @@ const Recommended = () => {
 
 
 
-    // PREP MOVIES FIRST
-
-    console.log(preparedMovies)
-
-    React.useEffect(() => {
-
-        if (preparedMovies !== "success" && appUser.email && recommendButton) {
-
-            try {
-
-                setPreparedMovies("processing");
-
-                fetch(`${serverUrl}/recommendations/prepMovies`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-
-                })
-                    .then(res => res.json())
-                    .then(data => data.status === 200 && setPreparedMovies('success'))
-                // .then(data => console.log(data))
-                // .then(() => setPreparedMovies("success"))
-
-            } catch (error) {
-                console.error(error)
-            }
+    // PREP MOVIES FIRST - no longer needed - all movies prepped already
 
 
+    // React.useEffect(() => {
 
-        }
+    //     if (preparedMovies !== "success" && appUser.email && recommendButton) {
 
-    }, [appUser, recommendButton])
+    //         try {
+
+    //             setPreparedMovies("processing");
+
+    //             fetch(`${serverUrl}/recommendations/prepMovies`, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 }
+
+    //             })
+    //                 .then(res => res.json())
+    //                 .then(data => data.status === 200 && setPreparedMovies('success'))
+    //             // .then(data => console.log(data))
+    //             // .then(() => setPreparedMovies("success"))
+
+    //         } catch (error) {
+    //             console.error(error)
+    //         }
+
+
+
+    //     }
+
+    // }, [appUser, recommendButton])
 
 
 
@@ -143,6 +142,8 @@ const Recommended = () => {
         signInWithGoogle();
 
     }
+
+    console.log(recStatus)
 
     return (
 
