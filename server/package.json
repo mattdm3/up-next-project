@@ -8,7 +8,7 @@
     "yarn": "1.22.x"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "special": "nodemon src/shorterRecommend.js --exec babel-node --presets es2015,stage-2"
   },
   "keywords": [],
@@ -27,6 +27,7 @@
     "firebase-admin": "^8.11.0",
     "isomorphic-fetch": "^2.2.1",
     "mathjs": "^3.18.0",
+    "mongodb": "^3.5.7",
     "morgan": "^1.10.0",
     "natural": "^2.1.5",
     "nodemon": "^2.0.3",

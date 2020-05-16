@@ -29,6 +29,8 @@ function predictWithLinearRegression(X, MOVIES_IN_LIST, ratings) {
   // Prepare training and test set
   const { training, test } = MOVIES_IN_LIST.reduce((result, movie, key) => {
 
+    // console.log(ratings, "ratings")
+
     const hasRatedMovie = !!ratings[movie.id];
     if (hasRatedMovie) {
       result.training.X.push(X[key]);

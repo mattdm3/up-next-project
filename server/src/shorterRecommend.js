@@ -25,17 +25,92 @@ const { getMovieIndexByTitle } = require('./strategies/common')
 const admin = require('firebase-admin');
 require('dotenv').config();
 const fetch = require('isomorphic-fetch');
+const { MOVIES_BY_ID } = require('../newData/MOVIES_BY_ID')
+const { MOVIES_IN_LIST } = require('../newData/MOVIES_IN_LIST')
+const { X } = require('../newData/X')
 
-const db = admin.database();
+// TEST
 
-// let firestore = admin.firestore();
+// const db = admin.database();
+// const storage = admin.storage();
 
-// MEMORY WATCH MODULE
+// const { MongoClient } = require('mongodb');
+// const uri = process.env.REACT_APP_DB_CONNECTION
+// const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+
+// client.connect();
+
+
+
+
+
+const handleAllData = async (req, res) => {
+
+    //get data from MONGO
+
+    try {
+        await client.connect();
+        const db = client.db("UP-NEXT");
+        await db.collection("MOVIES_IN_LIST").find().toArray((err, result) => {
+            if (result) {
+                return console.log(result);
+            } else if (err) {
+                console.log(err)
+            }
+
+        })
+    } catch (e) {
+        console.log(`error connection: ${e.stack}`)
+    }
+    //happens when app render
+    // res.status(200).send(items)
+}
+
+// handleAllData();
+
+
+// const sendToServer = async (req, res) => {
+
+//     await client.connect();
+//     const db = client.db("UP-NEXT");
+//     await db.collection("X").insertOne(X, function (err, response) {
+//         if (err) {
+//             console.log("ERROR!!!");
+//             throw err;
+
+//         }
+//         else
+//             console.log("SUCCESS")
+
+//     });
+
+// }
+// sendToServer();
+
+
+// ATTEMPT W STORAge
+
+// console.log(storage.bucket("up-next-c62cb"))
+
+// listFiles()
+
+// async function listFiles() {
+//     // Lists files in the bucket
+//     const [files] = await storage.bucket().getFiles();
+
+//     console.log('Files:');
+//     files.forEach(file => {
+//         console.log(file.name);
+//     });
+// }
+
 
 
 let MOVIES_META_DATA = {};
 let MOVIES_KEYWORDS = {};
 let RATINGS = [];
+
+
 
 
 let moviesMetaDataPromise = new Promise((resolve) =>
@@ -107,13 +182,13 @@ function softEval(string, escape) {
 // let MOVIES_IN_LIST;
 // let X;
 
-const backgroundPrep = async () => {
+// const backgroundPrep = async () => {
 
-    const preparedMovies = await prepareMovies(MOVIES_META_DATA, MOVIES_KEYWORDS);
-    MOVIES_BY_ID = preparedMovies.MOVIES_BY_ID;
-    MOVIES_IN_LIST = preparedMovies.MOVIES_IN_LIST;
-    X = preparedMovies.X;
-}
+//     const preparedMovies = await prepareMovies(MOVIES_META_DATA, MOVIES_KEYWORDS);
+//     MOVIES_BY_ID = preparedMovies.MOVIES_BY_ID;
+//     MOVIES_IN_LIST = preparedMovies.MOVIES_IN_LIST;
+//     X = preparedMovies.X;
+// }
 
 // const runPromise = () => {
 //     Promise.all([
@@ -170,13 +245,11 @@ const backgroundPrep = async () => {
 
 
 
-let MOVIES_BY_ID;
-let MOVIES_IN_LIST;
-let X;
+// let MOVIES_BY_ID;
+// let MOVIES_IN_LIST;
+// let X;
 
 const prepareMoviesTest = async (req, res) => {
-
-
 
 
     Promise.all([
@@ -195,29 +268,56 @@ const prepareMoviesTest = async (req, res) => {
 
 
 
-        // await firestoreRef.set({ test: "test" })
 
 
-        await res
-            .status(200)
-            .json({
-                status: 200,
-                message: "success"
-            })
+        // await fs.writeFile('./data/src/TEST.json', "HELLOOOOO", err => {
+        //     if (err) {
+        //         console.error(err)
+        //         return
+        //     }
+        //     else console.log("success")
+        // })
+
+
+        await fs.writeFileSync('./MOVIES_IN_LIST.json', JSON.stringify(MOVIES_IN_LIST, null, 2), 'utf-8', err => {
+            if (err) {
+                console.error(err)
+                return
+            }
+            else console.log('success')
+        });
+
+
+        // await fs.writeFileSync('./X.json', JSON.stringify(X, null, 2), 'utf-8')
+
+
+
+
+
+
+        // await res
+        //     .status(200)
+        //     .json({
+        //         status: 200,
+        //         message: "success"
+        //     })
 
     }
-
-
-
-
-
-
 }
 
+
+// prepareMoviesTest()
+
+
+
+
+// console.log(MOVIES_BY_ID["22"], "THIS ONE IS IN THE MOVIES")
 
 
 
 const handleRecommendations = async (req, res) => {
+
+
 
 
 
@@ -232,17 +332,24 @@ const handleRecommendations = async (req, res) => {
     let likedMoviesArray = Object.keys(likedMovies);
     let dislikedMoviesArray = Object.keys(dislikedMovies)
 
+    console.log(likedMoviesArray, "LIKEDMOVIESARRAY")
+
+    console.log(typeof Number(likedMoviesArray[0]))
+
     console.log('Unloading data from files ... \n');
 
-    // Promise.all([
-    //     moviesMetaDataPromise,
-    //     moviesKeywordsPromise,
-    //     ratingsPromise,
-    // ]).then(init)
+    Promise.all([
+        moviesMetaDataPromise,
+        moviesKeywordsPromise,
+        ratingsPromise,
+    ]).then(init)
 
+    // init();
 
     // HAD TO REMOVE DUE TO HEROKU LOSING MEM
-    init([MOVIES_META_DATA, MOVIES_KEYWORDS, RATINGS])
+    // init([MOVIES_META_DATA, MOVIES_KEYWORDS, RATINGS])
+
+    // init([MOVIES_BY_ID, MOVIES_IN_LIST, X])
 
 
     async function init([moviesMetaData, moviesKeywords, ratings]) {
@@ -251,7 +358,7 @@ const handleRecommendations = async (req, res) => {
         /* -------------*/
 
 
-        // ORIGINAL: 
+        // // ORIGINAL: 
         // const {
         //     MOVIES_BY_ID,
         //     MOVIES_IN_LIST,
@@ -268,29 +375,31 @@ const handleRecommendations = async (req, res) => {
 
             if (MOVIES_BY_ID[likedMovieId] != undefined) {
                 filteredLikedMoviesArray.push(likedMovieId);
-                // console.log(likedMovieId, "TESTING");
+                console.log(likedMovieId, "TESTING");
             };
         })
 
-        await dislikedMoviesArray.forEach((likedMovieId) => {
+        await dislikedMoviesArray.forEach((dislikedMovieId) => {
 
-            if (MOVIES_BY_ID[likedMovieId] != undefined) {
-                filteredDislikedMoviesArray.push(likedMovieId);
-                // console.log(likedMovieId, "THIS WAS GOOD DISLIKED");
+            if (MOVIES_BY_ID[Number(dislikedMovieId)] != undefined) {
+                filteredDislikedMoviesArray.push(Number(dislikedMovieId));
+                console.log(dislikedMovieId, "THIS WAS GOOD DISLIKED");
             };
         })
+
+
 
         //GOING TO BE ANAYLYZED
         let ME_USER_RATINGS = [];
 
         const createUserRatings = async () => {
             await filteredLikedMoviesArray.forEach(item => {
-                ME_USER_RATINGS.push(addUserRating(ME_USER_ID, item, "5.0", MOVIES_IN_LIST))
+                ME_USER_RATINGS.push(addUserRating(ME_USER_ID, item.toString(), "5.0", MOVIES_IN_LIST))
             })
 
             await filteredDislikedMoviesArray.forEach(item => {
-                // console.log(item, "CHECKING FILTERED DISLIKED")
-                ME_USER_RATINGS.push(addUserRating(ME_USER_ID, item, "1.0", MOVIES_IN_LIST))
+                // console.log(typeof item, "CHECKING FILTERED DISLIKED")
+                ME_USER_RATINGS.push(addUserRating(ME_USER_ID, item.toString(), "1.0", MOVIES_IN_LIST))
             })
 
         }
@@ -323,6 +432,10 @@ const handleRecommendations = async (req, res) => {
             ratingsGroupedByMovie,
         } = await prepareRatings([...ME_USER_RATINGS, ...ratings]);
 
+        // console.log(ratings, "ratings")
+        // THIS IS THE PROBLEM  - IT"S EMPTY?!
+        console.log(ME_USER_RATINGS, "ME _ USER _RATINGS")
+
 
 
         /* ----------------------------- */
@@ -334,11 +447,16 @@ const handleRecommendations = async (req, res) => {
         console.log('(A) Linear Regression Prediction ... \n');
 
         console.log('(1) Training \n');
-        const meUserRatings = ratingsGroupedByUser[ME_USER_ID];
+        const meUserRatings = await ratingsGroupedByUser[ME_USER_ID];
+
+        // console.log(meUserRatings, "MEUSERRATINGS")
+        // console.log(ME_USER_ID, "ME USER ID")
+        // console.log(ratingsGroupedByUser, "RATINGS GROUPED BY USER")
+
         const linearRegressionBasedRecommendation = predictWithLinearRegression(X, MOVIES_IN_LIST, meUserRatings);
 
         console.log('(2) Prediction \n');
-        // console.log(sliceAndDice(linearRegressionBasedRecommendation, MOVIES_BY_ID, 10, true));
+        console.log(sliceAndDice(linearRegressionBasedRecommendation, MOVIES_BY_ID, 10, true));
 
         SEND_TO_DB = await sliceAndDice(linearRegressionBasedRecommendation, MOVIES_BY_ID, 10, true)
 
@@ -470,6 +588,8 @@ const handleRecommendations = async (req, res) => {
             movieId: id,
             title,
         };
+
+
     }
 
     function sliceAndDice(recommendations, MOVIES_BY_ID, count, onlyTitle) {
