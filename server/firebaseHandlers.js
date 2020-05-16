@@ -15,7 +15,7 @@ admin.initializeApp({
         auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
         client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT,
     }),
-    databaseURL: "https://up-next-c62cb.firebaseio.com",
+    databaseURL: "https://up-next-c62cb.firebaseio.com"
 });
 
 

@@ -123,7 +123,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                             </>
                             :
                             <>
-                                <StyledNavLink style={{ cursor: "pointer", display: 'flex', justifyContent: "flex-end", alignItems: "center" }} onClick={signInWithGoogle}> <p style={{ paddingRight: ".5rem" }}>Login</p> <UserIcon /></StyledNavLink>
+                                <StyledNavLink style={{ cursor: "pointer", display: 'flex', justifyContent: "flex-end", alignItems: "center" }} onClick={signInWithGoogle}> <p style={{ paddingRight: ".5rem" }}>Get Started</p> <UserIcon /></StyledNavLink>
 
                                 <LearnMoreButton onClick={() => history.push("/")}>How it works</LearnMoreButton>
                             </>
@@ -482,6 +482,10 @@ const LearnMoreButton = styled.div`
     align-items: center;
     font-size: 1rem;
     cursor: pointer;
+
+    @media screen and (max-width: 400px) {
+        width: 8rem; 
+    }
 `
 
 

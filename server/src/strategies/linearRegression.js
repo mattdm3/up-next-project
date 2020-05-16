@@ -6,7 +6,7 @@ const math = require('mathjs')
 const { sortByScore } = require('./common')
 
 const LEARNING_RATE = 0.03;
-const LEARNING_ITERATIONS = 550;
+const LEARNING_ITERATIONS = 300;
 
 function predictWithLinearRegression(X, MOVIES_IN_LIST, ratings) {
   // Add intercept term
@@ -28,6 +28,7 @@ function predictWithLinearRegression(X, MOVIES_IN_LIST, ratings) {
 
   // Prepare training and test set
   const { training, test } = MOVIES_IN_LIST.reduce((result, movie, key) => {
+
     const hasRatedMovie = !!ratings[movie.id];
     if (hasRatedMovie) {
       result.training.X.push(X[key]);
@@ -77,10 +78,10 @@ function gradientDescent(X, y, theta, ALPHA, ITERATIONS) {
       y,
     });
 
-    if (i % 50 === 0) {
-      const cost = computeCost(X, y, theta);
-      console.log(`Cost after ${i} of trained ${ITERATIONS}: ${cost}`);
-    }
+    // if (i % 50 === 0) {
+    //   const cost = computeCost(X, y, theta);
+    //   console.log(`Cost after ${i} of trained ${ITERATIONS}: ${cost}`);
+    // }
   }
   console.log(`\n`);
 

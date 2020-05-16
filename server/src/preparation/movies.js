@@ -17,9 +17,9 @@ function prepareMovies(moviesMetaData, moviesKeywords) {
   let MOVIES_IN_LIST = zip(moviesMetaData, moviesKeywords);
 
 
-
-
+  console.log('(1.2) Tokenizing Movies')
   MOVIES_IN_LIST = withTokenizedAndStemmed(MOVIES_IN_LIST, 'overview');
+  console.log('(1.3) Tokenizing Movies')
   MOVIES_IN_LIST = fromArrayToMap(MOVIES_IN_LIST, 'overview');
 
   // Keep a map of movies for later reference
@@ -319,20 +319,20 @@ function zip(movies, keywords) {
 
 // REDIS BULL TESTING /////
 
-const redis = require('redis')
-const Bull = require("bull")
+// const redis = require('redis')
+// const Bull = require("bull")
 
-const REDIS_PORT = process.env.PORT || 6379;
+// const REDIS_PORT = process.env.PORT || 6379;
 
-const myFirstQueue = new Bull('my-first-queue');
+// const myFirstQueue = new Bull('my-first-queue');
 
 //producer
 // const job = myFirstQueue.add(zip(moviesMetaData, moviesKeywords));
 
 //consumer
-myFirstQueue.process(async (job) => {
-  console.log(job)
-});
+// myFirstQueue.process(async (job) => {
+//   console.log(job)
+// });
 
 // REDIS BULL TESTING - END/////
 

@@ -7,8 +7,8 @@ import 'firebase/auth';
 
 
 export const LoginContext = createContext(null);
-export const serverUrl = "https://backend-upnext.herokuapp.com"
-// export const serverUrl = ""
+// export const serverUrl = "https://backend-upnext.herokuapp.com"
+export const serverUrl = ""
 
 const firebaseConfig = {
     apiKey: "AIzaSyBf0PRvItpZll7tKJBC-DS4DwYRZRmb_u0",
@@ -73,7 +73,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     //debugging/
 
-    const [preparedMoves, setPreparedMovies] = useState(null)
+    const [preparedMovies, setPreparedMovies] = useState("idle")
 
 
 
@@ -262,34 +262,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     }
 
-    // THIS WAS AN ATTEMPT TO UPLOAD THE PREPPED MOVIES TO FB BUT MEMORY FAILURE EVERY TIME
 
-    // React.useEffect(() => {
-
-    //     console.log("helloooooooooooo")
-
-    //     try {
-
-    //         fetch(`/recommendations/prepMovies`, {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             }
-
-    //         })
-    //             .then(res => res.json())
-    //             .then(data => console.log(data))
-    //         // .then((json) => {
-    //         //     setPreparedMovies(json.data);
-    //         // })
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-
-
-
-
-    // }, [])
 
 
 
@@ -375,7 +348,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
 
 
-    return <LoginContext.Provider value={{ setRecommendAllowed, recommendAllowed, loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ preparedMovies, setPreparedMovies, setRecommendAllowed, recommendAllowed, loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;

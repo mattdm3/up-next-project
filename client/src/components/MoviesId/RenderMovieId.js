@@ -32,7 +32,7 @@ const RenderMovieId = ({
                 <Genres>
                     {
                         genres && genres.map(genre => {
-                            return <StyledLink to={`/genres/${genre.name}`}>
+                            return <StyledLink key={genre.name} to={`/genres/${genre.name.toLowerCase()}`}>
                                 <GenreP>{genre.name}</GenreP>
                             </StyledLink>
                         })
@@ -43,7 +43,7 @@ const RenderMovieId = ({
 
             <MovieInfoTop>
                 <RatingInfo>
-                    <h3 style={{ marginRight: "1rem" }}>{voteAverage > 6 ? "🔥" : "❄️"}</h3>
+                    <h3>{voteAverage > 6 ? "🔥" : "❄️"}</h3>
                     <h3>{voteAverage}</h3>
                     <p>{voteCount}</p>
                     <IdActions movieId={movieId} />
@@ -74,7 +74,7 @@ const RenderMovieId = ({
                         <>
                             <iframe style={youtubeLoaded ? { display: "block" } : { display: "none" }} onLoad={() => setyoutubeLoaded(true)} id="player" type="text/html" //width="500" height="300"
                                 src={`https://www.youtube.com/embed/${youtube}?enablejsapi=1`}
-                                frameborder="0"></iframe>
+                                frameBorder="0"></iframe>
 
                             <SpinnerContainer style={youtubeLoaded ? { display: "none" } : { display: "block" }}>
                                 <ClipLoader />
@@ -193,6 +193,10 @@ const TitleAndGenre = styled.div`
     display: flex; 
     flex-direction: column;
     margin: 2.5rem 0;
+
+    @media screen and (max-width: 500px) {
+        font-size: 1rem;
+    }
 `
 
 const DateRuntime = styled.div`
@@ -232,6 +236,22 @@ const MovieInfoTop = styled.div`
 const RatingInfo = styled.div`
     display: flex; 
     align-items: center;
+
+    h3 {
+       margin-right: 1rem;
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: .9rem;
+
+        h3 {
+            font-size: .9rem;
+            margin-right: .4rem;
+        }
+        p {
+            font-size: .9rem;
+        }
+    }
 `
 
 

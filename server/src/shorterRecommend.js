@@ -28,6 +28,9 @@ const fetch = require('isomorphic-fetch');
 
 const db = admin.database();
 
+// let firestore = admin.firestore();
+
+// MEMORY WATCH MODULE
 
 
 let MOVIES_META_DATA = {};
@@ -37,7 +40,7 @@ let RATINGS = [];
 
 let moviesMetaDataPromise = new Promise((resolve) =>
     fs
-        .createReadStream('./src/data/movies_metadata.csv')
+        .createReadStream('./src/data/movies_metadata_smaller.csv')
         .pipe(csv({ headers: true }))
         .on('data', fromMetaDataFile)
         .on('end', () => resolve(MOVIES_META_DATA)))
@@ -167,6 +170,49 @@ const backgroundPrep = async () => {
 
 
 
+let MOVIES_BY_ID;
+let MOVIES_IN_LIST;
+let X;
+
+const prepareMoviesTest = async (req, res) => {
+
+
+
+
+    Promise.all([
+        moviesMetaDataPromise,
+        moviesKeywordsPromise,
+        ratingsPromise,
+    ]).then(prep)
+
+    async function prep([moviesMetaData, moviesKeywords, ratings]) {
+
+
+        const preparedMovies = await prepareMovies(MOVIES_META_DATA, MOVIES_KEYWORDS);
+        MOVIES_BY_ID = await preparedMovies.MOVIES_BY_ID;
+        MOVIES_IN_LIST = await preparedMovies.MOVIES_IN_LIST;
+        X = await preparedMovies.X;
+
+
+
+        // await firestoreRef.set({ test: "test" })
+
+
+        await res
+            .status(200)
+            .json({
+                status: 200,
+                message: "success"
+            })
+
+    }
+
+
+
+
+
+
+}
 
 
 
@@ -188,15 +234,15 @@ const handleRecommendations = async (req, res) => {
 
     console.log('Unloading data from files ... \n');
 
-    Promise.all([
-        moviesMetaDataPromise,
-        moviesKeywordsPromise,
-        ratingsPromise,
-    ]).then(init)
+    // Promise.all([
+    //     moviesMetaDataPromise,
+    //     moviesKeywordsPromise,
+    //     ratingsPromise,
+    // ]).then(init)
 
 
     // HAD TO REMOVE DUE TO HEROKU LOSING MEM
-    // init([MOVIES_META_DATA, MOVIES_KEYWORDS, RATINGS])
+    init([MOVIES_META_DATA, MOVIES_KEYWORDS, RATINGS])
 
 
     async function init([moviesMetaData, moviesKeywords, ratings]) {
@@ -205,7 +251,7 @@ const handleRecommendations = async (req, res) => {
         /* -------------*/
 
 
-
+        // ORIGINAL: 
         // const {
         //     MOVIES_BY_ID,
         //     MOVIES_IN_LIST,
@@ -222,7 +268,7 @@ const handleRecommendations = async (req, res) => {
 
             if (MOVIES_BY_ID[likedMovieId] != undefined) {
                 filteredLikedMoviesArray.push(likedMovieId);
-                console.log(likedMovieId, "TESTING");
+                // console.log(likedMovieId, "TESTING");
             };
         })
 
@@ -230,7 +276,7 @@ const handleRecommendations = async (req, res) => {
 
             if (MOVIES_BY_ID[likedMovieId] != undefined) {
                 filteredDislikedMoviesArray.push(likedMovieId);
-                console.log(likedMovieId, "THIS WAS GOOD DISLIKED");
+                // console.log(likedMovieId, "THIS WAS GOOD DISLIKED");
             };
         })
 
@@ -243,7 +289,7 @@ const handleRecommendations = async (req, res) => {
             })
 
             await filteredDislikedMoviesArray.forEach(item => {
-                console.log(item, "CHECKING FILTERED DISLIKED")
+                // console.log(item, "CHECKING FILTERED DISLIKED")
                 ME_USER_RATINGS.push(addUserRating(ME_USER_ID, item, "1.0", MOVIES_IN_LIST))
             })
 
@@ -292,7 +338,7 @@ const handleRecommendations = async (req, res) => {
         const linearRegressionBasedRecommendation = predictWithLinearRegression(X, MOVIES_IN_LIST, meUserRatings);
 
         console.log('(2) Prediction \n');
-        console.log(sliceAndDice(linearRegressionBasedRecommendation, MOVIES_BY_ID, 10, true));
+        // console.log(sliceAndDice(linearRegressionBasedRecommendation, MOVIES_BY_ID, 10, true));
 
         SEND_TO_DB = await sliceAndDice(linearRegressionBasedRecommendation, MOVIES_BY_ID, 10, true)
 
@@ -460,9 +506,10 @@ const handleRecommendations = async (req, res) => {
 // });
 
 // // REDIS BULL TESTING - END/////
-
-
+// setInterval(() => {
+//     console.log(process.memoryUsage().heapUsed / 1024 / 1024)
+// }, 4000)
 
 module.exports = {
-    handleRecommendations
+    handleRecommendations, prepareMoviesTest
 }

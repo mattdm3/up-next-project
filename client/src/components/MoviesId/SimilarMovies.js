@@ -53,27 +53,27 @@ const SimilarMovies = ({ movieId, theme }) => {
             <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
                 {similarMoviesArray && similarMoviesArray.map(movie => {
                     return (
-                        <>
-                            <div>
-                                <StyledLink to={`/movies/${movie.id}`}>
 
-                                    {
-                                        movie.poster_path != null ?
-                                            <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
-                                            :
-                                            <>
-                                                <StyledPoster src={posterplaceholder} />
-                                                <p style={{ position: "absolute", bottom: "15%", left: "50%", transform: "translate(-50%, -50%)", color: "white" }}>{movie.title}</p>
-                                            </>
-                                    }
+                        <div key={movie.id}>
+                            <StyledLink to={`/movies/${movie.id}`}>
 
-
+                                {
+                                    movie.poster_path != null ?
+                                        <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+                                        :
+                                        <>
+                                            <StyledPoster src={posterplaceholder} />
+                                            <p style={{ position: "absolute", bottom: "15%", left: "50%", transform: "translate(-50%, -50%)", color: "white" }}>{movie.title}</p>
+                                        </>
+                                }
 
 
-                                </StyledLink>
-                                {/* <SimilarActions movieId={movie.id} /> */}
-                            </div>
-                        </>
+
+
+                            </StyledLink>
+                            {/* <SimilarActions movieId={movie.id} /> */}
+                        </div>
+
                     )
                 })}
             </Wrapper>

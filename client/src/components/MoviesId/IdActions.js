@@ -111,14 +111,27 @@ const StyleActionContainer = styled.div`
         border-radius: 50%; 
         margin-right: 1rem;
         cursor: pointer;
-        text-align: center;
+        padding-left: 1.1rem;
+        padding-top: 1.1rem;
+     
         display: flex; 
         justify-content: center;
         align-items: center;
+        
 
         &:hover {
             background: grey; 
         }
+    }
+
+    @media screen and (max-width: 500px) {
+
+        p{
+            font-size: .8rem;
+            width: 2rem;
+            height: 2rem;
+        }
+     
     }
 
 `

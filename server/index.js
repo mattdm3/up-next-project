@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const { handleRandomMovie, handleSearch, handleMovieId, handleGenreId, handleProfilePage, getSimilarMovies } = require('./handlers')
 const { handleAddUpNext, handleLikeMovie, handleDislikeMovie, createUser, getUser, handleUndoRating } = require('./firebaseHandlers');
-const { handleRecommendations } = require('./src/shorterRecommend')
+const { handleRecommendations, prepareMoviesTest } = require('./src/shorterRecommend')
 
 require('dotenv').config();
 
@@ -75,6 +75,8 @@ app.get('/movies/getSimilar/:movieId', getSimilarMovies)
 //INITIAL RECOMMENDATION CALCULATION handled in shorterRecommend.js
 app.post('/recommendations/get', handleRecommendations)
 
+// PREP MOVIES TEST
+app.get('/recommendations/prepMovies', prepareMoviesTest)
 
 //user EPs (firebase)
 app.post('/users', createUser)
