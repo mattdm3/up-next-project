@@ -167,9 +167,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                                 <FaCheckSquare />
                             </RecContainer>}
                     </NavigationLink> */}
-                    {/* <NavigationLink exact to='/'>
-                        <li>🍿</li>
-                    </NavigationLink> */}
+
 
 
                     {appUser && appUser.email ?

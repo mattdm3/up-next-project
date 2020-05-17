@@ -24,7 +24,7 @@ const BrowseByGenre = ({ theme }) => {
 
     const { genreName } = useParams();
 
-    const { setTheme, searchResults, lastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre, appUser } = useContext(LoginContext);
+    const { triggerSearchBar, setTriggerSearchBar, inputValue, setInputValue, setTheme, searchResults, setSearchResults, toggleSearchTrigger, lastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre, appUser } = useContext(LoginContext);
 
     // check the id of the genre; 
     let selectedGenreId = null;
@@ -105,7 +105,16 @@ const BrowseByGenre = ({ theme }) => {
 
 
 
+    const handleClearSearch = () => {
+        setSearchResults(null);
+        setInputValue('')
+        if (triggerSearchBar) {
+            setTriggerSearchBar(false)
+        } else {
+            setTriggerSearchBar(true)
 
+        }
+    }
 
     return (
         <>
@@ -118,7 +127,8 @@ const BrowseByGenre = ({ theme }) => {
 
 
                     <>
-                        <PageHeading>Search Results for '{lastSearch}'</PageHeading>
+                        <PageHeading>Search Results for '{lastSearch}'  </PageHeading>
+                        <StyledClearButton onClick={handleClearSearch}>Clear</StyledClearButton>
                         <StyledMovieContainer>
                             {searchResults.results.map((movie, resultID) => {
                                 return (
@@ -230,7 +240,12 @@ font-size: 2rem;
 cursor: pointer; 
 
 `
-
+const StyledClearButton = styled.p`
+    /* position: absolute; */
+    right: .5rem;
+    top: 28%; 
+    cursor:pointer; 
+`
 const StyledNextIcon = styled(AiFillCaretRight)`
     font-size: 2rem;
     cursor: pointer; 

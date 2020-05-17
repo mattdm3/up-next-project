@@ -70,7 +70,8 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
     const [userLevel, setUserLevel] = useState(0)
     const [recommendAllowed, setRecommendAllowed] = useState(false)
     const [recommendationCount, setRecommendationCount] = useState(0)
-
+    const [triggerSearchBar, setTriggerSearchBar] = useState(false);
+    const [inputValue, setInputValue] = useState("")
     //debugging/
 
     const [preparedMovies, setPreparedMovies] = useState("idle")
@@ -348,7 +349,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
 
 
-    return <LoginContext.Provider value={{ preparedMovies, setPreparedMovies, setRecommendAllowed, recommendAllowed, loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message }}>{children}</LoginContext.Provider>;
+    return <LoginContext.Provider value={{ inputValue, setInputValue, triggerSearchBar, setTriggerSearchBar, preparedMovies, setPreparedMovies, setRecommendAllowed, recommendAllowed, loading, recommendationCount, userLevel, recStatus, setRecStatus, theme, setTheme, searchResults, setSearchResults, lastSearch, setLastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, selectedGenre, setSelectedGenre, sortOption, setSortOption, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, dataObject, handleAddUpNext, handleMovieLike, handleMovieDislike, signInWithGoogle, appUser, setAppUser, handleSignOut, message }}>{children}</LoginContext.Provider>;
 };
 
 // export default LoginProvider;
