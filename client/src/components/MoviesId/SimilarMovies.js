@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { Link, NavLink } from 'react-router-dom';
-import { SubHeading } from '../CONSTANTS'
+// import { SubHeading } from '../CONSTANTS'
 import posterplaceholder from '../poster-placeholder.png'
 import { lightTheme } from '../theme'
 import SimilarActions from './SimilarActions';
+import { serverUrl } from '../LoginContext'
 
 const SimilarMovies = ({ movieId, theme }) => {
 
@@ -16,10 +17,10 @@ const SimilarMovies = ({ movieId, theme }) => {
     const scrollRef = React.useRef();
 
     const scrollLeft = (ref) => {
-        scrollRef.current.scrollBy(-300, 0)
+        scrollRef.current.scrollBy(-280, 0)
     }
     const scrollRight = (ref) => {
-        scrollRef.current.scrollBy(300, 0)
+        scrollRef.current.scrollBy(280, 0)
     }
 
     const executeScrollLeft = () => scrollLeft(scrollRef);
@@ -31,7 +32,7 @@ const SimilarMovies = ({ movieId, theme }) => {
     React.useEffect(() => {
 
         if (movieId) {
-            fetch(`/movies/getSimilar/${movieId}`)
+            fetch(`${serverUrl}/movies/getSimilar/${movieId}`)
                 .then(res => res.json())
                 .then(data => setSimilarMoviesArray(data.results))
         }
@@ -48,30 +49,31 @@ const SimilarMovies = ({ movieId, theme }) => {
             <StyledScrollRight onClick={executeScrollRight}>
                 <FaCaretRight />
             </StyledScrollRight>
+
             <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
                 {similarMoviesArray && similarMoviesArray.map(movie => {
                     return (
-                        <>
-                            <div>
-                                <StyledLink to={`/movies/${movie.id}`}>
 
-                                    {
-                                        movie.poster_path != null ?
-                                            <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
-                                            :
-                                            <>
-                                                <StyledPoster src={posterplaceholder} />
-                                                <p style={{ position: "absolute", bottom: "15%", left: "50%", transform: "translate(-50%, -50%)", color: "white" }}>{movie.title}</p>
-                                            </>
-                                    }
+                        <div key={movie.id}>
+                            <StyledLink to={`/movies/${movie.id}`}>
 
-
+                                {
+                                    movie.poster_path != null ?
+                                        <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+                                        :
+                                        <>
+                                            <StyledPoster src={posterplaceholder} />
+                                            <p style={{ position: "absolute", bottom: "15%", left: "50%", transform: "translate(-50%, -50%)", color: "white" }}>{movie.title}</p>
+                                        </>
+                                }
 
 
-                                </StyledLink>
-                                {/* <SimilarActions movieId={movie.id} /> */}
-                            </div>
-                        </>
+
+
+                            </StyledLink>
+                            {/* <SimilarActions movieId={movie.id} /> */}
+                        </div>
+
                     )
                 })}
             </Wrapper>
@@ -80,20 +82,23 @@ const SimilarMovies = ({ movieId, theme }) => {
     )
 }
 
+
+
 const StyledLink = styled(Link)`
-    margin: 0 2.3rem; 
+    margin-right: 80px; 
     position: relative; 
 `
 
 const StyledPoster = styled.img`
     border-radius: 10px; 
     max-width: 200px; 
+
 `
 
 const Container = styled.div`
     position: relative;
     height: 100%; 
-    width: 90%; 
+    width: 100%; 
     margin-left: auto;
     margin-right: auto; 
     margin: 8rem 0; 
@@ -101,7 +106,7 @@ const Container = styled.div`
 
 const StyledScrollLeft = styled.div`
     position: absolute; 
-    left: -4.5rem;
+    left: -2.5rem;
     top: 50%;  
     z-index: 10; 
     font-size:4rem; 
@@ -110,7 +115,7 @@ const StyledScrollLeft = styled.div`
 `
 const StyledScrollRight = styled.div`
     position: absolute; 
-    right: -4.5rem;
+    right: -2.5rem;
     top: 50%;  
     z-index: 10; 
     font-size:4rem; 
@@ -122,9 +127,10 @@ const StyledScrollRight = styled.div`
 const Wrapper = styled.div`
     overflow: auto;
     white-space: nowrap;
-    width: 100%;
+    width: 90%;
     display: flex;
     overflow: hidden; 
+    margin-left: 3.8rem;
 
     a {
         text-decoration: none;
@@ -136,6 +142,15 @@ const Wrapper = styled.div`
     overflow-y: hidden;
     
 } */
+`
+
+const SubHeading = styled.h3`
+    margin: 4rem 0; 
+    font-weight: 700; 
+
+    @media screen and (max-width: 500px) {
+        text-align: center;
+    }
 `
 
 export default SimilarMovies; 

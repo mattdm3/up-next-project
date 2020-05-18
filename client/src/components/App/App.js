@@ -15,10 +15,6 @@ import Landing from '../Landing';
 
 function App() {
 
-  const [bacon, setBacon] = useState(null);
-  const [randomMovie, setRandomMovie] = useState(null);
-
-  // const [theme, setTheme] = useState('light')
 
   const { theme, setTheme } = useContext(LoginContext);
 
@@ -34,13 +30,6 @@ function App() {
   }
 
 
-
-  // RANDOM MOVIE TEST
-  const handleRandomMovie = () => {
-    fetch('/randomMovie')
-      .then(res => res.json())
-      .then(data => setRandomMovie(data))
-  }
 
   return (
     <Router>

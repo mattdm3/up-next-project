@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { LoginContext } from '../LoginContext';
+import { LoginContext, serverUrl } from '../LoginContext';
 
 
 const UndoButton = ({ movieId }) => {
@@ -15,7 +15,7 @@ const UndoButton = ({ movieId }) => {
 
 
 
-        fetch(`/handleUndoRating`, {
+        fetch(`${serverUrl}/handleUndoRating`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react'
 import styled from 'styled-components';
-import { LoginContext } from '../LoginContext';
+import { serverUrl, LoginContext } from '../LoginContext';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { StyledMovieContainer, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
 import UpNextActions from './UpNextActions';
 import ClipLoader from 'react-spinners/ClipLoader'
+import posterplaceholder from '../poster-placeholder.png'
 
 const UpNextMovies = () => {
 
@@ -37,7 +38,7 @@ const UpNextMovies = () => {
 
         appUser.data && dataObject.upNextList && dataObject.upNextList.forEach((movieId) => {
 
-            fetch(`/movies/${movieId}`)
+            fetch(`${serverUrl}/movies/${movieId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
@@ -56,8 +57,6 @@ const UpNextMovies = () => {
 
 
 
-    console.log(upNextMovieData, "UP NEXT MOVIE DATA")
-    console.log(loading, "LOADING")
 
     return (
 
@@ -83,7 +82,13 @@ const UpNextMovies = () => {
 
                                     <ListContainer key={"upNext:" + movie.id}>
                                         <StyledLink to={`/movies/${movie.id}`} >
+
+
                                             <StyledPoster src={`https://image.tmdb.org/t/p/w400/${movie.poster_path}`} />
+
+
+
+
                                         </StyledLink>
                                         <UpNextActions setUpNextMovieData={setUpNextMovieData} loading={loading} setLoading={setLoading} movieId={movie.id} />
                                     </ListContainer>

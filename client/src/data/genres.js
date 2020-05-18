@@ -3,78 +3,97 @@
 export const genresList = [
     {
         "id": 28,
-        "name": "action"
+        "name": "action",
+        "label": "🔥action"
     },
     {
         "id": 12,
-        "name": "adventure"
+        "name": "adventure",
+        "label": "🗺️adventure"
     },
     {
         "id": 16,
-        "name": "animation"
+        "name": "animation",
+        "label": "🤖animation"
     },
     {
         "id": 35,
-        "name": "comedy"
+        "name": "comedy",
+        "label": "😂comedy"
     },
     {
         "id": 80,
-        "name": "crime"
+        "name": "crime",
+        "label": "🔫crime"
     },
     {
         "id": 99,
-        "name": "documentary"
+        "name": "documentary",
+        "label": "🤔documentary"
     },
     {
         "id": 18,
-        "name": "drama"
+        "name": "drama",
+        "label": "🎭drama"
     },
     {
         "id": 10751,
-        "name": "family"
+        "name": "family",
+        "label": "👨‍👩‍👧family"
     },
     {
         "id": 14,
-        "name": "fantasy"
+        "name": "fantasy",
+        "label": "✨fantasy"
     },
     {
         "id": 36,
-        "name": "history"
+        "name": "history",
+        "label": "📜history"
     },
     {
         "id": 27,
-        "name": "horror"
+        "name": "horror",
+        "label": "🧟horror"
     },
     {
         "id": 10402,
-        "name": "music"
+        "name": "music",
+        "label": "🎶music"
     },
     {
         "id": 9648,
-        "name": "mystery"
+        "name": "mystery",
+        "label": "🕵️mystery"
     },
     {
         "id": 10749,
-        "name": "romance"
+        "name": "romance",
+        "label": "💕romance"
     },
     {
         "id": 878,
-        "name": "science fiction"
+        "name": "science fiction",
+        "label": "👾science fiction"
     },
     {
         "id": 10770,
-        "name": "tv Movie"
+        "name": "tv Movie",
+        "label": "📺tv movie"
     },
     {
         "id": 53,
-        "name": "thriller"
+        "name": "thriller",
+        "label": "😮thriller"
     },
     {
         "id": 10752,
-        "name": "war"
+        "name": "war",
+        "label": "💣war"
     },
     {
         "id": 37,
-        "name": "western"
+        "name": "western",
+        "label": "🤠wester"
     }
 ]

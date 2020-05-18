@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { LoginContext } from '../LoginContext';
+import { LoginContext, serverUrl } from '../LoginContext';
 import RenderMovie from '../BrowseByGenre/RenderMovie';
 import RenderRecommendations from './RenderRecommendations';
 import RecommendedActions from '../Recommended/RecommendedActions'
@@ -14,15 +14,57 @@ import { FaGoogle } from 'react-icons/fa'
 
 const Recommended = () => {
 
-    const { loading, recommendationCount, userLevel, recStatus, setRecStatus, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, recommendedMovies, setRecommendedMovies, dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message, theme } = useContext(LoginContext);
+    const { loading, recommendationCount, userLevel, recStatus, setRecStatus, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, recommendedMovies, setRecommendedMovies, dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message, theme, preparedMovies, setPreparedMovies } = useContext(LoginContext);
 
     let history = useHistory()
 
-    const [loadingText, setLoadingText] = useState("🎬Generating Recommendations");
-
-
+    const [loadingText, setLoadingText] = useState("...get the 🍿 ready, I'm getting your movies...");
     const [recommendButton, setRecommendButton] = useState(true);
 
+    const [loadingEffect, setLoadingEffect] = useState(false)
+
+    const handleLoadingEffect = () => {
+        setLoadingEffect(true)
+        setTimeout(() => {
+            setLoadingEffect(false)
+
+        }, 1800)
+    }
+
+
+
+    // PREP MOVIES FIRST - no longer needed - all movies prepped already
+
+
+    // React.useEffect(() => {
+
+    //     if (preparedMovies !== "success" && appUser.email && recommendButton) {
+
+    //         try {
+
+    //             setPreparedMovies("processing");
+
+    //             fetch(`${serverUrl}/recommendations/prepMovies`, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 }
+
+    //             })
+    //                 .then(res => res.json())
+    //                 .then(data => data.status === 200 && setPreparedMovies('success'))
+    //             // .then(data => console.log(data))
+    //             // .then(() => setPreparedMovies("success"))
+
+    //         } catch (error) {
+    //             console.error(error)
+    //         }
+
+
+
+    //     }
+
+    // }, [appUser, recommendButton])
 
 
 
@@ -65,15 +107,18 @@ const Recommended = () => {
                 alert("rate more movies first")
             } else {
                 // setRecStatus("getting");
+                handleLoadingEffect();
                 handleRecomendationRequest();
 
-                const recText = ["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫 calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "...getting the 🍿...", "almost....", "....there...."];
+                // const recText = ["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫 calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "...getting the 🍿...", "almost....", "....there...."];
+
+                const recText = ["...get the 🍿 ready, I'm getting your movies..."];
 
                 let index = 0;
                 setInterval(() => {
                     setLoadingText(recText[index]);
                     index++;
-                }, 1900)
+                }, 800)
 
             }
 
@@ -109,71 +154,85 @@ const Recommended = () => {
 
     }
 
+    console.log(recStatus)
+
     return (
 
-        appUser.email ?
+
+        preparedMovies === "processing" ?
             <RecommendedContainer>
-                {recStatus === "getting" ?
 
-                    <GetBtn disabled onClick={getRecommendations}><BeatLoader /></GetBtn>
-                    :
-                    <GetBtn style={recommendButton ? { opacity: "1" } : { opacity: ".5", boxShadow: "none" }} onClick={getRecommendations}>{recommendButton ? "Generate Recommendations" : "Rate More Movies To Enable"}</GetBtn>}
+                <BeatLoader size={100}
+                    color={"#F65F2D"} />
 
-                {
-                    recStatus === "getting" ?
-                        <div style={{ marginTop: "5rem", textAlign: "center" }}>
-                            {/* <ClipLoader /> */}
-                            <p style={{ fontSize: "1.2rem" }}>{loadingText}</p>
-                        </div>
-                        :
-                        <div>
-                            <FullViewContainer>
-                                {
-                                    recommendedAPI.length > 0 && recommendedAPI[movieCounter] && <RenderRecommendations
-                                        title={recommendedAPI[movieCounter].title}
-                                        altText={recommendedAPI[movieCounter].title}
-                                        imgSrc={`https://image.tmdb.org/t/p/w500/${recommendedAPI[movieCounter].poster_path}`}
-                                        ratings={recommendedAPI[movieCounter].vote_average}
-                                        movieId={recommendedAPI[movieCounter].id}
-                                        triggerNextMovie={triggerNextMovie}
-                                        triggerPreviousMovie={triggerPreviousMovie}
-                                        genres={recommendedAPI[movieCounter]["genres"]}
-                                        releaseDate={recommendedAPI[movieCounter].release_date.slice(0, 4)}
-                                    />
-                                }
-                            </FullViewContainer>
-                        </div>
-                }
+
+                <h2>Processing Movies</h2>
             </RecommendedContainer>
             :
-            <>
+            appUser.email ?
                 <RecommendedContainer>
-                    <LoginContainer>
-                        <Line>
-                            <hr />
-                            <p>sign up or login with</p>
-                            <hr />
-                        </Line>
+                    {loadingEffect ?
 
-                    </LoginContainer>
-                    <GoogleButton onClick={handleSignIn}>
+                        <GetBtn disabled onClick={getRecommendations}><BeatLoader /></GetBtn>
+                        :
+                        <GetBtn style={recommendButton ? { opacity: "1" } : { opacity: ".5", boxShadow: "none" }} onClick={getRecommendations}>{recommendButton ? "Generate Recommendations" : "Rate More Movies To Enable"}</GetBtn>}
 
-                        {
-                            loading ?
-                                <BeatLoader />
-                                :
-                                <FaGoogle />
-                        }
-
-
-                    </GoogleButton>
+                    {
+                        loadingEffect ?
+                            <div style={{ marginTop: "5rem", textAlign: "center" }}>
+                                {/* <ClipLoader /> */}
+                                <p style={{ fontSize: "1.2rem" }}>{loadingText}</p>
+                            </div>
+                            :
+                            <div>
+                                <FullViewContainer>
+                                    {
+                                        recommendedAPI.length > 0 && recommendedAPI[movieCounter] && <RenderRecommendations
+                                            title={recommendedAPI[movieCounter].title}
+                                            altText={recommendedAPI[movieCounter].title}
+                                            imgSrc={`https://image.tmdb.org/t/p/w500/${recommendedAPI[movieCounter].poster_path}`}
+                                            ratings={recommendedAPI[movieCounter].vote_average}
+                                            movieId={recommendedAPI[movieCounter].id}
+                                            triggerNextMovie={triggerNextMovie}
+                                            triggerPreviousMovie={triggerPreviousMovie}
+                                            genres={recommendedAPI[movieCounter]["genres"]}
+                                            releaseDate={recommendedAPI[movieCounter].release_date && recommendedAPI[movieCounter].release_date.slice(0, 4)}
+                                        />
+                                    }
+                                </FullViewContainer>
+                            </div>
+                    }
                 </RecommendedContainer>
+                :
+                <>
+                    <RecommendedContainer>
+                        <LoginContainer>
+                            <Line>
+                                <hr />
+                                <p>sign up or login with</p>
+                                <hr />
+                            </Line>
 
-            </>
+                        </LoginContainer>
+                        <GoogleButton onClick={handleSignIn}>
+
+                            {
+                                loading ?
+                                    <BeatLoader />
+                                    :
+                                    <FaGoogle />
+                            }
+
+
+                        </GoogleButton>
+                    </RecommendedContainer>
+
+                </>
 
 
     )
 }
+
 
 const GetBtn = styled.button`
         background: ${({ theme }) => theme === lightTheme ? "#F65F2D" : "#F65F2D"};

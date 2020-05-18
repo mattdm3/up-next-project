@@ -1,19 +1,20 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { LoginContext } from '../LoginContext';
+import { LoginContext, serverUrl } from '../LoginContext';
 import { FiSearch } from 'react-icons/fi'
 import { lightTheme } from '../theme';
+import { FiX } from 'react-icons/fi'
 
 const Search = () => {
 
 
-    const { setLastSearch, setSearchResults, searchResults } = useContext(LoginContext);
+    const { inputValue, setInputValue, setLastSearch, setSearchResults, searchResults, triggerSearchBar, setTriggerSearchBar } = useContext(LoginContext);
 
-    const [inputValue, setInputValue] = useState("")
+    // const [inputValue, setInputValue] = useState("")
 
     // const [searchResults, setSearchResults] = useState(null);
 
-    const [triggerSearchBar, setTriggerSearchBar] = useState(false);
+    // const [triggerSearchBar, setTriggerSearchBar] = useState(false);
 
 
     let inputRef = React.useRef();
@@ -40,7 +41,7 @@ const Search = () => {
         setInputValue("");
         toggleSearchTrigger();
 
-        fetch(`/search/${inputValue}`)
+        fetch(`${serverUrl}/search/${inputValue}`)
             .then(res => res.json())
             .then(data => setSearchResults(data))
 
@@ -49,7 +50,7 @@ const Search = () => {
 
     const handleInputValue = (e) => {
         setInputValue(e.target.value);
-        console.log(inputValue)
+
     }
 
 
@@ -111,7 +112,18 @@ const Search = () => {
                     }
                 } placeholder="search a movie title" type="text" value={inputValue} onChange={(e) => handleInputValue(e)} />
                 {/* <button onClick={handleSearch}>Go</button> */}
-                <StyledClearButton style={inputValue ? { display: "block" } : { display: "none" }} onClick={handleClearSearch}>Clear</StyledClearButton>
+
+                {inputValue ?
+                    <StyledClearButton style={inputValue ? { display: "block" } : { display: "none" }} onClick={handleClearSearch}>Clear</StyledClearButton>
+                    :
+                    <StyledClearButton onClick={() => toggleSearchTrigger()} style={triggerSearchBar ? {
+                        display: "block", opacity: "1",
+                        transition: "all 1000ms ease-in-out",
+                    } : { opacity: "0", position: "absolute", left: "-40px" }}><FiX /></StyledClearButton>
+                }
+
+
+
             </div>
 
         </StyledSearchContainer>
