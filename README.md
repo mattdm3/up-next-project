@@ -2,6 +2,32 @@
 
 A movie-rating app that allows users to find movies, rate movies, and get recommendations. Users can also create an "up next" list as they browse. 
 
+## Instructions
+To get this app running locally, follow these steps: 
+
+### Open two terminals, in the first terminal: 
+
+```javascript
+git clone https://github.com/mattdm3/up-next-project.git
+
+cd up-next-project/
+
+cd server/ 
+
+yarn start
+```
+
+### Second terminal: 
+
+```javascript
+cd up-next-project/
+
+cd client/ 
+
+yarn start
+```
+
+
 ## Built With
 
 * ReactJS
