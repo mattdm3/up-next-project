@@ -15,6 +15,7 @@ import { AiFillCaretRight } from 'react-icons/ai'
 import Search from '../Search/Search';
 import GenreDropDown from './GenreDropDown'
 import { serverUrl } from '../LoginContext'
+import UpButton from './UpButton';
 
 const BrowseByGenre = ({ theme }) => {
 
@@ -119,6 +120,7 @@ const BrowseByGenre = ({ theme }) => {
     return (
         <>
             <Search theme={theme} />
+            <UpButton />
 
             {/* SHOW SEARCH RESULTS INSTEAD (if there's a search) */}
 
@@ -163,7 +165,7 @@ const BrowseByGenre = ({ theme }) => {
 
                                 <NavigationLink onClick={() => handleGenreSelection("action")} activeStyle={(theme === "light") ? activeClass : activeClassNight} exact to="/genres/action">🔥Action</NavigationLink>
                                 <NavigationLink onClick={() => handleGenreSelection("drama")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/drama">🎭Drama</NavigationLink>
-                                <NavigationLink onClick={() => handleGenreSelection("adventure")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/adventure">🗺️Adventure</NavigationLink>
+                                <NavigationLink style={{ marginRight: "2rem" }} onClick={() => handleGenreSelection("adventure")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/adventure">🗺️Adventure</NavigationLink>
                                 {/* <NavigationLink onClick={() => handleGenreSelection("fantasy")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/fantasy">✨Fantasy</NavigationLink>
                                 <NavigationLink onClick={() => handleGenreSelection("comedy")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/comedy">😂Comedy</NavigationLink>
                                 <NavigationLink onClick={() => handleGenreSelection("romance")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/romance">💕Romance</NavigationLink> */}

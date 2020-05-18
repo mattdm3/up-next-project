@@ -18,10 +18,18 @@ const Recommended = () => {
 
     let history = useHistory()
 
-    const [loadingText, setLoadingText] = useState("🎬Generating Recommendations");
+    const [loadingText, setLoadingText] = useState("...get the 🍿 ready, I'm getting your movies...");
     const [recommendButton, setRecommendButton] = useState(true);
 
+    const [loadingEffect, setLoadingEffect] = useState(false)
 
+    const handleLoadingEffect = () => {
+        setLoadingEffect(true)
+        setTimeout(() => {
+            setLoadingEffect(false)
+
+        }, 1800)
+    }
 
 
 
@@ -99,15 +107,18 @@ const Recommended = () => {
                 alert("rate more movies first")
             } else {
                 // setRecStatus("getting");
+                handleLoadingEffect();
                 handleRecomendationRequest();
 
-                const recText = ["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫 calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "...getting the 🍿...", "almost....", "....there...."];
+                // const recText = ["🤐zipping movies", "📚creating dictionaries", "👩🏻‍🏫 calculating coefficients", "...🤔thinking...", "......🤔🤔thinking more......", "(👍good movie selections by the way)", "⌚okay almost there", "...getting the 🍿...", "almost....", "....there...."];
+
+                const recText = ["...get the 🍿 ready, I'm getting your movies..."];
 
                 let index = 0;
                 setInterval(() => {
                     setLoadingText(recText[index]);
                     index++;
-                }, 1900)
+                }, 800)
 
             }
 
@@ -160,14 +171,14 @@ const Recommended = () => {
             :
             appUser.email ?
                 <RecommendedContainer>
-                    {recStatus === "getting" ?
+                    {loadingEffect ?
 
                         <GetBtn disabled onClick={getRecommendations}><BeatLoader /></GetBtn>
                         :
                         <GetBtn style={recommendButton ? { opacity: "1" } : { opacity: ".5", boxShadow: "none" }} onClick={getRecommendations}>{recommendButton ? "Generate Recommendations" : "Rate More Movies To Enable"}</GetBtn>}
 
                     {
-                        recStatus === "getting" ?
+                        loadingEffect ?
                             <div style={{ marginTop: "5rem", textAlign: "center" }}>
                                 {/* <ClipLoader /> */}
                                 <p style={{ fontSize: "1.2rem" }}>{loadingText}</p>

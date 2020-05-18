@@ -15,10 +15,6 @@ import Landing from '../Landing';
 
 function App() {
 
-  const [bacon, setBacon] = useState(null);
-  const [randomMovie, setRandomMovie] = useState(null);
-
-  // const [theme, setTheme] = useState('light')
 
   const { theme, setTheme } = useContext(LoginContext);
 

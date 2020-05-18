@@ -160,13 +160,13 @@ const Navbar = ({ theme, toggleTheme }) => {
 
                     </NavigationLink>
 
-                    {/* <NavigationLink exact to={`/recommended/${appUser.uid}`}>
+                    <NavigationLink exact to={`/recommended/${appUser.uid}`}>
                         <StyledNavLink>Recommended Movies</StyledNavLink>
                         {appUser.email && recommendAllowed && navbar === false &&
                             <RecContainer>
                                 <FaCheckSquare />
                             </RecContainer>}
-                    </NavigationLink> */}
+                    </NavigationLink>
 
 
 

@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const { handleRandomMovie, handleSearch, handleMovieId, handleGenreId, handleProfilePage, getSimilarMovies } = require('./handlers')
 const { handleAddUpNext, handleLikeMovie, handleDislikeMovie, createUser, getUser, handleUndoRating } = require('./firebaseHandlers');
-const { handleRecommendations, prepareMoviesTest } = require('./src/shorterRecommend')
+const { handleRecommendations, prepareMoviesTest } = require('./Recommender/shorterRecommend')
 
 require('dotenv').config();
 
