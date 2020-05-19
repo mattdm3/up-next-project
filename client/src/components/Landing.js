@@ -6,7 +6,6 @@ import { LoginContext } from './LoginContext'
 import { Link, useHistory } from 'react-router-dom'
 import BeatLoader from 'react-spinners/BeatLoader';
 import { StyledLink } from './CONSTANTS'
-import { lightTheme } from './theme';
 
 const Landing = () => {
 
@@ -47,8 +46,8 @@ const Landing = () => {
                                 2
                          </Number>
                             <Instruction>
-                                Rate 👍🏼 or 👎🏼
-                         </Instruction>
+                                Rate <span role="img" aria-label="thumbs-up">👍🏼</span> or <span role="img" aria-label="thumbs-down">👎🏼</span>
+                            </Instruction>
 
                         </Step>
                         <Step>
@@ -65,7 +64,7 @@ const Landing = () => {
                                 4
                          </Number>
                             <Instruction>
-                                Add movies to 🍿 Up Next
+                                Add movies to <span role="img" aria-label="popcorn">🍿</span> Up Next
                          </Instruction>
 
                         </Step>

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { lightTheme } from '../theme';
 import ActionBar from '../ActionBar';
 import { LoginContext } from '../LoginContext';
 import MovieTextData from './MovieTextData';
@@ -22,7 +21,7 @@ const RenderMovie = ({
     setGenreData }) => {
 
 
-    const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { appUser } = useContext(LoginContext);
 
 
 
@@ -52,7 +51,7 @@ const RenderMovie = ({
 
                     {
 
-                        imgSrc != "https://image.tmdb.org/t/p/w500/null"
+                        imgSrc !== "https://image.tmdb.org/t/p/w500/null"
                             ?
                             <StyledLink to={`/movies/${movieId}`} >
                                 <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
@@ -79,11 +78,11 @@ const RenderMovie = ({
                 </BelowContentContainer>
 
                 <LikeStateContainer>
-                    {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span>👎🏼</span> </RatingResult> :
+                    {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span role="img" aria-labelledby="thumbs-down">👎🏼</span> </RatingResult> :
 
-                        appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
+                        appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span role="img" aria-labelledby="popcorn">🍿</span></RatingResult>
                             :
-                            <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>}
+                            <RatingResult>You rated this movie a <span role="img" aria-labelledby="thumbs-up">👍🏼</span></RatingResult>}
 
 
                     <UndoButton movieId={movieId} />
@@ -110,7 +109,7 @@ const RenderMovie = ({
                             <>
                                 <StyledLink to={`/movies/${movieId}`}>
                                     <MoviePoster alt={altText} src={imgSrc} />
-                                    <RatingStar>⭐{ratings}</RatingStar>
+                                    <RatingStar><span role="img" aria-label="star">⭐</span>{ratings}</RatingStar>
                                 </StyledLink>
                             </>
 
@@ -179,33 +178,7 @@ const MainContainer = styled.div`
 
 
 
-const StyledContainer = styled.div`
 
-    /* margin-bottom: 5rem;  */
-    /* min-width: 10rem; 
-    max-width: 24rem;  */
-    /* border: 1px solid red;  */
-    cursor: pointer;
-    position: relative; 
-    /* flex-shrink:0; */
-    /* flex-grow: 1;  */
-    /* max-width: 20rem; */
-    /* min-width: 20rem; */
-    /* width: 25rem; */
-    /* margin: 1rem; */
-    
-
-
-
-
-    h2 {
-        max-width: 280px; 
-    }
-
-    p{
-        color:  ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#C7C7FD"};
-    }
-`
 
 
 

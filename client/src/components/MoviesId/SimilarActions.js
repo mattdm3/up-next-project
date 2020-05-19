@@ -51,7 +51,7 @@ const SimilarActions = ({ movieId, disabled }) => {
 
         disabled ?
             <DisabledStyleActionContainer style={{ opacity: .2 }}>
-                <p>👍🏼</p>
+                <span role="img"><p>👍🏼</p></span>
                 <p>🍿</p>
                 <p>👎🏼</p>
             </DisabledStyleActionContainer>

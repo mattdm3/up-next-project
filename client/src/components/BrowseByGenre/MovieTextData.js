@@ -81,11 +81,11 @@ const MovieText = styled.div`
     
 `
 
-const Ratings = styled.h4`
-    margin-bottom: .5rem;
-    font-weight: 800; 
-    text-align:left; 
-`
+// const Ratings = styled.h4`
+//     margin-bottom: .5rem;
+//     font-weight: 800; 
+//     text-align:left; 
+// `
 
 
 const ReleaseAndGenres = styled.div`

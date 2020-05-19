@@ -5,7 +5,7 @@ import { lightTheme } from './theme';
 const Footer = () => {
     return (
         <StyledFooter>
-            <Logo>🍿 Up <span>Next</span></Logo>
+            <Logo><span role="img" aria-label="popcorn">🍿</span> Up <span>Next</span></Logo>
             <div>
                 <Muted>Copyright &#169; 2020 | <span>upnext.com</span></Muted>
             </div>

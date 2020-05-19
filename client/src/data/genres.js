@@ -94,6 +94,6 @@ export const genresList = [
     {
         "id": 37,
         "name": "western",
-        "label": "🤠wester"
+        "label": "🤠western"
     }
 ]

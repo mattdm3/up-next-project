@@ -35,19 +35,21 @@ const Navbar = ({ theme, toggleTheme }) => {
 
     }
     useEffect(() => {
+        if (triggerSearchBar) {
+            setTriggerSearchBar(false)
 
-        setTriggerSearchBar(false)
+        }
 
     }, [currentPath])
 
-    const toggleSearchBar = () => {
+    // const toggleSearchBar = () => {
 
-        if (triggerSearchBar) {
-            setTriggerSearchBar(false)
-        } else if (!triggerSearchBar) {
-            setTriggerSearchBar(true)
-        }
-    }
+    //     if (triggerSearchBar) {
+    //         setTriggerSearchBar(false)
+    //     } else if (!triggerSearchBar) {
+    //         setTriggerSearchBar(true)
+    //     }
+    // }
 
     const handleWindowResize = () => {
         if (window.innerWidth > 768) {
@@ -80,7 +82,7 @@ const Navbar = ({ theme, toggleTheme }) => {
 
         return () => window.removeEventListener("resize", handleWindowResize);
 
-    }, [])
+    }, [navbar])
 
     // useEffect(() => {
 
@@ -106,17 +108,17 @@ const Navbar = ({ theme, toggleTheme }) => {
                     <OverlayMenu>
                         {appUser.displayName && <UserName>Hello, {appUser.displayName} </UserName>}
                         {/* <HiddenNavLink onClick={toggleNavbar} to="/"><li>Home 🍿</li></HiddenNavLink> */}
-                        <HiddenNavLink onClick={toggleNavbar} to="/genres/action"><li>Browse 🔍</li></HiddenNavLink>
+                        <HiddenNavLink onClick={toggleNavbar} to="/genres/action"><li>Browse <span role="img" aria-label="magnifying-glass">🔍</span></li></HiddenNavLink>
                         {/* <HiddenNavLink onClick={toggleNavbar} to={`/recommended/${appUser.uid}`}><li>Recommended Movies 🎥</li></HiddenNavLink> */}
 
 
                         {appUser && appUser.email ?
                             <>
                                 <HiddenNavLink onClick={toggleNavbar} to={`/profile/${appUser.uid}`}>
-                                    <StyledNavLink>My Movies 🍿</StyledNavLink>
+                                    <StyledNavLink>My Movies <span role="img" aria-label="popcorn">🍿</span></StyledNavLink>
                                 </HiddenNavLink>
                                 <HiddenNavLink to="/" onClick={toggleNavbar}>
-                                    <StyledNavLink style={{ color: "grey" }} onClick={handleSignOut}>Logout 🚪</StyledNavLink>
+                                    <StyledNavLink style={{ color: "grey" }} onClick={handleSignOut}>Logout <span role="img" aria-label="exit-door">🚪</span></StyledNavLink>
                                 </HiddenNavLink>
 
 
@@ -151,7 +153,7 @@ const Navbar = ({ theme, toggleTheme }) => {
 
 
                 <NavigationLink exact to='/'>
-                    <LogoLi> <Logo>🍿 Up <span>Next</span></Logo>  </LogoLi>
+                    <LogoLi> <Logo><span role="img" aria-label="popcorn">🍿</span> Up <span>Next</span></Logo>  </LogoLi>
                 </NavigationLink>
 
                 <StyledUl>
@@ -173,7 +175,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                     {appUser && appUser.email ?
                         <>
                             <NavigationLink exact to={`/profile/${appUser.uid}`}>
-                                <StyledNavLink>My Movies 🍿</StyledNavLink>
+                                <StyledNavLink>My Movies <span role="img" aria-label="popcorn">🍿</span></StyledNavLink>
                                 {dataObject && dataObject.upNextList && dataObject.upNextList.length && navbar === false &&
                                     <UpNextAmount>
                                         {dataObject && dataObject.upNextList && (dataObject.upNextList[0] === "none" ? "0" : dataObject.upNextList.length)}

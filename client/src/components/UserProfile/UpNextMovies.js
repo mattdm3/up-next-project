@@ -5,7 +5,6 @@ import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { StyledMovieContainer, Wrapper, StyledScrollLeft, StyledScrollRight, Container, StyledPoster, StyledLink } from './PROFILE-CONSTANTS'
 import UpNextActions from './UpNextActions';
 import ClipLoader from 'react-spinners/ClipLoader'
-import posterplaceholder from '../poster-placeholder.png'
 
 const UpNextMovies = () => {
 
@@ -15,14 +14,17 @@ const UpNextMovies = () => {
     const [loading, setLoading] = useState(false)
 
 
+
+
     // SCROLL
     const scrollRef = React.useRef();
 
+
     const scrollLeft = (ref) => {
-        scrollRef.current.scrollBy(-300, 0)
+        scrollRef.current.scrollBy(-(scrollRef.current.offsetWidth), 0)
     }
     const scrollRight = (ref) => {
-        scrollRef.current.scrollBy(300, 0)
+        scrollRef.current.scrollBy((scrollRef.current.offsetWidth), 0)
     }
 
     const executeScrollLeft = () => scrollLeft(scrollRef);
@@ -38,18 +40,27 @@ const UpNextMovies = () => {
 
         appUser.data && dataObject.upNextList && dataObject.upNextList.forEach((movieId) => {
 
-            fetch(`${serverUrl}/movies/${movieId}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data) {
-                        setUpNextMovieData(upNextMovieData => [
-                            ...upNextMovieData,
-                            data
-                        ]);
-                        setLoading(false)
-                    }
+            if (movieId !== "none") {
+                try {
 
-                })
+                    fetch(`${serverUrl}/movies/${movieId}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data) {
+                                setUpNextMovieData(upNextMovieData => [
+                                    ...upNextMovieData,
+                                    data
+                                ]);
+                                setLoading(false)
+                            }
+
+                        })
+
+                } catch (error) {
+                    console.log('error searching movie', error.message)
+                }
+            }
+
 
         })
 
@@ -60,7 +71,7 @@ const UpNextMovies = () => {
 
     return (
 
-        upNextMovieData.length > 0 && upNextMovieData[0].status_code != 34 ?
+        upNextMovieData.length > 0 && upNextMovieData[0].status_code !== 34 ?
 
             (
                 loading ?
@@ -84,7 +95,7 @@ const UpNextMovies = () => {
                                         <StyledLink to={`/movies/${movie.id}`} >
 
 
-                                            <StyledPoster src={`https://image.tmdb.org/t/p/w400/${movie.poster_path}`} />
+                                            <StyledPoster src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`} />
 
 
 
@@ -135,6 +146,12 @@ const ListContainer = styled.div`
     display: flex; 
     flex-direction: column;
     align-items: center;
+    margin: 0 10px; 
+
+    /* @media screen and (max-width: 500px) {
+        width: 100vw; 
+    } */
+    
 `
 
 

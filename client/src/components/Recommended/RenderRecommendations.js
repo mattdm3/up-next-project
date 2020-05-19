@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../theme';
-import ActionBar from '../ActionBar';
 import RecommendedActions from './RecommendedActions'
 import { LoginContext } from '../LoginContext';
 import RecommendedMovieData from './RecommendedMovieData'
@@ -37,7 +36,7 @@ const RenderRecommendations = ({
 }) => {
 
 
-    const { handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message } = useContext(LoginContext);
+    const { appUser } = useContext(LoginContext);
 
     // appUser && appUser.data && console.log(appUser.data.dislikedMovies)
     // console.log(typeof movieId)
@@ -53,7 +52,7 @@ const RenderRecommendations = ({
                     <StyledLink to={`/movies/${movieId}`}>
                         <PosterContainer>
                             {
-                                imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster style={{ opacity: ".2 " }} alt={altText} src={imgSrc} />
+                                imgSrc !== "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster style={{ opacity: ".2 " }} alt={altText} src={imgSrc} />
                                     :
                                     <>
                                         <MoviePoster style={{ boxShadow: "none" }} alt={altText} src={posterplaceholder} />
@@ -81,13 +80,13 @@ const RenderRecommendations = ({
                 </StyledContainer>
 
                 <LikeStateContainer>
-                    {appUser.data.dislikedMovies[movieId.toString()] === movieId.toString() ? <RatingResult>You rated this movie a <span>👎🏼</span> </RatingResult> :
+                    {appUser.data.dislikedMovies[movieId.toString()] === movieId.toString() ? <RatingResult>You rated this movie a <span role="img" aria-labelledby="thumbs-down">👎🏼</span> </RatingResult> :
 
-                        appUser.data.upNextList[movieId.toString()] === movieId.toString() ? <RatingResult>You added this to your UpNext <span>🍿</span></RatingResult>
+                        appUser.data.upNextList[movieId.toString()] === movieId.toString() ? <RatingResult>You added this to your UpNext <span role="img" aria-labelledby="popcorn">🍿</span></RatingResult>
                             :
 
                             appUser.data.likedMovies[movieId.toString()] === movieId.toString() ?
-                                <RatingResult>You rated this movie a <span>👍🏼</span></RatingResult>
+                                <RatingResult>You rated this movie a <span role="img" aria-labelledby="thumbs-up">👍🏼</span></RatingResult>
 
                                 :
                                 ""
@@ -103,7 +102,7 @@ const RenderRecommendations = ({
                     <StyledLink to={`/movies/${movieId}`}>
                         <PosterContainer>
                             {
-                                imgSrc != "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster alt={altText} src={imgSrc} />
+                                imgSrc !== "https://image.tmdb.org/t/p/w500/null" ? <MoviePoster alt={altText} src={imgSrc} />
                                     : <>
                                         <MoviePoster style={{ boxShadow: "none" }} alt={altText} src={posterplaceholder} />
                                         <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>

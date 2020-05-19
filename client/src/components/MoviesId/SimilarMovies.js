@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import { SubHeading } from '../CONSTANTS'
 import posterplaceholder from '../poster-placeholder.png'
-import { lightTheme } from '../theme'
-import SimilarActions from './SimilarActions';
 import { serverUrl } from '../LoginContext'
 
 const SimilarMovies = ({ movieId, theme }) => {
@@ -13,7 +11,6 @@ const SimilarMovies = ({ movieId, theme }) => {
     const [similarMoviesArray, setSimilarMoviesArray] = useState(null)
 
     // SCROLL
-    const [relatedItems, setRelatedItems] = useState(null)
     const scrollRef = React.useRef();
 
     const scrollLeft = (ref) => {

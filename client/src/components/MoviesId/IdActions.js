@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from '../theme';
 import UndoButton from "../BrowseByGenre/UndoButton";
@@ -7,7 +7,7 @@ import UndoButton from "../BrowseByGenre/UndoButton";
 
 const IdActions = ({ movieId }) => {
 
-    const { dataObject, handleMovieLike, isUserDataLoaded, handleMovieDislike, appUser, signInWithGoogle, handleAddUpNext } = useContext(LoginContext);
+    const { dataObject, handleMovieLike, handleMovieDislike, appUser, handleAddUpNext } = useContext(LoginContext);
 
     const [movieIsLiked, setMovieIsLiked] = useState(false)
     const [movieIsDisliked, setMovieIsDisliked] = useState(false)
@@ -52,13 +52,16 @@ const IdActions = ({ movieId }) => {
                 setMovieIsLiked(true)
             }
             else if (appUser.data.dislikedMovies[movieId]) {
-                setMovieIsDisliked(true)
+                if (movieIsDisliked === false) {
+                    setMovieIsDisliked(true)
+                }
+
             }
         }
 
 
 
-    }, [appUser, dataObject])
+    }, [appUser, dataObject, movieId])
 
     // console.log(isUserDataLoaded)
 
@@ -73,9 +76,9 @@ const IdActions = ({ movieId }) => {
             :
 
             <StyleActionContainer>
-                <p onClick={(e) => handleLike(e)}>👍🏼</p>
-                <p style={appUser.email && appUser.data.upNextList[movieId] && { display: "none" }} onClick={(e) => handleUpNext(e)}>🍿</p>
-                <p onClick={(e) => handleDislike(e)}>👎🏼</p>
+                <p onClick={(e) => handleLike(e)}><span role="img" aria-label="thumbs-up">👍🏼</span></p>
+                <p style={appUser.email && appUser.data.upNextList[movieId] && { display: "none" }} onClick={(e) => handleUpNext(e)}><span role="img" aria-label="popcorn-emoji">🍿</span></p>
+                <p onClick={(e) => handleDislike(e)}><span role="img" aria-label="thumbs-down">👎🏼</span></p>
             </StyleActionContainer>
     )
 }

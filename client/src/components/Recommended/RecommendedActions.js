@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from "../theme";
 
 const RecommendedActions = ({ movieId, disabled }) => {
 
-    const { movieCounter, setMovieCounter, handleMovieLike, handleMovieDislike, updateUserData, appUser, signInWithGoogle, handleSignOut, message, handleAddUpNext, recommendedAPI, theme } = useContext(LoginContext);
+    const { handleMovieLike, handleMovieDislike, appUser, handleAddUpNext } = useContext(LoginContext);
 
 
 
@@ -57,15 +57,15 @@ const RecommendedActions = ({ movieId, disabled }) => {
 
         disabled ?
             <StyleActionContainerDisabled>
-                <p>👍🏼</p>
-                <p>🍿</p>
-                <p>👎🏼</p>
+                <p><span role="img" aria-label="thumbs-up">👍🏼</span></p>
+                <p><span role="img" aria-label="popcorn">🍿</span></p>
+                <p><span role="img" aria-label="thumbs-down">👎🏼</span></p>
             </StyleActionContainerDisabled>
             :
             <StyleActionContainer>
-                <p onClick={(e) => handleLike(e)}>👍🏼</p>
-                <p onClick={(e) => handleUpNext(e)}>🍿</p>
-                <p onClick={(e) => handleDislike(e)}>👎🏼</p>
+                <p onClick={(e) => handleLike(e)}><span role="img" aria-label="thumbs-up">👍🏼</span></p>
+                <p onClick={(e) => handleUpNext(e)}><span role="img" aria-label="popcorn">🍿</span></p>
+                <p onClick={(e) => handleDislike(e)}><span role="img" aria-label="thumbs-down">👎🏼</span></p>
             </StyleActionContainer>
     )
 }

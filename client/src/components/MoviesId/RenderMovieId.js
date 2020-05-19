@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import RenderMovie from '../BrowseByGenre/RenderMovie';
 import ClipLoader from "react-spinners/ClipLoader";
 import IdActions from './IdActions';
 import { StyledLink, GenreP } from '../CONSTANTS'
@@ -58,7 +57,7 @@ const RenderMovieId = ({
 
             <MovieHeader>
                 <MoviePoster>
-                    {posterPath != "https://image.tmdb.org/t/p/w500/null" ?
+                    {posterPath !== "https://image.tmdb.org/t/p/w500/null" ?
                         <img src={posterPath} alt={title} />
                         :
                         <h3>No poster found</h3>
@@ -72,7 +71,7 @@ const RenderMovieId = ({
 
                     {youtube ?
                         <>
-                            <iframe style={youtubeLoaded ? { display: "block" } : { display: "none" }} onLoad={() => setyoutubeLoaded(true)} id="player" type="text/html" //width="500" height="300"
+                            <iframe title={youtube} style={youtubeLoaded ? { display: "block" } : { display: "none" }} onLoad={() => setyoutubeLoaded(true)} id="player" type="text/html" //width="500" height="300"
                                 src={`https://www.youtube.com/embed/${youtube}?enablejsapi=1`}
                                 frameBorder="0"></iframe>
 
@@ -169,25 +168,6 @@ const TrailerContainer = styled.div`
 `
 
 
-const BackdropImage = styled.img`
-        
-    /* width: 300px; 
-    z-index: -10;  */
-
-    grid-area: 1 / 2 / 2 / 4;
-    width: 500px; 
-    width: 100%; 
-    border-radius: 10px;
-
-
-`
-const TrailerAndBackdrop = styled.div`
-    display: flex; 
-    flex-direction: column;
-    justify-content: space-between;
-
-
-`
 
 const TitleAndGenre = styled.div`
     display: flex; 

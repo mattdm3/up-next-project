@@ -58,12 +58,12 @@ const DislikedMovie = () => {
                 })
 
         })
-    }, [dataObject])
+    }, [dataObject, appUser])
 
 
     return (
 
-        dislikedMovieData.length > 0 && dislikedMovieData[0].status_code != 34 ?
+        dislikedMovieData.length > 0 && dislikedMovieData[0].status_code !== 34 ?
 
 
             (
@@ -83,18 +83,18 @@ const DislikedMovie = () => {
 
                             {dislikedMovieData && dislikedMovieData.map((movie) => {
                                 return (
-                                    <>
 
-                                        <StyledLink key={"disliked:" + movie.id} to={`/movies/${movie.id}`} >
-                                            <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
 
-                                            <div style={{ fontSize: ".8rem", width: "fit-content" }}>
-                                                <UndoButton movieId={movie.id} />
-                                            </div>
+                                    <StyledLink key={"disliked:" + movie.id} to={`/movies/${movie.id}`} >
+                                        <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
 
-                                        </StyledLink>
+                                        <div style={{ fontSize: ".8rem", width: "fit-content" }}>
+                                            <UndoButton movieId={movie.id} />
+                                        </div>
 
-                                    </>
+                                    </StyledLink>
+
+
                                 )
                             }
                             )}

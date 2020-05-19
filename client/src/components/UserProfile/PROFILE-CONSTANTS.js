@@ -1,17 +1,22 @@
 import styled from 'styled-components';
-import { Link, NavLink } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 
 export const StyledLink = styled(Link)`
-    margin: 0 2.3rem; 
+    margin: 0 2.4rem; 
     position: relative; 
     color: inherit;
+
+   
 
 `
 
 export const StyledPoster = styled.img`
     border-radius: 10px; 
+
+    @media screen and (max-width: 500px) {
+        max-width: 60vw;
+    }
 `
 
 export const Container = styled.div`
@@ -49,6 +54,7 @@ export const Wrapper = styled.div`
     width: 100%;
     display: flex;
     overflow: hidden; 
+
     
 
     a {

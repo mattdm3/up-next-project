@@ -57,7 +57,7 @@ const LikedMovie = () => {
 
     return (
 
-        likedMovieData.length > 0 && likedMovieData[0].status_code != 34 ?
+        likedMovieData.length > 0 && likedMovieData[0].status_code !== 34 ?
             (
 
                 loading ?

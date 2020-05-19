@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
-import styled, { keyframes } from 'styled-components';
+import React, { useContext } from "react";
+import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from '../theme';
 
 const UpNextActions = ({ movieId, upNextMovieData, loading, setUpNextMovieData, setLoading }) => {
 
-    const { handleMovieLike, handleMovieDislike, appUser, handleAddUpNext } = useContext(LoginContext);
+    const { handleMovieLike, handleMovieDislike } = useContext(LoginContext);
 
 
 
@@ -42,8 +42,8 @@ const UpNextActions = ({ movieId, upNextMovieData, loading, setUpNextMovieData, 
     return (
 
         <StyleActionContainer>
-            <p onClick={(e) => handleLike(e)}>👍🏼</p>
-            <p onClick={(e) => handleDislike(e)}>👎🏼</p>
+            <p onClick={(e) => handleLike(e)}><span role="img" aria-label="thumbs-up">👍🏼</span></p>
+            <p onClick={(e) => handleDislike(e)}><span role="img" aria-label="thumbs-down">👎🏼</span></p>
         </StyleActionContainer>
     )
 }
@@ -79,20 +79,20 @@ const StyleActionContainer = styled.div`
 `
 
 
-const scaleUp = keyframes`
-    0 {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(2);
-    }
-    100% {
-        transform: scale(1);
-    }
-`
+// const scaleUp = keyframes`
+//     0 {
+//         transform: scale(0);
+//     }
+//     50% {
+//         transform: scale(2);
+//     }
+//     100% {
+//         transform: scale(1);
+//     }
+// `
 
-const ScaledButton = styled.div`
-    animation: ${scaleUp} 700ms ease forwards; 
-`
+// const ScaledButton = styled.div`
+//     animation: ${scaleUp} 700ms ease forwards; 
+// `
 
 export default UpNextActions;

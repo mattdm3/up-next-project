@@ -1,15 +1,11 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { genresList } from '../../data/genres';
 import RenderMovie from './RenderMovie';
-import { StyledLink } from '../CONSTANTS'
 import { NavLink } from 'react-router-dom'
 import SortDropdown from './SortDropDown';
 import { LoginContext } from '../LoginContext';
-import { lightTheme } from '../theme';
-import { GrCaretNext } from 'react-icons/gr'
-import { GrCaretPrevious } from 'react-icons/gr'
 import { AiFillCaretLeft } from 'react-icons/ai'
 import { AiFillCaretRight } from 'react-icons/ai'
 import Search from '../Search/Search';
@@ -20,12 +16,9 @@ import UpButton from './UpButton';
 const BrowseByGenre = ({ theme }) => {
 
     const [genreData, setGenreData] = useState(null);
-
-    const [test, setTest] = useState(null);
-
     const { genreName } = useParams();
 
-    const { triggerSearchBar, setTriggerSearchBar, inputValue, setInputValue, setTheme, searchResults, setSearchResults, toggleSearchTrigger, lastSearch, browsePage, setBrowsePage, sortLabel, setSortLabel, sortOption, setSortOption, selectedGenre, setSelectedGenre, appUser } = useContext(LoginContext);
+    const { triggerSearchBar, setTriggerSearchBar, setInputValue, searchResults, setSearchResults, lastSearch, browsePage, setBrowsePage, sortOption, setSortOption, setSelectedGenre } = useContext(LoginContext);
 
     // check the id of the genre; 
     let selectedGenreId = null;
@@ -65,7 +58,7 @@ const BrowseByGenre = ({ theme }) => {
     const handleGenreSelection = (genre) => {
 
         setSelectedGenre(genre);
-        if (genre != genreName) {
+        if (genre !== genreName) {
             setBrowsePage(1);
         }
 
@@ -163,9 +156,9 @@ const BrowseByGenre = ({ theme }) => {
                             <GenreButtons>
 
 
-                                <NavigationLink onClick={() => handleGenreSelection("action")} activeStyle={(theme === "light") ? activeClass : activeClassNight} exact to="/genres/action">🔥Action</NavigationLink>
-                                <NavigationLink onClick={() => handleGenreSelection("drama")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/drama">🎭Drama</NavigationLink>
-                                <NavigationLink style={{ marginRight: "2rem" }} onClick={() => handleGenreSelection("adventure")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/adventure">🗺️Adventure</NavigationLink>
+                                <NavigationLink onClick={() => handleGenreSelection("action")} activeStyle={(theme === "light") ? activeClass : activeClassNight} exact to="/genres/action"> <span role="img" aria-label="fire">🔥</span> Action</NavigationLink>
+                                <NavigationLink onClick={() => handleGenreSelection("drama")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/drama"><span role="img" aria-label="drama">🎭</span>Drama</NavigationLink>
+                                <NavigationLink style={{ marginRight: "2rem" }} onClick={() => handleGenreSelection("adventure")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/adventure"><span role="img" aria-label="map">🗺️</span>Adventure</NavigationLink>
                                 {/* <NavigationLink onClick={() => handleGenreSelection("fantasy")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/fantasy">✨Fantasy</NavigationLink>
                                 <NavigationLink onClick={() => handleGenreSelection("comedy")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/comedy">😂Comedy</NavigationLink>
                                 <NavigationLink onClick={() => handleGenreSelection("romance")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/romance">💕Romance</NavigationLink> */}

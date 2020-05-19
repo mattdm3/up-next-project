@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { LoginContext, serverUrl } from '../LoginContext';
 import { FiSearch } from 'react-icons/fi'
@@ -8,7 +8,7 @@ import { FiX } from 'react-icons/fi'
 const Search = () => {
 
 
-    const { inputValue, setInputValue, setLastSearch, setSearchResults, searchResults, triggerSearchBar, setTriggerSearchBar } = useContext(LoginContext);
+    const { inputValue, setInputValue, setLastSearch, setSearchResults, triggerSearchBar, setTriggerSearchBar } = useContext(LoginContext);
 
     // const [inputValue, setInputValue] = useState("")
 

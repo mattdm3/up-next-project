@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { genresList } from '../../data/genres';
 import { StyledLink, GenreP } from '../CONSTANTS'
 
 
@@ -18,7 +17,7 @@ const RecommendedMovieData = ({ genres, themes, title, releaseDate, genre, ratin
 
                 {
                     genres.slice(0, 3).map(genreName => {
-                        return <StyledLink to={`/genres/${genreName.name.toLowerCase()}`}>
+                        return <StyledLink key={genreName + Math.random()} to={`/genres/${genreName.name.toLowerCase()}`}>
                             <GenreP key={genreName}>{genreName.name.toLowerCase()}</GenreP>
                         </StyledLink>
                     })
@@ -45,9 +44,7 @@ const MovieText = styled.div`
     
 `
 
-const Ratings = styled.p`
-    margin-bottom: .5rem;
-`
+
 
 
 const ReleaseAndGenres = styled.div`

@@ -1,12 +1,9 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { LoginContext, serverUrl } from '../LoginContext';
-import RenderMovie from '../BrowseByGenre/RenderMovie';
+import { LoginContext } from '../LoginContext';
 import RenderRecommendations from './RenderRecommendations';
-import RecommendedActions from '../Recommended/RecommendedActions'
 import { lightTheme } from '../theme';
 import { useHistory } from 'react-router-dom'
-import ClipLoader from "react-spinners/ClipLoader";
 import BeatLoader from 'react-spinners/BeatLoader';
 import { FaGoogle } from 'react-icons/fa'
 
@@ -14,7 +11,7 @@ import { FaGoogle } from 'react-icons/fa'
 
 const Recommended = () => {
 
-    const { loading, recommendationCount, userLevel, recStatus, setRecStatus, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, recommendedMovies, setRecommendedMovies, dataObject, updateUserData, appUser, signInWithGoogle, handleSignOut, message, theme, preparedMovies, setPreparedMovies } = useContext(LoginContext);
+    const { loading, userLevel, setRecStatus, movieCounter, setMovieCounter, handleRecomendationRequest, recommendedAPI, appUser, signInWithGoogle, preparedMovies } = useContext(LoginContext);
 
     let history = useHistory()
 
@@ -140,7 +137,7 @@ const Recommended = () => {
 
     const triggerPreviousMovie = () => {
 
-        let maximumCount = recommendedAPI.length;
+
 
         if (movieCounter >= 1) {
             setMovieCounter(movieCounter - 1);
@@ -154,7 +151,7 @@ const Recommended = () => {
 
     }
 
-    console.log(recStatus)
+
 
     return (
 
@@ -263,26 +260,7 @@ const RecommendedContainer = styled.div`
 
 
 
-const StyledContainer = styled.div`
 
-    margin-bottom: 5rem; 
-    min-width: 20rem; 
-    max-width: 20rem; 
-    /* border: 1px solid red;  */
-    
-    position: relative; 
-
-
-
-
-    h2 {
-        max-width: 280px; 
-    }
-
-    p{
-        color:  ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#C7C7FD"};
-    }
-`
 
 const FullViewContainer = styled.div`
     /* position: absolute;
@@ -292,13 +270,6 @@ const FullViewContainer = styled.div`
 
 `
 
-const MoviePoster = styled.img`
-    border-radius: 10px; 
-    min-height: 24rem; 
-    min-width: 20rem; 
-    max-width: 20rem; 
-    
-`
 
 const GoogleButton = styled.div`
     width: 14rem; 

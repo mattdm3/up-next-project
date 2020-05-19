@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import styled, { keyframes } from 'styled-components';
+import React, { useContext } from "react";
+import styled from 'styled-components';
 import { LoginContext } from '../LoginContext';
 import { lightTheme } from '../theme';
 
@@ -51,16 +51,16 @@ const ActionBar = ({ movieId, disabled }) => {
 
         disabled ?
             <DisabledStyleActionContainer style={{ opacity: .2 }}>
-                <p>👍🏼</p>
-                <p>🍿</p>
-                <p>👎🏼</p>
+                <p><span role="img" aria-labelledby="thumbs-up">👍🏼</span></p>
+                <p><span role="img" aria-label="popcorn">🍿</span></p>
+                <p><span role="img" aria-label="thumbs-down">👎🏼</span></p>
             </DisabledStyleActionContainer>
             :
 
             <StyleActionContainer>
-                <p onClick={(e) => handleLike(e)}>👍🏼</p>
-                <p onClick={(e) => handleUpNext(e)}>🍿</p>
-                <p onClick={(e) => handleDislike(e)}>👎🏼</p>
+                <p onClick={(e) => handleLike(e)}><span role="img" aria-labelledby="thumbs-up">👍🏼</span></p>
+                <p onClick={(e) => handleUpNext(e)}><span role="img" aria-label="popcorn">🍿</span></p>
+                <p onClick={(e) => handleDislike(e)}><span role="img" aria-label="thumbs-down">👎🏼</span></p>
             </StyleActionContainer>
 
 
@@ -147,20 +147,20 @@ const DisabledStyleActionContainer = styled.div`
 `
 
 
-const scaleUp = keyframes`
-    0 {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(2);
-    }
-    100% {
-        transform: scale(1);
-    }
-`
+// const scaleUp = keyframes`
+//     0 {
+//         transform: scale(0);
+//     }
+//     50% {
+//         transform: scale(2);
+//     }
+//     100% {
+//         transform: scale(1);
+//     }
+// `
 
-const ScaledButton = styled.div`
-    animation: ${scaleUp} 700ms ease forwards; 
-`
+// const ScaledButton = styled.div`
+//     animation: ${scaleUp} 700ms ease forwards; 
+// `
 
 export default ActionBar;

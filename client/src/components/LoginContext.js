@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import withFirebaseAuth from 'react-with-firebase-auth';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/analytics'
 // import admin from 'firebase-admin';
 
 
@@ -17,34 +18,20 @@ const firebaseConfig = {
     projectId: "up-next-c62cb",
     storageBucket: "up-next-c62cb.appspot.com",
     messagingSenderId: "497710210803",
-    appId: "1:497710210803:web:3daae19de57edf3c582186"
+    appId: "1:497710210803:web:3daae19de57edf3c582186",
+    measurementId: "G-Z74LRW2JW2"
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const firebaseAppAuth = firebaseApp.auth();
 
+firebase.analytics()
 
 const providers = {
     googleProvider: new firebase.auth.GoogleAuthProvider(),
 };
 
 
-const options = [
-    {
-        label: 'Popularity',
-        key: 'popularity'
-    },
-    {
-        label: 'Highest Rated',
-        key: 'vote_average'
-    },
-    {
-        label: 'Highest Grossing',
-        key: 'revenue'
-    },
-
-
-]
 
 
 
@@ -142,9 +129,9 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
 
     useEffect(() => {
         if (appUser.email) {
-            let likedMoviesArray = appUser.data.likedMovies != "none" && Object.values(appUser.data.likedMovies);
-            let dislikedMoviesArray = appUser.data.dislikedMovies != "none" && Object.values(appUser.data.dislikedMovies);
-            let upNextArray = appUser.data.upNextList != "none" && Object.values(appUser.data.upNextList);
+            let likedMoviesArray = appUser.data.likedMovies !== "none" && Object.values(appUser.data.likedMovies);
+            let dislikedMoviesArray = appUser.data.dislikedMovies !== "none" && Object.values(appUser.data.dislikedMovies);
+            let upNextArray = appUser.data.upNextList !== "none" && Object.values(appUser.data.upNextList);
 
             setDataObject({
                 disliked: dislikedMoviesArray,
@@ -154,9 +141,7 @@ const LoginProvider = ({ children, signInWithGoogle, user, signOut, loading }) =
         }
     }, [appUser])
 
-    const handleLoading = () => {
-        loading();
-    }
+
 
 
     // HANDLE SIGNOUT
