@@ -24,6 +24,7 @@ const StyledUpContainer = styled.div`
     bottom: 3rem;
     font-size: 3rem;
     cursor: pointer;
+    z-index: 1000; 
 `
 
 

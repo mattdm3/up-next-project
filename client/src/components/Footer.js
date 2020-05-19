@@ -24,7 +24,7 @@ const StyledFooter = styled.footer`
     align-items: center; 
     justify-content: space-between;
 
-    background:  ${({ theme }) => theme === lightTheme ? "#999BFB" : "#03033D"};
+    background:  ${({ theme }) => theme === lightTheme ? "#F3F4FD" : "#03033D"};
   
     @media screen and (max-width: 500px) {
         padding: 1rem 3rem;

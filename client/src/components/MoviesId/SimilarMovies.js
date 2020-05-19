@@ -14,10 +14,10 @@ const SimilarMovies = ({ movieId, theme }) => {
     const scrollRef = React.useRef();
 
     const scrollLeft = (ref) => {
-        scrollRef.current.scrollBy(-280, 0)
+        scrollRef.current.scrollBy(-(scrollRef.current.offsetWidth), 0)
     }
     const scrollRight = (ref) => {
-        scrollRef.current.scrollBy(280, 0)
+        scrollRef.current.scrollBy((scrollRef.current.offsetWidth), 0)
     }
 
     const executeScrollLeft = () => scrollLeft(scrollRef);
@@ -36,6 +36,10 @@ const SimilarMovies = ({ movieId, theme }) => {
 
     }, [movieId])
 
+    const handleClick = () => {
+        window.scrollTo(0, 0);
+    }
+
 
     return (
         <Container>
@@ -51,25 +55,25 @@ const SimilarMovies = ({ movieId, theme }) => {
                 {similarMoviesArray && similarMoviesArray.map(movie => {
                     return (
 
-                        <div key={movie.id}>
-                            <StyledLink to={`/movies/${movie.id}`}>
 
-                                {
-                                    movie.poster_path != null ?
-                                        <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
-                                        :
-                                        <>
-                                            <StyledPoster src={posterplaceholder} />
-                                            <p style={{ position: "absolute", bottom: "15%", left: "50%", transform: "translate(-50%, -50%)", color: "white" }}>{movie.title}</p>
-                                        </>
-                                }
+                        <StyledLink onClick={() => handleClick()} key={movie.id} to={`/movies/${movie.id}`}>
 
-
+                            {
+                                movie.poster_path != null ?
+                                    <StyledPoster src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+                                    :
+                                    <>
+                                        <StyledPoster src={posterplaceholder} />
+                                        <p style={{ position: "absolute", bottom: "15%", left: "50%", transform: "translate(-50%, -50%)", color: "white" }}>{movie.title}</p>
+                                    </>
+                            }
 
 
-                            </StyledLink>
-                            {/* <SimilarActions movieId={movie.id} /> */}
-                        </div>
+
+
+                        </StyledLink>
+
+
 
                     )
                 })}
@@ -82,13 +86,23 @@ const SimilarMovies = ({ movieId, theme }) => {
 
 
 const StyledLink = styled(Link)`
-    margin-right: 80px; 
+    margin: 0 4rem;
     position: relative; 
+    
+
+    @media screen and (max-width: 400px) {
+        margin: 0 2rem;
+    }
+
+    @media screen and (max-width: 320px) {
+        margin: 0 1rem;
+    }
 `
 
 const StyledPoster = styled.img`
     border-radius: 10px; 
     max-width: 200px; 
+    margin-left: auto; 
 
 `
 
@@ -98,6 +112,7 @@ const Container = styled.div`
     width: 100%; 
     margin-left: auto;
     margin-right: auto; 
+    padding: 0 2rem;
     margin: 8rem 0; 
 `
 
@@ -124,10 +139,15 @@ const StyledScrollRight = styled.div`
 const Wrapper = styled.div`
     overflow: auto;
     white-space: nowrap;
-    width: 90%;
+    width: 100%;
     display: flex;
     overflow: hidden; 
-    margin-left: 3.8rem;
+    -webkit-overflow-scrolling: touch;
+    
+
+    /* border: 2px solid pink; */
+
+
 
     a {
         text-decoration: none;
@@ -135,8 +155,8 @@ const Wrapper = styled.div`
 
 
 
-/* @media only screen and (max-width: 600px) {
-    overflow-y: hidden;
+/* @media only screen and (max-width: 500px) {
+    margin-left: 5.5rem;
     
 } */
 `

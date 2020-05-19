@@ -273,7 +273,7 @@ const HiddenNavigation = styled.div`
     border-top-left-radius: 10px; 
     border-bottom-left-radius: 10px; 
 
-    background: ${({ theme }) => theme === lightTheme ? "#050553" : "#F3F4FD"}
+    background: ${({ theme }) => theme === lightTheme ? "#F3F4FD" : "#03033D"}
 
     
 
@@ -285,7 +285,7 @@ const HiddenNavLink = styled(Link)`
 
 const ExitNavigation = styled.div`
     /* color: white;  */
-    color: ${({ theme }) => theme === lightTheme ? "#F3F4FD" : "#050553"};
+    color: ${({ theme }) => theme === lightTheme ? "#232476" : "#F3F4FD"};
     position: absolute; 
     right:  3rem;
     top: 4.5rem; 
@@ -330,7 +330,8 @@ const OverlayMenu = styled.ul`
         font-weight: 500;
         font-size: 1.3rem;
         /* text-transform: uppercase;  */
-        color: ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#050553"};
+        /* color: ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#050553"}; */
+        color: ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#F3F4FD"};
 
         /* margin: 5px 0;  */
         padding: 1.5rem 0; 
@@ -360,7 +361,7 @@ const UserName = styled.p`
         font-weight: 600;
         font-size: 1.4rem;
         /* text-transform: uppercase;  */
-        color: ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#050553"};
+        /* color: ${({ theme }) => theme === lightTheme ? "#8D89C8" : "#050553"}; */
 
         /* margin: 5px 0;  */
         padding: 1.8rem 0; 
