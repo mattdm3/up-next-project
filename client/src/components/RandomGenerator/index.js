@@ -1,1 +1,1 @@
-export { default } from './RandomGenerator';
+export { default } from "./RandomGenerator";

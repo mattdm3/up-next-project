@@ -1,138 +1,193 @@
-import React, { useContext, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import ActionBar from '../ActionBar';
-import { LoginContext } from '../LoginContext';
-import MovieTextData from './MovieTextData';
-import posterplaceholder from '../poster-placeholder.png'
-import { StyledLink } from '../CONSTANTS'
-import UndoButton from './UndoButton';
+import React, { useContext, useState } from "react";
+import styled, { keyframes } from "styled-components";
+import ActionBar from "../ActionBar";
+import { LoginContext } from "../LoginContext";
+import MovieTextData from "./MovieTextData";
+import posterplaceholder from "../poster-placeholder.png";
+import { StyledLink } from "../CONSTANTS";
+import UndoButton from "./UndoButton";
 
 const RenderMovie = ({
-    imgSrc,
-    title,
-    releaseDate,
-    genre,
-    ratings,
-    altText,
-    movieId,
-    genres,
-    resultID,
-    genreData,
-    setGenreData }) => {
+  imgSrc,
+  title,
+  releaseDate,
+  genre,
+  ratings,
+  altText,
+  movieId,
+  genres,
+  resultID,
+  genreData,
+  setGenreData,
+}) => {
+  const { appUser } = useContext(LoginContext);
 
+  const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
-    const { appUser } = useContext(LoginContext);
+  // USING THIS AS A CONDITION BEFORE LOADING USER DATA
+  React.useEffect(() => {
+    //checking if ALL data is loaded (liked, disliked and upNext)
+    if (
+      appUser.email &&
+      appUser.data &&
+      appUser.data.likedMovies &&
+      appUser.data.dislikedMovies &&
+      appUser.data.upNextList
+    ) {
+      setIsUserDataLoaded(true);
+    } else setIsUserDataLoaded(false);
+  }, [appUser]);
 
+  return appUser.email &&
+    isUserDataLoaded &&
+    appUser.data &&
+    (appUser.data.dislikedMovies[movieId] ||
+      appUser.data.likedMovies[movieId] ||
+      appUser.data.upNextList[movieId]) ? (
+    <MainContainer>
+      <PosterContainer
+        style={{
+          opacity: ".3",
+        }}
+      >
+        {imgSrc !== "https://image.tmdb.org/t/p/w500/null" ? (
+          <StyledLink to={`/movies/${movieId}`}>
+            <MoviePoster
+              style={
+                appUser.data.dislikedMovies[movieId] && {
+                  filter: "grayscale(90%)",
+                }
+              }
+              alt={altText}
+              src={imgSrc}
+            />
+          </StyledLink>
+        ) : (
+          <StyledLink to={`/movies/${movieId}`}>
+            <MoviePoster
+              style={
+                appUser.data.dislikedMovies[movieId] && {
+                  filter: "grayscale(90%)",
+                }
+              }
+              alt={altText}
+              src={posterplaceholder}
+            />
+            <h4
+              style={{
+                transform: "translate(-50%, -50%)",
+                textAlign: "center",
+                color: "white",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+              }}
+            >
+              {title}
+            </h4>
+          </StyledLink>
+        )}
+      </PosterContainer>
 
+      <BelowContentContainer>
+        <ActionBar
+          disabled={true}
+          genreData={genreData}
+          setGenreData={setGenreData}
+          resultID={resultID}
+          movieId={movieId}
+        />
 
-    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+        <MovieTextData
+          title={title}
+          releaseDate={releaseDate}
+          ratings={ratings}
+          genre={genre}
+          genres={genres}
+        />
+      </BelowContentContainer>
 
-    // USING THIS AS A CONDITION BEFORE LOADING USER DATA
-    React.useEffect(() => {
+      <LikeStateContainer>
+        {appUser.data.dislikedMovies[movieId] ? (
+          <RatingResult>
+            You rated this movie a{" "}
+            <span role="img" aria-labelledby="thumbs-down">
+              👎🏼
+            </span>{" "}
+          </RatingResult>
+        ) : appUser.data.upNextList[movieId] ? (
+          <RatingResult>
+            You added this to your UpNext{" "}
+            <span role="img" aria-labelledby="popcorn">
+              🍿
+            </span>
+          </RatingResult>
+        ) : (
+          <RatingResult>
+            You rated this movie a{" "}
+            <span role="img" aria-labelledby="thumbs-up">
+              👍🏼
+            </span>
+          </RatingResult>
+        )}
 
-        //checking if ALL data is loaded (liked, disliked and upNext)
-        if (appUser.email && appUser.data && (appUser.data.likedMovies && appUser.data.dislikedMovies && appUser.data.upNextList)) {
-            setIsUserDataLoaded(true);
-        } else setIsUserDataLoaded(false);
+        <UndoButton movieId={movieId} />
+      </LikeStateContainer>
+    </MainContainer>
+  ) : (
+    // NOT RATED VERSION:
+    <MainContainer>
+      <PosterContainer>
+        {imgSrc === "https://image.tmdb.org/t/p/w500/null" ? (
+          <StyledLink to={`/movies/${movieId}`}>
+            <MoviePoster alt={altText} src={posterplaceholder} />
+            <h4
+              style={{
+                transform: "translate(-50%, -50%)",
+                textAlign: "center",
+                color: "white",
+                position: "absolute",
+                bottom: "50%",
+                left: "50%",
+              }}
+            >
+              {title}
+            </h4>
+          </StyledLink>
+        ) : (
+          <>
+            <StyledLink to={`/movies/${movieId}`}>
+              <MoviePoster alt={altText} src={imgSrc} />
+              <RatingStar>
+                <span role="img" aria-label="star">
+                  ⭐
+                </span>
+                {ratings}
+              </RatingStar>
+            </StyledLink>
+          </>
+        )}
+      </PosterContainer>
 
-    }, [appUser])
+      <BelowContentContainer>
+        <ActionBar
+          genreData={genreData}
+          setGenreData={setGenreData}
+          resultID={resultID}
+          movieId={movieId}
+        />
 
-
-
-
-    return (
-
-        appUser.email && isUserDataLoaded && appUser.data && (appUser.data.dislikedMovies[movieId] || appUser.data.likedMovies[movieId] || appUser.data.upNextList[movieId]) ?
-
-            <MainContainer>
-                <PosterContainer style={{
-                    opacity: ".3"
-                }}>
-
-                    {
-
-                        imgSrc !== "https://image.tmdb.org/t/p/w500/null"
-                            ?
-                            <StyledLink to={`/movies/${movieId}`} >
-                                <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={imgSrc} />
-                            </StyledLink>
-                            :
-                            <StyledLink to={`/movies/${movieId}`} >
-                                <MoviePoster style={appUser.data.dislikedMovies[movieId] && { filter: "grayscale(90%)" }} alt={altText} src={posterplaceholder} />
-                                <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", top: "50%", left: "50%" }}>{title}</h4>
-                            </StyledLink>
-
-                    }
-                </PosterContainer>
-
-
-                <BelowContentContainer>
-                    <ActionBar disabled={true} genreData={genreData} setGenreData={setGenreData} resultID={resultID} movieId={movieId} />
-
-                    <MovieTextData
-                        title={title}
-                        releaseDate={releaseDate}
-                        ratings={ratings}
-                        genre={genre}
-                        genres={genres} />
-                </BelowContentContainer>
-
-                <LikeStateContainer>
-                    {appUser.data.dislikedMovies[movieId] ? <RatingResult>You rated this movie a <span role="img" aria-labelledby="thumbs-down">👎🏼</span> </RatingResult> :
-
-                        appUser.data.upNextList[movieId] ? <RatingResult>You added this to your UpNext <span role="img" aria-labelledby="popcorn">🍿</span></RatingResult>
-                            :
-                            <RatingResult>You rated this movie a <span role="img" aria-labelledby="thumbs-up">👍🏼</span></RatingResult>}
-
-
-                    <UndoButton movieId={movieId} />
-                </LikeStateContainer>
-
-
-            </MainContainer>
-
-            // NOT RATED VERSION:
-            :
-
-            <MainContainer>
-
-                <PosterContainer>
-
-                    {
-                        imgSrc === "https://image.tmdb.org/t/p/w500/null"
-                            ?
-                            <StyledLink to={`/movies/${movieId}`}>
-                                <MoviePoster alt={altText} src={posterplaceholder} />
-                                <h4 style={{ transform: "translate(-50%, -50%)", textAlign: "center", color: "white", position: "absolute", bottom: "50%", left: "50%" }}>{title}</h4>
-                            </StyledLink>
-                            :
-                            <>
-                                <StyledLink to={`/movies/${movieId}`}>
-                                    <MoviePoster alt={altText} src={imgSrc} />
-                                    <RatingStar><span role="img" aria-label="star">⭐</span>{ratings}</RatingStar>
-                                </StyledLink>
-                            </>
-
-
-                    }
-
-                </PosterContainer>
-
-                <BelowContentContainer>
-                    <ActionBar genreData={genreData} setGenreData={setGenreData} resultID={resultID} movieId={movieId} />
-
-                    <MovieTextData
-                        title={title}
-                        releaseDate={releaseDate}
-                        ratings={ratings}
-                        genre={genre}
-                        genres={genres} />
-                </BelowContentContainer>
-
-            </MainContainer>
-
-    )
-}
+        <MovieTextData
+          title={title}
+          releaseDate={releaseDate}
+          ratings={ratings}
+          genre={genre}
+          genres={genres}
+        />
+      </BelowContentContainer>
+    </MainContainer>
+  );
+};
 
 // const UndoButton = styled.p`
 
@@ -142,69 +197,58 @@ const RenderMovie = ({
 // `
 
 const RatingStar = styled.h3`
-    color: #FFD93B; 
-    position: absolute; 
-    bottom: 1rem;
-    left: .5rem; 
-    -webkit-text-stroke: 1px #1F209A; 
-
-`
+  color: #ffd93b;
+  position: absolute;
+  bottom: 1rem;
+  left: 0.5rem;
+  -webkit-text-stroke: 1px #1f209a;
+`;
 
 const PosterContainer = styled.div`
-    position: relative;
-    /* border: 3px solid green;  */
-    margin-bottom: 1rem;
-`
+  position: relative;
+  /* border: 3px solid green;  */
+  margin-bottom: 1rem;
+`;
 
 const BelowContentContainer = styled.div`
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 //THIS CONTAINER HOLDS ENTIRE MOVIE ITEM INCL POSTER DESC & ACTIONS
 const MainContainer = styled.div`
-    position: relative; 
-    margin-bottom: 5rem;
-    /* flex-grow: 1;  */
-    /* min-width: 23rem;
+  position: relative;
+  margin-bottom: 5rem;
+  /* flex-grow: 1;  */
+  /* min-width: 23rem;
     max-width: 70vw; */
-    /* flex-shrink:1; */
-    /* flex-basis: 5rem; */
-    /* flex: 1 1 auto;  */
-    /* border: 1px solid red;  */
-    
-`
-
-
-
-
-
-
+  /* flex-shrink:1; */
+  /* flex-basis: 5rem; */
+  /* flex: 1 1 auto;  */
+  /* border: 1px solid red;  */
+`;
 
 const MoviePoster = styled.img`
-    border-radius: 10px; 
-    /* max-height: 31rem;  */
-    min-width: 14rem;
-    max-width: 21rem;
-    
-    /* max-width: 100%;   */
-    
+  border-radius: 10px;
+  /* max-height: 31rem;  */
+  min-width: 14rem;
+  max-width: 21rem;
 
-    @media screen and (max-width: 1520px) {
-        max-width: 28rem;
-    }
+  /* max-width: 100%;   */
 
-    @media screen and (min-width: 925px) {
-        max-width: 26rem;
-    }
+  @media screen and (max-width: 1520px) {
+    max-width: 28rem;
+  }
 
-    @media screen and (max-width: 924px) {
-        max-width: 100%;
-    }
+  @media screen and (min-width: 925px) {
+    max-width: 26rem;
+  }
 
-    
-`
+  @media screen and (max-width: 924px) {
+    max-width: 100%;
+  }
+`;
 
 // const scaleUp = keyframes`
 //     0 {
@@ -226,40 +270,34 @@ const fadeIn = keyframes`
         opacity: 1;
     }
     
-`
+`;
 
 // const ScaledButton = styled.div`
-//     animation: ${scaleUp} 750ms ease forwards; 
+//     animation: ${scaleUp} 750ms ease forwards;
 // `
 
-
 const LikeStateContainer = styled.div`
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%);
-    width: fit-content; 
-   
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
 
-    
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const RatingResult = styled.p`
-    font-size: 1.1rem;
-    margin: 0; 
-    padding: 0; 
-    font-weight: 600; 
-    animation: ${fadeIn} 900ms ease; 
+  font-size: 1.1rem;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  animation: ${fadeIn} 900ms ease;
 
-    span {
-        font-size: 2.2rem;
-    }
+  span {
+    font-size: 2.2rem;
+  }
+`;
 
-`
-
-
-
-export default RenderMovie; 
+export default RenderMovie;

@@ -14,7 +14,6 @@ import { LoginContext } from "../LoginContext";
 import Landing from "../Landing";
 import ClipLoader from "react-spinners/ClipLoader";
 
-
 function App() {
   const { theme, setTheme, status } = useContext(LoginContext);
   //dark mode togger
@@ -34,10 +33,11 @@ function App() {
         <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
           <GlobalStyles />
 
-          {status === 'loading' ? 
-          <div className="flex mt-44  justify-center w-full">
-            <ClipLoader size={90} color="white" />
-          </div> : 
+          {status === "loading" ? (
+            <div className="flex mt-44  justify-center w-full">
+              <ClipLoader size={90} color="white" />
+            </div>
+          ) : (
             <>
               <Route exact path="/">
                 <Landing />
@@ -74,7 +74,7 @@ function App() {
                 <Footer />
               </Route>
             </>
-          }
+          )}
         </ThemeProvider>
       </Switch>
     </Router>

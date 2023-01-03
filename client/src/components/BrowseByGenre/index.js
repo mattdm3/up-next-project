@@ -1,1 +1,1 @@
-export { default } from './BrowseByGenre'
+export { default } from "./BrowseByGenre";

@@ -10,7 +10,7 @@
 //     measurementId: process.env.FB_CLIENT_MEASUREMENT_ID
 //   };
 
-  // 
+//
 export const firebaseConfig = {
   apiKey: "AIzaSyBf0PRvItpZll7tKJBC-DS4DwYRZRmb_u0",
   authDomain: "up-next-c62cb.firebaseapp.com",
@@ -19,5 +19,5 @@ export const firebaseConfig = {
   storageBucket: "up-next-c62cb.appspot.com",
   messagingSenderId: "497710210803",
   appId: "1:497710210803:web:3daae19de57edf3c582186",
-  measurementId: "G-Z74LRW2JW2"
+  measurementId: "G-Z74LRW2JW2",
 };

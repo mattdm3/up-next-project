@@ -72,7 +72,6 @@ const Navbar = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener("resize", handleWindowResize);
   }, [navbar]);
 
-
   return (
     <>
       <StyledNav>

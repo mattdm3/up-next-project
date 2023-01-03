@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
 // import reducer from './';
 
 // ------------ COMPONENTS ------------
-import App from './components/App';
-import LoginProvider from './components/LoginContext';
+import App from "./components/App";
+import LoginProvider from "./components/LoginContext";
 // import GlobalStyles from '../GlobalStyles'
 //-------------------------------------
 
@@ -16,5 +16,5 @@ ReactDOM.render(
     <App />
     {/* <GlobalStyles /> */}
   </LoginProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

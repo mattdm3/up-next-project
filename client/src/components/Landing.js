@@ -12,9 +12,9 @@ const Landing = () => {
     useContext(LoginContext);
   let history = useHistory();
 
-//   user && history.push("/genres/action");
+  //   user && history.push("/genres/action");
 
-  console.log({user, appUser})
+  console.log({ user, appUser });
 
   useEffect(() => {
     Object.keys(appUser)?.length && history.push("/genres/action");
