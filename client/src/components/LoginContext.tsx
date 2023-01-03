@@ -19,13 +19,7 @@ const providers = {
   googleProvider: new firebase.auth.GoogleAuthProvider(),
 };
 
-const LoginProvider = ({
-  children,
-  //   signInWithGoogle,
-  //   user,
-  signOut,
-  loading,
-}: any) => {
+const LoginProvider = ({ children, loading }: any) => {
   //app User will get the json.data (which is holding the request body + any liked/disliked data)
   const [user, setUser] = useState<firebase.User | null>(null);
   const [appUser, setAppUser] = useState<any>({});
@@ -56,7 +50,6 @@ const LoginProvider = ({
 
   const handleGetAppUser = useCallback(async (user: any) => {
     const response = await getAppUser(user);
-    console.log({ response });
     if (response?.user) {
       setAppUser(response.user);
     }
@@ -142,6 +135,13 @@ const LoginProvider = ({
   // }, [appUser])
 
   // CREATES OBJECT OF ARRAYS OF USER DATA
+
+  const handleAssignPreferences = useCallback(() => {
+    if (user) return null;
+    if (!user) {
+      console.log("fart");
+    }
+  }, []);
 
   useEffect(() => {
     if (appUser.email) {

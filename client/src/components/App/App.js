@@ -17,7 +17,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 function App() {
   const { theme, setTheme, status } = useContext(LoginContext);
-  console.log({status})
   //dark mode togger
   const toggleTheme = () => {
     // if the theme is not light, then set it to dark
