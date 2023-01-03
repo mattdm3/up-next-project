@@ -1,0 +1,17 @@
+{
+  "name": "up-next-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mattdm3/up-next-project.git",
+  "author": "<mortellitimatteo@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server": "cd server && yarn start",
+    "client": "cd client && yarn start",
+    "watch": "yarn server & yarn client",
+    "deploy": "cd client && yarn build && cd .. && cd server && yarn start"
+  },
+  "devDependencies": {
+    "postcss-cli": "^10.1.0"
+  }
+}

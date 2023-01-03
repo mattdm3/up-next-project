@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import './index.css'
 // import reducer from './';
 
 // ------------ COMPONENTS ------------
@@ -13,10 +13,8 @@ import LoginProvider from './components/LoginContext';
 
 ReactDOM.render(
   <LoginProvider>
-
     <App />
     {/* <GlobalStyles /> */}
-
   </LoginProvider>,
   document.getElementById('root')
 );
