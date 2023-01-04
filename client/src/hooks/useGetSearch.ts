@@ -1,41 +1,47 @@
 import { useCallback, useContext } from "react";
 import { LoginContext } from "../components/LoginContext";
-import { getSearchResult } from "../request";
+import useSWRMutation from "swr/mutation";
+
+const fetcher = async (url) => fetch(url).then((data) => data.json());
 
 export function useGetSearch() {
   const {
     inputValue,
     setInputValue,
     setLastSearch,
+    lastSearch,
     setSearchResults,
     triggerSearchBar,
     setTriggerSearchBar,
   } = useContext(LoginContext);
+
+  const { trigger } = useSWRMutation(
+    `/movies/search?searchTerm=${lastSearch}`,
+    fetcher
+  );
 
   const handleClearSearch = () => {
     setSearchResults(null);
     setInputValue("");
     toggleSearchTrigger();
   };
-  // This is a toggler to open/close search bar.
 
   const toggleSearchTrigger = useCallback(() => {
-    setInputValue("");
     if (triggerSearchBar) {
       setTriggerSearchBar(false);
     } else {
       setTriggerSearchBar(true);
     }
-  }, [setInputValue, setTriggerSearchBar, triggerSearchBar]);
+  }, [setTriggerSearchBar, triggerSearchBar]);
 
   const handleSearch = useCallback(
     async (searchTerm) => {
       setInputValue("");
       toggleSearchTrigger();
-      const result = await getSearchResult(searchTerm);
+      const result = await trigger();
       setSearchResults(result);
     },
-    [setInputValue, setSearchResults, toggleSearchTrigger]
+    [setInputValue, setSearchResults, toggleSearchTrigger, trigger]
   );
 
   const handleInputValue = (e) => {

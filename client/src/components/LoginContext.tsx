@@ -175,7 +175,7 @@ const LoginProvider = ({ children, loading }: any) => {
   const handleMovieLike = useCallback(
     (id: number) => {
       user &&
-        fetch(`${serverUrl}/handleLikeMovie`, {
+        fetch(`${serverUrl}/users/like`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -198,7 +198,7 @@ const LoginProvider = ({ children, loading }: any) => {
   const handleMovieDislike = useCallback(
     (id) => {
       user &&
-        fetch(`${serverUrl}/handleDislikeMovie`, {
+        fetch(`${serverUrl}/users/dislike`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -221,7 +221,7 @@ const LoginProvider = ({ children, loading }: any) => {
   const handleAddUpNext = useCallback(
     (id) => {
       user &&
-        fetch(`${serverUrl}/handleAddUpNext`, {
+        fetch(`${serverUrl}/upNext`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

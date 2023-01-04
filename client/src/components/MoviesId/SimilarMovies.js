@@ -25,7 +25,7 @@ const SimilarMovies = ({ movieId, theme }) => {
 
   React.useEffect(() => {
     if (movieId) {
-      fetch(`${serverUrl}/movies/getSimilar/${movieId}`)
+      fetch(`${serverUrl}/movies/similar/${movieId}`)
         .then((res) => res.json())
         .then((data) => setSimilarMoviesArray(data.results));
     }

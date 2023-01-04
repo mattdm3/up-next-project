@@ -10,7 +10,7 @@ const UndoButton = ({ movieId }) => {
   const handleUndoRating = (e, movieId) => {
     e.preventDefault();
 
-    fetch(`${serverUrl}/handleUndoRating`, {
+    fetch(`${serverUrl}/users/undoRating`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

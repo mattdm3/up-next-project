@@ -63,8 +63,9 @@ const BrowseByGenre = ({ theme }) => {
 
   useEffect(() => {
     if (selectedGenreId) {
+      console.log("GETTING ");
       fetch(
-        `${serverUrl}/genres/${selectedGenreId}?sort=${sortOption}&browsePage=${browsePage}`
+        `${serverUrl}/movies/genres/${selectedGenreId}?sort=${sortOption}&browsePage=${browsePage}`
       )
         .then((res) => res.json())
         .then((data) => setGenreData(data));

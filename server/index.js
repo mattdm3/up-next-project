@@ -1,12 +1,7 @@
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
-const {
-  handleRandomMovie,
-  handleMovieId,
-  handleGenreId,
-  getSimilarMovies,
-} = require("./handlers");
+
 const {
   handleAddUpNext,
   handleLikeMovie,
@@ -14,12 +9,14 @@ const {
   createUser,
   getUser,
   handleUndoRating,
+  handleUpdateUser,
 } = require("./firebaseHandlers");
 const {
   handleRecommendations,
   prepareMoviesTest,
 } = require("./Recommender/shorterRecommend");
-const moviesRouter = require("./routes/movies.router");
+const moviesRouter = require("./routes/movies/movies.router");
+const usersRouter = require("./routes/users/users.router");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 4000;
@@ -46,30 +43,13 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // NEW ENDPOITNS w ROUTER
-
 app.use("/movies", moviesRouter);
+app.use("/users", usersRouter);
 
-// ENDPOINTS
-app.get("/randomMovie", handleRandomMovie); // not used in FE
-// app.get("/search/:searchTerm", handleSearch); depracated
-app.get("/genres/:genreId", handleGenreId);
-app.get("/movies/:movieId", handleMovieId);
-app.get("/movies/getSimilar/:movieId", getSimilarMovies);
-
+// OLD RECOMMENDATION ENGINE
 //INITIAL RECOMMENDATION CALCULATION handled in shorterRecommend.js
 app.post("/recommendations/get", handleRecommendations);
-
-// PREP MOVIES TEST
 app.get("/recommendations/prepMovies", prepareMoviesTest);
-
-//user EPs (firebase)
-app.post("/users", createUser);
-app.post("/handleDislikeMovie", handleDislikeMovie);
-
-// app.post('/updateUserData', handleUpdateUser)
-app.post("/handleLikeMovie", handleLikeMovie);
-app.post("/handleAddUpNext", handleAddUpNext);
-app.post("/handleUndoRating", handleUndoRating);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
