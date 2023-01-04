@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useEffect, useState } from "react";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/analytics";
-import { useGetAppUser } from "../hooks/useGetAppUser";
+import { AppUser, useGetAppUser } from "../hooks/useGetAppUser";
 import { firebaseConfig } from "../config/firebase";
 // import admin from 'firebase-admin';
 
@@ -14,10 +14,6 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const firebaseAppAuth = firebaseApp.auth();
 
 firebase.analytics();
-
-const providers = {
-  googleProvider: new firebase.auth.GoogleAuthProvider(),
-};
 
 const LoginProvider = ({ children, loading }: any) => {
   //app User will get the json.data (which is holding the request body + any liked/disliked data)
@@ -48,22 +44,44 @@ const LoginProvider = ({ children, loading }: any) => {
 
   const { getAppUser } = useGetAppUser();
 
-  const handleGetAppUser = useCallback(async (user: any) => {
-    const response = await getAppUser(user);
-    if (response?.user) {
-      setAppUser(response.user);
-    }
-    if (response?.message) {
-      setMessage(response.message);
-    }
+  const handleAssignPreferences = useCallback((appUser: AppUser) => {
+    let likedMoviesArray =
+      appUser.data.likedMovies !== "none" &&
+      Object.values(appUser.data.likedMovies);
+    let dislikedMoviesArray =
+      appUser.data.dislikedMovies !== "none" &&
+      Object.values(appUser.data.dislikedMovies);
+    let upNextArray =
+      appUser.data.upNextList !== "none" &&
+      Object.values(appUser.data.upNextList);
+
+    setDataObject({
+      disliked: dislikedMoviesArray,
+      liked: likedMoviesArray,
+      upNextList: upNextArray,
+    });
   }, []);
+
+  const handleGetAppUser = useCallback(
+    async (user: any) => {
+      const response = await getAppUser(user);
+      if (response?.user) {
+        setAppUser(response.user);
+        handleAssignPreferences(response.user);
+      }
+      if (response?.message) {
+        setMessage(response.message);
+      }
+    },
+    [getAppUser, handleAssignPreferences]
+  );
 
   const signInWithGoogle = useCallback(async () => {
     const provider = await firebaseAppAuth.signInWithPopup(
       new firebase.auth.GoogleAuthProvider()
     );
     handleGetAppUser(provider.user);
-  }, [firebaseAppAuth, getAppUser]);
+  }, [handleGetAppUser]);
 
   function calculateLevel(ratingAmount) {
     let level = Math.floor(ratingAmount / 10);
@@ -96,7 +114,7 @@ const LoginProvider = ({ children, loading }: any) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [handleGetAppUser]);
 
   useEffect(() => {
     if (dataObject.liked) {
@@ -110,7 +128,7 @@ const LoginProvider = ({ children, loading }: any) => {
     if (appUser.data && appUser.data.recommendationCount >= userLevel) {
       setRecommendAllowed(false);
     } else setRecommendAllowed(true);
-  }, [appUser, recommendedAPI]);
+  }, [appUser, recommendedAPI, userLevel]);
 
   // IF USER DELETES ALL MOVIES OBJECT ARRAY, DO THIS/ (THIS FIXED IT TEMPORARILY ) TRYING IN BACK END
 
@@ -134,35 +152,6 @@ const LoginProvider = ({ children, loading }: any) => {
 
   // }, [appUser])
 
-  // CREATES OBJECT OF ARRAYS OF USER DATA
-
-  const handleAssignPreferences = useCallback(() => {
-    if (user) return null;
-    if (!user) {
-      console.log("fart");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (appUser.email) {
-      let likedMoviesArray =
-        appUser.data.likedMovies !== "none" &&
-        Object.values(appUser.data.likedMovies);
-      let dislikedMoviesArray =
-        appUser.data.dislikedMovies !== "none" &&
-        Object.values(appUser.data.dislikedMovies);
-      let upNextArray =
-        appUser.data.upNextList !== "none" &&
-        Object.values(appUser.data.upNextList);
-
-      setDataObject({
-        disliked: dislikedMoviesArray,
-        liked: likedMoviesArray,
-        upNextList: upNextArray,
-      });
-    }
-  }, [appUser]);
-
   // HANDLE SIGNOUT
 
   const handleSignOut = () => {
@@ -183,105 +172,79 @@ const LoginProvider = ({ children, loading }: any) => {
     setAppUser({});
   };
 
-  // CREATES NEW USER
+  const handleMovieLike = useCallback(
+    (id: number) => {
+      user &&
+        fetch(`${serverUrl}/handleLikeMovie`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+            uid: firebaseAppAuth?.currentUser?.uid,
+            movieId: id.toString(),
+          }),
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            setAppUser(json.data);
+            setMessage(json.message);
+          });
+    },
+    [user]
+  );
 
-  // useEffect(() => {
-  //   console.log("RUNNING THIS EFFECT")
-  //   if (user) {
-  //     console.log({user})
-  //     fetch(`${serverUrl}/users`, {
-  //       method: "post",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         displayName: user.displayName,
-  //         email: user.email,
-  //         photoURL: user.photoURL,
-  //         uid: user.uid,
-  //         data: {
-  //           likedMovies: { none: "none" },
-  //           dislikedMovies: { none: "none" },
-  //           upNextList: { none: "none" },
-  //           recommendationCount: 0,
-  //         },
-  //       }),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((json) => {
-  //         console.log(json.data)
-  //         setAppUser(json.data);
-  //         setMessage(json.message);
-  //       });
-  //   }
-  // }, [user]);
+  const handleMovieDislike = useCallback(
+    (id) => {
+      user &&
+        fetch(`${serverUrl}/handleDislikeMovie`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+            uid: firebaseAppAuth?.currentUser?.uid,
+            movieId: id.toString(),
+          }),
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            setAppUser(json.data);
+            setMessage(json.message);
+          });
+    },
+    [user]
+  );
 
-  const handleMovieLike = (id) => {
-    user &&
-      fetch(`${serverUrl}/handleLikeMovie`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          uid: firebaseAppAuth?.currentUser?.uid,
-          movieId: id.toString(),
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          setAppUser(json.data);
-          setMessage(json.message);
-        });
-  };
-
-  const handleMovieDislike = (id) => {
-    user &&
-      fetch(`${serverUrl}/handleDislikeMovie`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          uid: firebaseAppAuth?.currentUser?.uid,
-          movieId: id.toString(),
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          setAppUser(json.data);
-          setMessage(json.message);
-        });
-  };
-
-  const handleAddUpNext = (id) => {
-    user &&
-      fetch(`${serverUrl}/handleAddUpNext`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          uid: firebaseAppAuth?.currentUser?.uid,
-          movieId: id.toString(),
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          setAppUser(json.data);
-          setMessage(json.message);
-        });
-  };
+  const handleAddUpNext = useCallback(
+    (id) => {
+      user &&
+        fetch(`${serverUrl}/handleAddUpNext`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+            uid: firebaseAppAuth?.currentUser?.uid,
+            movieId: id.toString(),
+          }),
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            setAppUser(json.data);
+            setMessage(json.message);
+          });
+    },
+    [user]
+  );
 
   // TURN RECOMMENDATIONS INTO DATA (SEND TO API) (TRIED IN B.E. FIRST)
 
   const handleRecomendationRequest = () => {
     setRecommendationCount(recommendationCount + 1);
-    // setRecStatus("getting")
-
     try {
       fetch(`${serverUrl}/recommendations/get`, {
         method: "POST",
@@ -321,14 +284,13 @@ const LoginProvider = ({ children, loading }: any) => {
 
   useEffect(() => {
     let recommendationsArray;
-    if (appUser.data != null && appUser.data.recommendations != null) {
+    if (!!appUser?.data && !!appUser?.data?.recommendations) {
       recommendationsArray = Object.values(appUser.data.recommendations);
     }
 
     setRecommendedAPI([]);
 
-    recommendationsArray &&
-      recommendationsArray.length > 1 &&
+    recommendationsArray?.length > 1 &&
       recommendationsArray.forEach((movieId) => {
         fetch(`${serverUrl}/movies/${movieId}`)
           .then((res) => res.json())
@@ -339,9 +301,10 @@ const LoginProvider = ({ children, loading }: any) => {
         // .then(setRecStatus('idle'))
         // .then(checkRec())
       });
-  }, [recommendationCount]);
+  }, [appUser.data, recommendationCount]);
 
   return (
+    // eslint-disable-next-line react/jsx-filename-extension
     <LoginContext.Provider
       // @ts-ignore
       value={{

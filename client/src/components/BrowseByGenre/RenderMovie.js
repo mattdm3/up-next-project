@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import ActionBar from "../ActionBar";
 import { LoginContext } from "../LoginContext";
@@ -25,7 +25,7 @@ const RenderMovie = ({
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
   // USING THIS AS A CONDITION BEFORE LOADING USER DATA
-  React.useEffect(() => {
+  useEffect(() => {
     //checking if ALL data is loaded (liked, disliked and upNext)
     if (
       appUser.email &&
@@ -206,8 +206,10 @@ const RatingStar = styled.h3`
 
 const PosterContainer = styled.div`
   position: relative;
-  /* border: 3px solid green;  */
+  // border: 3px solid green;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
 `;
 
 const BelowContentContainer = styled.div`
@@ -220,32 +222,29 @@ const BelowContentContainer = styled.div`
 const MainContainer = styled.div`
   position: relative;
   margin-bottom: 5rem;
-  /* flex-grow: 1;  */
-  /* min-width: 23rem;
-    max-width: 70vw; */
-  /* flex-shrink:1; */
-  /* flex-basis: 5rem; */
-  /* flex: 1 1 auto;  */
-  /* border: 1px solid red;  */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const MoviePoster = styled.img`
   border-radius: 10px;
   /* max-height: 31rem;  */
   min-width: 14rem;
-  max-width: 21rem;
+  max-width: 12rem;
 
   /* max-width: 100%;   */
 
   @media screen and (max-width: 1520px) {
-    max-width: 28rem;
+    max-width: 15rem;
   }
 
-  @media screen and (min-width: 925px) {
-    max-width: 26rem;
-  }
+  // @media screen and (min-width: 925px) {
+  //   max-width: 20rem;
+  // }
 
-  @media screen and (max-width: 924px) {
+  @media screen and (max-width: 824px) {
     max-width: 100%;
   }
 `;
@@ -289,14 +288,15 @@ const LikeStateContainer = styled.div`
 `;
 
 const RatingResult = styled.p`
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   margin: 0;
   padding: 0;
   font-weight: 600;
+  width: max-content;
   animation: ${fadeIn} 900ms ease;
 
   span {
-    font-size: 2.2rem;
+    font-size: 1.1rem;
   }
 `;
 

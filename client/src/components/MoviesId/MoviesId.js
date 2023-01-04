@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import RenderMovieId from "./RenderMovieId";
 import SimilarMovies from "./SimilarMovies";
@@ -9,7 +9,7 @@ const MoviesId = () => {
 
   const [selectedMovieData, setSelectedMovieData] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetch(`${serverUrl}/movies/${movieId}`)
       .then((res) => res.json())
       .then((data) => setSelectedMovieData(data));

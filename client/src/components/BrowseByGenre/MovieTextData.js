@@ -31,11 +31,16 @@ const MovieTextData = ({
       {/* <h3>{title}</h3> */}
 
       <ReleaseAndGenres>
-        <h4 style={{ fontWeight: "bold" }}>{releaseDate} </h4> <p>| </p>
+        <h4 className="text-sm" style={{ fontWeight: "bold" }}>
+          {releaseDate}{" "}
+        </h4>{" "}
+        <p>| </p>
         {genreArray.map((genreName) => {
           return (
             <StyledLink key={genreName} to={`/genres/${genreName}`}>
-              <GenreP key={genreName}>{genreName}</GenreP>
+              <GenreP className="text-sm" key={genreName}>
+                {genreName}
+              </GenreP>
             </StyledLink>
           );
         })}

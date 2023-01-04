@@ -84,7 +84,7 @@ const StyleActionContainer = styled.div`
   align-items: center;
 
   button {
-    font-size: 1.8rem;
+    font-size: 1rem;
     margin-right: 0.5rem;
     padding: 15px;
     background: ${({ theme }) =>
@@ -100,7 +100,7 @@ const StyleActionContainer = styled.div`
   }
 
   p {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     margin-right: 0.5rem;
     padding: 15px;
     background: ${({ theme }) =>

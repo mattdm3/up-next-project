@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { genresList } from "../../data/genres";
@@ -32,14 +32,9 @@ const BrowseByGenre = ({ theme }) => {
     setSelectedGenre,
   } = useContext(LoginContext);
 
-  // check the id of the genre;
-  let selectedGenreId = null;
-
-  for (let i = 0; i < genresList.length; i++) {
-    if (genresList[i].name === genreName) {
-      selectedGenreId = genresList[i].id;
-    }
-  }
+  const selectedGenreId = useMemo(() => {
+    return genresList.filter((item) => item.name === genreName)[0].id;
+  }, [genreName]);
 
   // THIS IS going to refetch based on the sort choice
   const handleSort = (option) => {
@@ -50,11 +45,13 @@ const BrowseByGenre = ({ theme }) => {
     if (browsePage > 1) {
       setBrowsePage(browsePage - 1);
     }
+    window.scrollTo(0, 0);
   };
   const handleNextPage = () => {
     if (genreData.total_pages > browsePage) {
       setBrowsePage(browsePage + 1);
     }
+    window.scrollTo(0, 0);
   };
 
   const handleGenreSelection = (genre) => {
@@ -64,36 +61,15 @@ const BrowseByGenre = ({ theme }) => {
     }
   };
 
-  // console.log(appUser)
-  // const filterAndShow = async (results) => {
-  //     console.log(results)
-  //     let filteredData = [];
-  //     let likedArray = await appUser.data && Object.values(appUser.data.likedMovies);
-  //     await likedArray.forEach(likedMovieId => {
-  //         results.forEach(result => {
-  //             if (likedMovieId != result.id) {
-  //                 filteredData.push(result.id)
-  //             }
-  //         })
-  //     })
-
-  //     console.log(filteredData)
-  //     results = filteredData;
-  //     await setGenreData(results);
-  // }
-
   useEffect(() => {
     if (selectedGenreId) {
       fetch(
         `${serverUrl}/genres/${selectedGenreId}?sort=${sortOption}&browsePage=${browsePage}`
       )
         .then((res) => res.json())
-        // .then(data => filterAndShow(data.results))
         .then((data) => setGenreData(data));
     }
   }, [selectedGenreId, sortOption, browsePage]);
-
-  // genreData && console.log(genreData);
 
   const handleClearSearch = () => {
     setSearchResults(null);
@@ -109,8 +85,6 @@ const BrowseByGenre = ({ theme }) => {
     <>
       <Search theme={theme} />
       <UpButton />
-
-      {/* SHOW SEARCH RESULTS INSTEAD (if there's a search) */}
 
       {searchResults ? (
         <>
@@ -152,7 +126,7 @@ const BrowseByGenre = ({ theme }) => {
                 to="/genres/action"
               >
                 {" "}
-                <span role="img" aria-label="fire">
+                <span className="mr-1" role="img" aria-label="fire">
                   🔥
                 </span>{" "}
                 Action
@@ -162,7 +136,7 @@ const BrowseByGenre = ({ theme }) => {
                 activeStyle={theme === "light" ? activeClass : activeClassNight}
                 to="/genres/drama"
               >
-                <span role="img" aria-label="drama">
+                <span className="mr-1" role="img" aria-label="drama">
                   🎭
                 </span>
                 Drama
@@ -173,7 +147,7 @@ const BrowseByGenre = ({ theme }) => {
                 activeStyle={theme === "light" ? activeClass : activeClassNight}
                 to="/genres/adventure"
               >
-                <span role="img" aria-label="map">
+                <span className="mr-1" role="img" aria-label="map">
                   🗺️
                 </span>
                 Adventure
@@ -204,26 +178,25 @@ const BrowseByGenre = ({ theme }) => {
           </div>
 
           <StyledMovieContainer>
-            {genreData &&
-              genreData.results.map((movie, resultID) => {
-                return (
-                  <RenderMovie
-                    altText={movie.title}
-                    genre={genreName}
-                    releaseDate={movie.release_date.slice(0, 4)}
-                    title={movie.title}
-                    imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                    ratings={movie.vote_average}
-                    theme={theme}
-                    movieId={movie.id}
-                    genres={movie["genre_ids"]}
-                    resultID={resultID}
-                    genreData={genreData}
-                    setGenreData={setGenreData}
-                    key={movie.id}
-                  />
-                );
-              })}
+            {genreData?.results.map((movie, resultID) => {
+              return (
+                <RenderMovie
+                  altText={movie.title}
+                  genre={genreName}
+                  releaseDate={movie.release_date.slice(0, 4)}
+                  title={movie.title}
+                  imgSrc={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                  ratings={movie.vote_average}
+                  theme={theme}
+                  movieId={movie.id}
+                  genres={movie["genre_ids"]}
+                  resultID={resultID}
+                  genreData={genreData}
+                  setGenreData={setGenreData}
+                  key={movie.id}
+                />
+              );
+            })}
           </StyledMovieContainer>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <div
@@ -271,7 +244,7 @@ const StyledMovieContainer = styled.div`
   position: relative;
   align-content: flex-start;
 
-  @media screen and (max-width: 924px) {
+  @media screen and (max-width: 824px) {
     justify-content: center;
   }
 `;

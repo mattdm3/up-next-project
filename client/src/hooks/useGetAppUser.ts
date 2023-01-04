@@ -14,11 +14,11 @@ export interface AppUser {
 }
 
 export interface Data {
-  dislikedMovies: { [key: string]: string };
-  likedMovies: { [key: string]: string };
+  dislikedMovies: { [key: string]: string } | "none";
+  likedMovies: { [key: string]: string } | "none";
   recommendationCount: number;
-  recommendations: { [key: string]: string };
-  upNextList: UpNextList;
+  recommendations: { [key: string]: string } | "none";
+  upNextList: UpNextList | "none";
 }
 
 export interface UpNextList {
