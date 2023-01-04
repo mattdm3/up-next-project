@@ -1,82 +1,36 @@
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LoginContext, serverUrl } from "../LoginContext";
 import { FiSearch } from "react-icons/fi";
 import { lightTheme } from "../theme";
 import { FiX } from "react-icons/fi";
+import { useGetSearch } from "../../hooks/useGetSearch";
 
 const Search = () => {
+  const { inputValue, triggerSearchBar } = useContext(LoginContext);
+
   const {
-    inputValue,
-    setInputValue,
-    setLastSearch,
-    setSearchResults,
-    triggerSearchBar,
-    setTriggerSearchBar,
-  } = useContext(LoginContext);
-
-  // const [inputValue, setInputValue] = useState("")
-
-  // const [searchResults, setSearchResults] = useState(null);
-
-  // const [triggerSearchBar, setTriggerSearchBar] = useState(false);
+    handleKeyPress,
+    handleInputValue,
+    toggleSearchTrigger,
+    handleClearSearch,
+  } = useGetSearch();
 
   let inputRef = React.useRef();
-
-  const handleClearSearch = () => {
-    setSearchResults(null);
-    setInputValue("");
-    toggleSearchTrigger();
-  };
-  // This is a toggler to open/close search bar.
-
-  const toggleSearchTrigger = () => {
-    setInputValue("");
-    if (triggerSearchBar) {
-      setTriggerSearchBar(false);
-    } else {
-      setTriggerSearchBar(true);
-    }
-  };
-
-  const handleSearch = () => {
-    setInputValue("");
-    toggleSearchTrigger();
-
-    fetch(`${serverUrl}/search/${inputValue}`)
-      .then((res) => res.json())
-      .then((data) => setSearchResults(data));
-  };
-
-  const handleInputValue = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  // THIS will autofocus the search when search bar is triggered.
 
   useEffect(() => {
     inputRef.current.focus();
   }, [triggerSearchBar]);
 
-  // Listener for user search for "ENTER button"
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && inputValue.length > 1) {
-      setLastSearch(inputValue);
-      handleSearch();
-    }
-  };
-
   useEffect(() => {
     if (triggerSearchBar) {
-      window.addEventListener("keydown", (e) => handleKeyPress(e));
+      window.addEventListener("keydown", handleKeyPress);
     } else if (!triggerSearchBar) {
-      window.removeEventListener("keydown", (e) => handleKeyPress(e));
+      window.removeEventListener("keydown", handleKeyPress);
     }
 
-    return () =>
-      window.removeEventListener("keydown", (e) => handleKeyPress(e));
-  }, [triggerSearchBar, inputValue]);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [triggerSearchBar, inputValue, handleKeyPress]);
 
   return (
     <StyledSearchContainer>
@@ -118,7 +72,7 @@ const Search = () => {
           </StyledClearButton>
         ) : (
           <StyledClearButton
-            onClick={() => toggleSearchTrigger()}
+            onClick={toggleSearchTrigger}
             style={
               triggerSearchBar
                 ? {
