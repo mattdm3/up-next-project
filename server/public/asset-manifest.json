@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "./static/css/main.4640ea09.css",
+    "main.js": "./static/js/main.bb5f9de2.js",
+    "static/media/landing-movie.svg": "./static/media/landing-movie.b59b47f9145bf731b23eb42448ffffe9.svg",
+    "index.html": "./index.html",
+    "main.4640ea09.css.map": "./static/css/main.4640ea09.css.map",
+    "main.bb5f9de2.js.map": "./static/js/main.bb5f9de2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4640ea09.css",
+    "static/js/main.bb5f9de2.js"
+  ]
+}

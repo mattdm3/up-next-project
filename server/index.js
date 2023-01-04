@@ -1,6 +1,6 @@
 // import fs from 'fs';
 // import csv from 'fast-csv';
-
+const path = require('path')
 const express = require('express');
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
@@ -9,29 +9,6 @@ const { handleAddUpNext, handleLikeMovie, handleDislikeMovie, createUser, getUse
 const { handleRecommendations, prepareMoviesTest } = require('./Recommender/shorterRecommend')
 
 require('dotenv').config();
-
-
-// REDIS BULL TESTING /////
-
-// const redis = require('redis')
-// const Bull = require("bull")
-
-// const REDIS_PORT = process.env.PORT || 6379;
-
-// const myFirstQueue = new Bull('my-first-queue');
-
-//producer
-// const job = myFirstQueue.add({
-//     foo: "bar"
-// });
-
-//consumer
-// myFirstQueue.process(async (job) => {
-//     console.log(job.data)
-// });
-
-// REDIS BULL TESTING - END/////
-
 
 const PORT = process.env.PORT || 4000;
 
@@ -43,24 +20,25 @@ app.use(cors());
 
 
 
-app.use(function (req, res, next) {
-    res.header(
-        'Access-Control-Allow-Methods',
-        'OPTIONS, HEAD, GET, PUT, POST, DELETE'
-    );
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    next();
-})
+// app.use(function (req, res, next) {
+//     res.header(
+//         'Access-Control-Allow-Methods',
+//         'OPTIONS, HEAD, GET, PUT, POST, DELETE'
+//     );
+//     res.header(
+//         'Access-Control-Allow-Headers',
+//         'Origin, X-Requested-With, Content-Type, Accept'
+//     );
+//     next();
+// })
 
 app.use(morgan('tiny'))
-app.use(bodyParser.json())
-app.use(express.urlencoded({
-    extended: false
-}))
-app.use('/', express.static(__dirname + '/'))
+app.use(express.json())
+// app.use(express.urlencoded({
+//     extended: false
+// }))
+// app.use('/', express.static(__dirname + '/'))
+app.use(express.static(path.join(__dirname, "public")))
 
 
 // ENDPOINTS 
@@ -90,7 +68,9 @@ app.post('/handleAddUpNext', handleAddUpNext)
 
 app.post('/handleUndoRating', handleUndoRating)
 
-
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname,  'public', 'index.html'))
+})
 
 
 app.listen(PORT, () => console.info(`🤖LISTENING ON PORT ${PORT}`));
