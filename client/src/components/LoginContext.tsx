@@ -221,7 +221,7 @@ const LoginProvider = ({ children, loading }: any) => {
   const handleAddUpNext = useCallback(
     (id) => {
       user &&
-        fetch(`${serverUrl}/upNext`, {
+        fetch(`${serverUrl}/users/upNext`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { serverUrl, LoginContext } from "../LoginContext";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
@@ -13,14 +13,14 @@ import {
 } from "./PROFILE-CONSTANTS";
 import ClipLoader from "react-spinners/ClipLoader";
 import UndoButton from "../BrowseByGenre/UndoButton";
+import { useGetLikedMovies } from "../../hooks/useGetLikedMovies";
 
 const LikedMovie = () => {
-  const { dataObject, appUser } = useContext(LoginContext);
+  const { dataObject } = useContext(LoginContext);
+  const { likedMovieData, loading } = useGetLikedMovies({
+    likedMovieListById: dataObject?.liked,
+  });
 
-  const [likedMovieData, setLikedMovieData] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  // SCROLL
   const scrollRef = React.useRef();
 
   const scrollLeft = (ref) => {
@@ -32,28 +32,9 @@ const LikedMovie = () => {
 
   const executeScrollLeft = () => scrollLeft(scrollRef);
   const executeScrollRight = () => scrollRight(scrollRef);
-  //
 
-  React.useEffect(() => {
-    setLoading(true);
-
-    setLikedMovieData([]);
-
-    appUser.data &&
-      dataObject.liked &&
-      dataObject.liked.forEach((movieId) => {
-        fetch(`${serverUrl}/movies/${movieId}`)
-          .then((res) => res.json())
-          .then((data) => {
-            if (data) {
-              setLikedMovieData((likedMovieData) => [...likedMovieData, data]);
-              setLoading(false);
-            }
-          });
-      });
-  }, [dataObject]);
-
-  return likedMovieData.length > 0 && likedMovieData[0].status_code !== 34 ? (
+  return likedMovieData?.length > 0 &&
+    likedMovieData?.[0].status_code !== 34 ? (
     loading ? (
       <RingLoaderContainer>
         <ClipLoader size={45} />
@@ -67,23 +48,19 @@ const LikedMovie = () => {
           <FaCaretRight />
         </StyledScrollRight>
         <Wrapper style={{ scrollBehavior: "smooth" }} ref={scrollRef}>
-          {likedMovieData &&
-            likedMovieData.map((movie) => {
-              return (
-                <StyledLink
-                  key={"liked:" + movie.id}
-                  to={`/movies/${movie.id}`}
-                >
-                  <StyledPoster
-                    src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
-                  />
+          {likedMovieData?.map((movie) => {
+            return (
+              <StyledLink key={"liked:" + movie.id} to={`/movies/${movie.id}`}>
+                <StyledPoster
+                  src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+                />
 
-                  <div style={{ fontSize: ".8rem", width: "fit-content" }}>
-                    <UndoButton movieId={movie.id} />
-                  </div>
-                </StyledLink>
-              );
-            })}
+                <div style={{ fontSize: ".8rem", width: "fit-content" }}>
+                  <UndoButton movieId={movie.id} />
+                </div>
+              </StyledLink>
+            );
+          })}
         </Wrapper>
       </Container>
     )

@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import RenderMovieId from "./RenderMovieId";
 import SimilarMovies from "./SimilarMovies";
-import { serverUrl } from "../LoginContext";
+
+import { useGetMovieById } from "../../hooks/useGetMovieById";
 
 const MoviesId = () => {
   const { movieId } = useParams();
 
-  const [selectedMovieData, setSelectedMovieData] = useState(null);
-
-  useEffect(() => {
-    fetch(`${serverUrl}/movies/${movieId}`)
-      .then((res) => res.json())
-      .then((data) => setSelectedMovieData(data));
-  }, [movieId]);
+  const { selectedMovieData } = useGetMovieById({ movieId });
 
   return selectedMovieData ? (
     <>

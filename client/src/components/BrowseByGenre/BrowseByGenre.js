@@ -11,19 +11,16 @@ import { AiFillCaretLeft } from "react-icons/ai";
 import { AiFillCaretRight } from "react-icons/ai";
 import Search from "../Search/Search";
 import GenreDropDown from "./GenreDropDown";
-import { serverUrl } from "../LoginContext";
 import UpButton from "./UpButton";
+import { useGetByGenre } from "../../hooks/useGetByGenre";
+import { useGetSearch } from "../../hooks/useGetSearch";
 
 const BrowseByGenre = ({ theme }) => {
-  const [genreData, setGenreData] = useState(null);
   const { genreName } = useParams();
+  const { handleClearSearch } = useGetSearch();
 
   const {
-    triggerSearchBar,
-    setTriggerSearchBar,
-    setInputValue,
     searchResults,
-    setSearchResults,
     lastSearch,
     browsePage,
     setBrowsePage,
@@ -36,7 +33,12 @@ const BrowseByGenre = ({ theme }) => {
     return genresList.filter((item) => item.name === genreName)[0].id;
   }, [genreName]);
 
-  // THIS IS going to refetch based on the sort choice
+  const { genreData } = useGetByGenre({
+    selectedGenreId,
+    sortOption,
+    browsePage,
+  });
+
   const handleSort = (option) => {
     setSortOption(option.key);
   };
@@ -58,27 +60,6 @@ const BrowseByGenre = ({ theme }) => {
     setSelectedGenre(genre);
     if (genre !== genreName) {
       setBrowsePage(1);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedGenreId) {
-      console.log("GETTING ");
-      fetch(
-        `${serverUrl}/movies/genres/${selectedGenreId}?sort=${sortOption}&browsePage=${browsePage}`
-      )
-        .then((res) => res.json())
-        .then((data) => setGenreData(data));
-    }
-  }, [selectedGenreId, sortOption, browsePage]);
-
-  const handleClearSearch = () => {
-    setSearchResults(null);
-    setInputValue("");
-    if (triggerSearchBar) {
-      setTriggerSearchBar(false);
-    } else {
-      setTriggerSearchBar(true);
     }
   };
 
@@ -153,9 +134,6 @@ const BrowseByGenre = ({ theme }) => {
                 </span>
                 Adventure
               </NavigationLink>
-              {/* <NavigationLink onClick={() => handleGenreSelection("fantasy")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/fantasy">✨Fantasy</NavigationLink>
-                                <NavigationLink onClick={() => handleGenreSelection("comedy")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/comedy">😂Comedy</NavigationLink>
-                                <NavigationLink onClick={() => handleGenreSelection("romance")} activeStyle={(theme === "light") ? activeClass : activeClassNight} to="/genres/romance">💕Romance</NavigationLink> */}
               <GenreDropDown />
             </GenreButtons>
 
@@ -193,7 +171,6 @@ const BrowseByGenre = ({ theme }) => {
                   genres={movie["genre_ids"]}
                   resultID={resultID}
                   genreData={genreData}
-                  setGenreData={setGenreData}
                   key={movie.id}
                 />
               );
@@ -249,20 +226,6 @@ const StyledMovieContainer = styled.div`
     justify-content: center;
   }
 `;
-
-// TRY WITH GRID
-// const StyledMovieContainer = styled.div`
-//     display: grid;
-//     /* grid-template-columns: repeat(auto-fill, minmax(150px, 310px)); */
-//     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr) );
-//     grid-template-columns: repeat(3, 1fr);
-//     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-//     /* grid-template-rows: repeat(3, 1fr); */
-//     grid-column-gap: 100px;
-//     grid-row-gap: 100px;
-//     max-width: 100%;
-
-// `
 
 const PageHeading = styled.h1`
   font-size: 3rem;

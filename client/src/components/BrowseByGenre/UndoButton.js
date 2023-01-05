@@ -5,8 +5,6 @@ import { LoginContext, serverUrl } from "../LoginContext";
 const UndoButton = ({ movieId }) => {
   const { appUser, setAppUser } = useContext(LoginContext);
 
-  // console.log(appUser)
-
   const handleUndoRating = (e, movieId) => {
     e.preventDefault();
 
@@ -39,7 +37,6 @@ const UndoButton = ({ movieId }) => {
 
 const Undo = styled.p`
   cursor: pointer;
-
   &:hover {
     color: #f65f2d;
     font-weight: 600;

@@ -93,7 +93,6 @@ const RenderMovie = ({
         <ActionBar
           disabled={true}
           genreData={genreData}
-          setGenreData={setGenreData}
           resultID={resultID}
           movieId={movieId}
         />
@@ -172,7 +171,6 @@ const RenderMovie = ({
       <BelowContentContainer>
         <ActionBar
           genreData={genreData}
-          setGenreData={setGenreData}
           resultID={resultID}
           movieId={movieId}
         />
