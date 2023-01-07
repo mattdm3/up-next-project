@@ -12,6 +12,7 @@
 // import predictWithContentBased from './strategies/contentBased';
 // import { predictWithCfUserBased, predictWithCfItemBased } from './strategies/collaborativeFiltering';
 // import { getMovieIndexByTitle } from './strategies/common';
+const MOVIE_DB_BEARER = process.env.MOVIE_DB_BEARER;
 
 const fs = require("file-system");
 const csv = require("fast-csv");
@@ -547,8 +548,7 @@ const handleRecommendations = async (req, res) => {
         method: "GET",
         url: `https://api.themoviedb.org/3/movie/${movie.id}`,
         headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDA5Nzc1ZGIxMGQwMzg3ZGY5YWEwNDYzNjZiNzE3MiIsInN1YiI6IjVlYTFlODY5YWY0MzI0MDAxZDllN2Q0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OxkyvbtGbap8tCc1NN3pATUNlPSNqhOGKcWk8uCvOSc",
+          authorization: `Bearer ${MOVIE_DB_BEARER}`,
         },
       };
 

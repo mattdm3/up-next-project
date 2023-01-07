@@ -12,6 +12,7 @@ import UserProfile from "../UserProfile/UserProfile";
 import Recommended from "../Recommended";
 import { LoginContext } from "../LoginContext";
 import Landing from "../Landing";
+import RecommendedV2 from "../RecommendedV2/RecommendedV2.component";
 
 function App() {
   const { theme, setTheme } = useContext(LoginContext);
@@ -56,7 +57,7 @@ function App() {
             <Route exact path="/recommended/:userId">
               <PageContainer>
                 <Navbar theme={theme} toggleTheme={toggleTheme} />
-                <Recommended />
+                <RecommendedV2 />
               </PageContainer>
             </Route>
 

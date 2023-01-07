@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "./static/css/main.ca095aeb.css",
-    "main.js": "./static/js/main.0f49146a.js",
+    "main.css": "./static/css/main.721e45c1.css",
+    "main.js": "./static/js/main.5392e999.js",
     "static/media/landing-movie.svg": "./static/media/landing-movie.b59b47f9145bf731b23eb42448ffffe9.svg",
     "index.html": "./index.html",
-    "main.ca095aeb.css.map": "./static/css/main.ca095aeb.css.map",
-    "main.0f49146a.js.map": "./static/js/main.0f49146a.js.map"
+    "main.721e45c1.css.map": "./static/css/main.721e45c1.css.map",
+    "main.5392e999.js.map": "./static/js/main.5392e999.js.map"
   },
   "entrypoints": [
-    "static/css/main.ca095aeb.css",
-    "static/js/main.0f49146a.js"
+    "static/css/main.721e45c1.css",
+    "static/js/main.5392e999.js"
   ]
 }

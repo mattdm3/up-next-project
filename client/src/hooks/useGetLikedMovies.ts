@@ -41,6 +41,7 @@ export function useGetLikedMovies({ likedMovieListById }) {
           .then((res) => res.json())
           .then((movie) => {
             if (movie) {
+              setLikedMovieData([]);
               setLikedMovieData((likedMovies) => [...likedMovies, movie]);
             }
           });
@@ -49,5 +50,5 @@ export function useGetLikedMovies({ likedMovieListById }) {
     } else handleSplittingLiked(likedMovieListById);
   }, [handleSplittingLiked, likedMovieListById]);
 
-  return { likedMovieData, loading };
+  return { likedMovieData: [...new Set(likedMovieData)], loading };
 }

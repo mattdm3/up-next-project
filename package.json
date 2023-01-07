@@ -10,8 +10,5 @@
     "client": "cd client && yarn start",
     "watch": "yarn server & yarn client",
     "deploy": "cd client && yarn build && cd .. && cd server && yarn start"
-  },
-  "devDependencies": {
-    "postcss-cli": "^10.1.0"
   }
 }

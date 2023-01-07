@@ -6,43 +6,48 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const API_ENDPOINT = "https://api.openai.com/v1/completions";
+function removeNewlines(str) {
+  return str.replace(/\n/g, "");
+}
+
+async function httpGetRecommendedMovie(req, res, id) {
+  var options = {
+    method: "GET",
+    url: `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US&external_source=imdb_id`,
+  };
+  try {
+    const response = await fetch(options.url, {
+      method: options.method,
+      headers: options.headers,
+    });
+    const json = await response.json();
+    return res.status(200).json(json);
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "Error getting movie", message: error?.message || "n/a" });
+  }
+}
 
 async function httpGetRecommendations(req, res) {
+  const body = req.body;
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt:
-        "Recommend a movie based on these: Oceans 11, the Departed, Batman Returns, the Town, Heat. Only list the name of the movie.",
+      prompt: `Recommend a movie based on these movies: ${body?.selectedTitles}. Only include the IMDB id without the title for the recommendation.`,
     });
-
-    console.log({ response });
-    // const json = await models.json();
-    res.status(200).json({ models: response?.data });
+    const imdbId = () => {
+      const newId = removeNewlines(response.data.choices[0].text);
+      if (newId[0] === "t") {
+        return newId;
+      }
+      return `tt${newId}`;
+    };
+    console.log("IMDB ID", { id: imdbId() });
+    httpGetRecommendedMovie(req, res, imdbId());
   } catch (error) {
     res.status(400).json({ error: "error", message: error });
   }
-  //   console.log({ modelsData: JSON.stringify(models.data, null, 2) });
-
-  //   try {
-  //     const response = await fetch(API_ENDPOINT, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${process.env.CHAT_GPT_API_KEY}`,
-  //       },
-  //       body: {
-  //         model: "text-davinci-001",
-  //         prompt: "How do I use chatGPT?",
-  //       },
-  //     });
-
-  //     const result = await response.json();
-  //     console.log({ result });
-  //     res.status(200).json(result);
-  //   } catch (error) {
-  //     console.log({ error });
-  //   }
 }
 
 module.exports = {
