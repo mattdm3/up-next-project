@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
-import { serverUrl, LoginContext } from "../LoginContext";
+import { LoginContext } from "../LoginContext";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import {
   StyledMovieContainer,

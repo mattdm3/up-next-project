@@ -1,28 +1,15 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { LoginContext, serverUrl } from "../LoginContext";
+import { httpUndoRating, SERVER_URL } from "../../request";
+import { LoginContext } from "../LoginContext";
 
 const UndoButton = ({ movieId }) => {
   const { appUser, setAppUser } = useContext(LoginContext);
 
-  const handleUndoRating = (e, movieId) => {
+  const handleUndoRating = async (e, movieId) => {
     e.preventDefault();
-
-    fetch(`${serverUrl}/users/undoRating`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: appUser.email,
-        uid: appUser.uid,
-        movieId: movieId.toString(),
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        setAppUser(json.data);
-      });
+    const newRatings = await httpUndoRating(movieId, appUser);
+    setAppUser(newRatings);
   };
 
   return (

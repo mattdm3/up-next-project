@@ -4,7 +4,7 @@ import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 // import { SubHeading } from '../CONSTANTS'
 import posterplaceholder from "../poster-placeholder.png";
-import { serverUrl } from "../LoginContext";
+import { SERVER_URL } from "../../request";
 
 const SimilarMovies = ({ movieId, theme }) => {
   const [similarMoviesArray, setSimilarMoviesArray] = useState(null);
@@ -25,7 +25,7 @@ const SimilarMovies = ({ movieId, theme }) => {
 
   React.useEffect(() => {
     if (movieId) {
-      fetch(`${serverUrl}/movies/similar/${movieId}`)
+      fetch(`${SERVER_URL}/movies/similar/${movieId}`)
         .then((res) => res.json())
         .then((data) => setSimilarMoviesArray(data.results));
     }

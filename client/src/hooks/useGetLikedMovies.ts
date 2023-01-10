@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { serverUrl } from "../components/LoginContext";
+import { SERVER_URL } from "../request";
 
 const MAX_LIKED = 5;
 
@@ -12,7 +12,7 @@ export function useGetLikedMovies({ likedMovieListById }) {
     const secondHalf = movieList.slice(Math.ceil(movieList.length / 2));
 
     firstHalf.forEach((movieId) => {
-      fetch(`${serverUrl}/movies/${movieId}`)
+      fetch(`${SERVER_URL}/movies/${movieId}`)
         .then((res) => res.json())
         .then((movie) => {
           if (movie) {
@@ -23,7 +23,7 @@ export function useGetLikedMovies({ likedMovieListById }) {
     setLoading(false);
 
     secondHalf.forEach((movieId) => {
-      fetch(`${serverUrl}/movies/${movieId}`)
+      fetch(`${SERVER_URL}/movies/${movieId}`)
         .then((res) => res.json())
         .then((movie) => {
           if (movie) {
@@ -37,7 +37,7 @@ export function useGetLikedMovies({ likedMovieListById }) {
     if (!likedMovieListById) return;
     if (likedMovieListById.length < MAX_LIKED) {
       likedMovieListById.forEach((movieId, i) => {
-        fetch(`${serverUrl}/movies/${movieId}`)
+        fetch(`${SERVER_URL}/movies/${movieId}`)
           .then((res) => res.json())
           .then((movie) => {
             if (movie) {

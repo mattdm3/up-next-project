@@ -26,14 +26,15 @@ export interface UpNextList {
   none: string;
 }
 
-const SERVER_URL = "";
+const SERVER_URL = "http://localhost:4000/v1";
+
 export function useGetAppUser() {
   const getAppUser: (user: firebase.User) => Promise<{
     user: AppUser;
     message: string;
   }> = useCallback((user: any) => {
     if (!user) return;
-    console.log("FETCHING USER");
+    console.log("FETCHING USER", SERVER_URL);
     return fetch(`${SERVER_URL}/users`, {
       method: "post",
       headers: {

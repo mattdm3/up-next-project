@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from "react";
 import styled from "styled-components";
-import { LoginContext, serverUrl } from "../LoginContext";
+import { LoginContext } from "../LoginContext";
 import { FiSearch } from "react-icons/fi";
 import { lightTheme } from "../theme";
 import { FiX } from "react-icons/fi";

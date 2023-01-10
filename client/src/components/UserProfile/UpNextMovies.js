@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { serverUrl, LoginContext } from "../LoginContext";
+import { LoginContext } from "../LoginContext";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import {
   StyledMovieContainer,
@@ -13,6 +13,7 @@ import {
 } from "./PROFILE-CONSTANTS";
 import UpNextActions from "./UpNextActions";
 import ClipLoader from "react-spinners/ClipLoader";
+import { SERVER_URL } from "../../request";
 
 const UpNextMovies = () => {
   const { dataObject, appUser } = useContext(LoginContext);
@@ -43,7 +44,7 @@ const UpNextMovies = () => {
       dataObject.upNextList.forEach((movieId) => {
         if (movieId !== "none") {
           try {
-            fetch(`${serverUrl}/movies/${movieId}`)
+            fetch(`${SERVER_URL}/movies/${movieId}`)
               .then((res) => res.json())
               .then((data) => {
                 if (data) {

@@ -13,9 +13,10 @@ import { lightTheme } from "../theme";
 //   import("antd").then(({ Select }) => ({ default: Select }))
 // );
 import { Select } from "antd";
-import { LoginContext, serverUrl } from "../LoginContext";
+import { LoginContext } from "../LoginContext";
 import { useGetLikedMovies } from "../../hooks/useGetLikedMovies";
 import { FaCheck } from "react-icons/fa";
+import { SERVER_URL } from "../../request";
 const OPTIONS = ["Apples", "Nails", "Bananas", "Helicopters"];
 const MAX_MOVIES = 5;
 // const MemoizedSelect = memo(Select);
@@ -33,7 +34,7 @@ const RecommendedV2 = () => {
     setSelectedTitles(item);
   }, []);
   const getRecommendations = useCallback(async () => {
-    const response = await fetch(`${serverUrl}/ai`, {
+    const response = await fetch(`${SERVER_URL}/ai`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

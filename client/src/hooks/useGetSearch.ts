@@ -1,8 +1,7 @@
 import { useCallback, useContext } from "react";
 import { LoginContext } from "../components/LoginContext";
 import useSWRMutation from "swr/mutation";
-
-const fetcher = async (url) => fetch(url).then((data) => data.json());
+import { request } from "../request";
 
 export function useGetSearch() {
   const {
@@ -17,7 +16,7 @@ export function useGetSearch() {
 
   const { trigger } = useSWRMutation(
     `/movies/search?searchTerm=${lastSearch}`,
-    fetcher
+    request
   );
 
   const handleClearSearch = () => {

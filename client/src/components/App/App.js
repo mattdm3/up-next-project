@@ -13,6 +13,7 @@ import Recommended from "../Recommended";
 import { LoginContext } from "../LoginContext";
 import Landing from "../Landing";
 import RecommendedV2 from "../RecommendedV2/RecommendedV2.component";
+import { useGetMovieById } from "../../hooks/useGetMovieById";
 
 function App() {
   const { theme, setTheme } = useContext(LoginContext);
@@ -26,18 +27,20 @@ function App() {
       setTheme("light");
     }
   };
+  // console.log("HELLOW OWRLD");
+  // const { selectedMovieData } = useGetMovieById({ movieId: 899112 });
+
+  // console.log({ selectedMovieData });
 
   return (
     <Router>
       <Switch>
         <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
           <GlobalStyles />
-
           <>
             <Route exact path="/">
               <Landing />
             </Route>
-
             <Route exact path="/profile/:userId">
               <PageContainer>
                 <Navbar theme={theme} toggleTheme={toggleTheme} />
