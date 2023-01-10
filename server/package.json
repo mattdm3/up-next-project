@@ -28,7 +28,7 @@
     "file-system": "^2.2.2",
     "firebase-admin": "^8.11.0",
     "isomorphic-fetch": "^2.2.1",
-    "mathjs": "^3.18.0",
+    "mathjs": "^7.5.1",
     "minifier": "^0.8.1",
     "mongodb": "^3.5.7",
     "morgan": "^1.10.0",
